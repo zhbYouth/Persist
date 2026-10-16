@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="34dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="2dp">
+  <TextView android:id="@+id/rowIcon" android:layout_width="28dp" android:layout_height="match_parent" android:gravity="center" android:text="🌿" android:textSize="16sp" />
+  <TextView android:id="@+id/rowName" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:maxLines="1" android:ellipsize="end" android:text="阅读 20 分钟" android:textColor="#25352B" android:textSize="12sp" />
+  <TextView android:id="@+id/rowCheck" android:layout_width="26dp" android:layout_height="26dp" android:gravity="center" android:background="#E8F0E6" android:text="○" android:textColor="#2F6C50" android:textSize="18sp" />
+</LinearLayout>

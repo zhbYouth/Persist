@@ -7,16 +7,26 @@
         android:roundIcon="@drawable/ic_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden">
+        <!-- singleTask：点小组件回到应用时复用已有窗口，不再重新加载页面
+             adjustResize：软键盘弹出时页面整体上移，不遮挡「新习惯」输入框 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboard|keyboardHidden|uiMode|density|fontScale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".HabitWidgetProvider" android:exported="true" android:label="日恒打卡小组件">
+        <!-- 小组件只接收系统广播和本应用自己的 PendingIntent，不需要对外暴露 -->
+        <receiver android:name=".HabitWidgetProvider" android:exported="false" android:label="日恒打卡小组件">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.riheng.app.ACTION_TOGGLE_HABIT" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/habit_widget_info" />
         </receiver>

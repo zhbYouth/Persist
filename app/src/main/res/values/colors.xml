@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 小组件配色：与应用内页面一致（奶白底 + 墨色文字 + 青柠高亮） -->
+<resources>
+    <color name="widget_bg">#FFFEFA</color>
+    <color name="widget_line">#E9E8DF</color>
+    <color name="widget_ink">#20221B</color>
+    <color name="widget_muted">#85877C</color>
+    <color name="widget_accent">#C7F36B</color>
+    <color name="widget_ring">#C5C6B8</color>
+    <!-- 打卡后的对勾画在青柠底上，深浅色模式下都保持深色 -->
+    <color name="widget_check_mark">#20221B</color>
+</resources>

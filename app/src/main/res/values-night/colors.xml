@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 深色模式：小组件跟随系统 -->
+<resources>
+    <color name="widget_bg">#22231B</color>
+    <color name="widget_line">#37382E</color>
+    <color name="widget_ink">#F4F2E9</color>
+    <color name="widget_muted">#A5A696</color>
+    <color name="widget_accent">#C7F36B</color>
+    <color name="widget_ring">#5D5E50</color>
+</resources>

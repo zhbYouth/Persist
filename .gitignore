@@ -1,0 +1,9 @@
+.gradle/
+build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+.cxx/
+# 注意：app/riheng.jks 是固定签名文件，需要提交，不要忽略

@@ -11,11 +11,29 @@ android {
         applicationId = "com.riheng.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 11
-        versionName = "1.1.0"
+        versionCode = 12
+        versionName = "1.2.0"
     }
+
+    // 固定签名：每次构建（包括 GitHub Actions）都用同一把 key，
+    // 新 APK 才能直接覆盖安装旧版本，打卡数据不会因为重装而丢失。
+    signingConfigs {
+        create("riheng") {
+            storeFile = file("riheng.jks")
+            storePassword = "riheng-ka"
+            keyAlias = "riheng"
+            keyPassword = "riheng-ka"
+        }
+    }
+
     buildTypes {
-        release { isMinifyEnabled = false }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("riheng")
+        }
+        getByName("release") {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("riheng")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

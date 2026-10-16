@@ -1,24 +1,55 @@
 name: Build Android APK
+
 on:
   workflow_dispatch:
   push:
     branches: [ main, master ]
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # 固定系统版本：ubuntu-24.04 自带 Android SDK（platform 35 / build-tools / 已接受的许可），
+    # 不再依赖 android-actions/setup-android（它在这个环境里的安装步骤失败了）。
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
+
+      - name: Check Android SDK
+        shell: bash
+        run: |
+          echo "ANDROID_HOME=${ANDROID_HOME:-<unset>}"
+          ls "${ANDROID_HOME:-/usr/local/lib/android/sdk}/platforms" || true
+          # 保险起见再接受一次许可；失败也不影响后续
+          yes | "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+
       - name: Build debug APK
-        run: gradle assembleDebug
+        shell: bash
+        run: gradle assembleDebug --stacktrace 2>&1 | tee build.log
+
+      # 构建失败时把关键错误行写成 GitHub 注解，在运行页面顶部直接可见
+      - name: Report build errors
+        if: failure()
+        shell: bash
+        run: |
+          if [ -f build.log ]; then
+            {
+              grep -E '^e: |error:|FAILURE|What went wrong|Execution failed|Caused by|AAPT|Could not' build.log | head -n 30
+              echo '--- tail ---'
+              tail -n 25 build.log
+            } | tr -d '\r' | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}' > errors.txt
+            echo "::error title=Gradle build failed::$(cat errors.txt)"
+          fi
+
       - uses: actions/upload-artifact@v4
         with:
           name: riheng-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

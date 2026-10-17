@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+：系统启动页 = 浅色底 + 应用图标。页面就绪前启动页一直保留，
+         就绪后由 MainActivity 做淡出，页面内容同时依次上浮。 -->
+    <style name="StartingTheme" parent="AppTheme">
+        <item name="android:windowSplashScreenBackground">@color/persist_bg</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">#FF171A11</item>
+    </style>
+</resources>

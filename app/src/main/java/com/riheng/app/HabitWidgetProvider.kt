@@ -33,7 +33,7 @@ class HabitWidgetProvider : AppWidgetProvider() {
 
         private val WEEKDAYS = "日一二三四五六"
 
-        /** 刷新桌面上所有日恒小组件。 */
+        /** 刷新桌面上所有 Persist 小组件。 */
         fun updateAll(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(ComponentName(context, HabitWidgetProvider::class.java))
@@ -153,7 +153,7 @@ class HabitWidgetProvider : AppWidgetProvider() {
             }
 
             val hidden = scheduled.size - shown
-            views.setTextViewText(R.id.widgetOpen, if (hidden > 0) "还有 $hidden 项 · 打开日恒 ↗" else "打开日恒 ↗")
+            views.setTextViewText(R.id.widgetOpen, if (hidden > 0) "还有 $hidden 项 · 打开 Persist ↗" else "打开 Persist ↗")
             views.setOnClickPendingIntent(R.id.widgetOpen, openApp)
             views.setOnClickPendingIntent(R.id.widgetRoot, openApp)
             return views

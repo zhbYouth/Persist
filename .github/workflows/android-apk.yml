@@ -5,10 +5,13 @@ on:
   push:
     branches: [ main, master ]
 
+# 需要写权限来创建 Release（把 APK 发布成可直接点击下载的链接）
+permissions:
+  contents: write
+
 jobs:
   build:
-    # 固定系统版本：ubuntu-24.04 自带 Android SDK（platform 35 / build-tools / 已接受的许可），
-    # 不再依赖 android-actions/setup-android（它在这个环境里的安装步骤失败了）。
+    # 固定系统版本：ubuntu-24.04 自带 Android SDK（platform 35 / build-tools / 已接受的许可）
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +26,6 @@ jobs:
         run: |
           echo "ANDROID_HOME=${ANDROID_HOME:-<unset>}"
           ls "${ANDROID_HOME:-/usr/local/lib/android/sdk}/platforms" || true
-          # 保险起见再接受一次许可；失败也不影响后续
           yes | "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
 
       - uses: gradle/actions/setup-gradle@v4
@@ -48,8 +50,29 @@ jobs:
             echo "::error title=Gradle build failed::$(cat errors.txt)"
           fi
 
+      - name: Name the APK
+        shell: bash
+        run: |
+          VERSION=$(grep -oP 'versionName = "\K[^"]+' app/build.gradle.kts)
+          cp app/build/outputs/apk/debug/app-debug.apk "Persist-${VERSION}.apk"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+          echo "APK=Persist-${VERSION}.apk" >> "$GITHUB_ENV"
+
       - uses: actions/upload-artifact@v4
         with:
           name: riheng-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: Persist-*.apk
           if-no-files-found: error
+
+      # 发布成 Release：手机浏览器里直接点 APK 就能下载，不用登录、不用解压
+      - name: Publish release
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="v${VERSION}-b${{ github.run_number }}"
+          gh release create "$TAG" "$APK" \
+            --target "${{ github.sha }}" \
+            --title "Persist ${VERSION}（构建 ${{ github.run_number }}）" \
+            --notes "直接下载 \`${APK}\` 安装即可。签名固定，可覆盖安装旧版本，数据不会丢。提交：${{ github.sha }}"

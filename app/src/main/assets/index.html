@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f8f7f2" />
-  <meta name="description" content="日恒，一款轻盈、专注的习惯打卡应用。" />
+  <meta name="description" content="Persist，一款轻盈、专注的习惯打卡应用。" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <title>日恒 · 把小事做成日常</title>
+  <title>Persist · 把小事做成日常</title>
   <style>
     :root {
       --bg: #f5f6f1;
@@ -642,14 +642,68 @@
     .habit-icon img,.hist-icon img,.habit-glyph img,.emoji-option-art img { width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block; }
     .emoji-option-art img { width:25px;height:25px; }
 
+    /* ===== v1.3：启动过渡 · 弹窗系统 · 键盘适配 ===== */
+    :root { --kb: 0px; }
+    /* 启动：就绪前内容不可见；原生启动页淡出时依次上浮 */
+    body.boot .app, body.boot .bottom-nav { visibility: hidden; }
+    @keyframes riseIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    body.entering .topbar,
+    body.entering #page-today > *:not(.habit-list),
+    body.entering .bottom-nav { animation: riseIn .62s cubic-bezier(.2,.75,.2,1) both; animation-delay: calc(var(--i, 0) * 60ms); }
+    body.entering .habit-card { animation: riseIn .5s cubic-bezier(.2,.75,.2,1) both; animation-delay: calc(280ms + var(--i, 0) * 55ms); }
+    .progress-ring .ring-value { transition: stroke-dashoffset .9s cubic-bezier(.2,.7,.2,1); }
+
+    /* 弹窗：始终存在，用透明度/位移过渡开合（原来用 display 切换，瞬间出现/消失） */
+    .modal-backdrop { display: flex; visibility: hidden; opacity: 0; pointer-events: none; transition: opacity .24s ease, visibility 0s linear .24s; }
+    .modal-backdrop.open { visibility: visible; opacity: 1; pointer-events: auto; transition: opacity .24s ease, visibility 0s; }
+    .modal { animation: none; opacity: 0; transform: translateY(26px) scale(.985); transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .26s ease; }
+    .modal-backdrop.open .modal { opacity: 1; transform: none; }
+    #confirmBackdrop .modal { transform: scale(.94); }
+    #confirmBackdrop.open .modal { transform: none; }
+
+    /* 「新习惯」面板：标题和底部按钮固定，中间内容可滚动 —— 键盘弹出时按钮始终可见 */
+    #habitForm.modal { display: flex; flex-direction: column; padding: 0; overflow: hidden; max-height: min(88dvh, 740px, calc(100dvh - var(--kb) - 16px)); }
+    #habitForm .modal-head { flex: 0 0 auto; margin: 0; padding: 22px 24px 14px; }
+    #habitForm .modal-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 24px 8px; }
+    #habitForm .modal-footer { flex: 0 0 auto; margin: 0; padding: 12px 24px 16px; border-top: 1px solid var(--line); background: var(--surface); }
+
+    /* 删除/确认框：居中的窄卡片，不再撑满左右 */
+    #confirmBackdrop { align-items: center; justify-content: center; padding: 24px; }
+    #confirmBackdrop .confirm-modal { width: min(100%, 340px); max-height: none; margin: 0; padding: 22px 22px 20px; border-radius: 26px; border: 1px solid var(--line); }
+    .confirm-modal .modal-head { margin-bottom: 10px; }
+    .confirm-modal .modal-head h2 { font-size: 18px; letter-spacing: -.4px; }
+    .confirm-modal p { margin: 0; font-size: 13px; line-height: 1.65; }
+    .confirm-modal .modal-footer { margin-top: 20px; gap: 10px; }
+    .confirm-modal .btn-secondary, .confirm-modal .btn-danger { padding: 12px; }
+
+    .toast { bottom: calc(30px + var(--kb)); transition: opacity .22s ease, transform .22s ease; }
+
+    @media (max-width: 760px) {
+      #habitModalBackdrop { padding-bottom: var(--kb); }
+      #habitForm.modal { max-height: min(91dvh, calc(100dvh - var(--kb) - 12px)); border-radius: 26px 26px 0 0; }
+      #habitForm .modal-head, #habitForm .modal-body, #habitForm .modal-footer { padding-left: 20px; padding-right: 20px; }
+      #habitForm .modal-footer { padding-bottom: 14px; }
+      html.kb-open #habitForm .modal-head { padding-top: 16px; padding-bottom: 8px; }
+      html.kb-open #habitForm .field { margin-bottom: 15px; }
+      html.kb-open #habitForm .custom-icon-note { display: none; }
+    }
+    html.kb-smooth #habitModalBackdrop.open { transition: opacity .24s ease, padding-bottom .32s cubic-bezier(.2,.8,.2,1); }
+    html.kb-smooth #habitForm.modal { transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .26s ease, max-height .32s cubic-bezier(.2,.8,.2,1); }
+    html.kb-smooth .toast { transition: opacity .22s ease, transform .22s ease, bottom .32s cubic-bezier(.2,.8,.2,1); }
+
+    /* 青柠底色上的文字改用深色（原来是白字/浅绿字，几乎看不清：「保存习惯」「每天」「自定义」等） */
+    .btn-primary { color: var(--ink); }
+    .repeat-btn.selected { color: var(--ink); border-color: var(--green); }
+    .weekday-btn.selected { color: #20221b; }
+
   </style>
 </head>
-<body>
+<body class="boot">
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13.5 9.2 17 19 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 3.5c5 0 8.5 3.4 8.5 8.5s-3.5 8.5-8.5 8.5S3.5 17 3.5 12 7 3.5 12 3.5Z" stroke="currentColor" stroke-width="1.4" opacity=".52"/></svg></div>
-        <div><div class="brand-name">日恒</div><div class="brand-sub">MAKE IT A ROUTINE</div></div>
+        <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M5.2 2.4V21.6"/><circle cx="12" cy="8.8" r="6.8"/></svg></div>
+        <div><div class="brand-name">Persist</div><div class="brand-sub">MAKE IT A ROUTINE</div></div>
       </div>
       <div class="top-actions"></div>
     </header>
@@ -688,7 +742,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 27V15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 20C8.8 20 5 15.5 5 8.5c7.4 0 12 3.5 12 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 15c.4-6 4.1-9.5 11-10-0.1 6.7-3.7 10.2-11 10Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong>日恒 · 把小事做成日常</strong><p>版本 1.2.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 27V15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 20C8.8 20 5 15.5 5 8.5c7.4 0 12 3.5 12 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 15c.4-6 4.1-9.5 11-10-0.1 6.7-3.7 10.2-11 10Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.3.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。</p></div>
         </section>
       </main>
     </div>
@@ -701,10 +755,12 @@
   <div class="modal-backdrop" id="habitModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <form class="modal" id="habitForm">
       <div class="modal-head"><h2 id="modalTitle">＋ 新习惯</h2><button type="button" class="close-btn" id="closeHabitModal" aria-label="关闭">×</button></div>
+      <div class="modal-body" id="habitModalBody">
       <div class="field"><label for="habitNameInput">习惯名称</label><input id="habitNameInput" class="text-input" maxlength="28" placeholder="例如：阅读 20 分钟" autocomplete="off" /></div>
       <div class="field"><label>选择图标</label><div class="emoji-picker" id="emojiPicker"></div><div class="custom-icon-tools"><input id="customIconInput" type="file" accept="image/*" hidden /><button type="button" class="custom-icon-btn" id="uploadIconButton"><span class="upload-symbol">＋</span><span><strong>上传自定义图标</strong><small>支持图片，自动裁切为方形</small></span></button><span class="custom-icon-note">找不到合适的图案？从手机相册选择一张即可。</span></div></div>
       <div class="field"><label>重复频率</label><div class="repeat-options"><button type="button" class="repeat-btn selected" data-repeat="daily" aria-pressed="true">每天</button><button type="button" class="repeat-btn" data-repeat="weekdays" aria-pressed="false">工作日</button><button type="button" class="repeat-btn" data-repeat="custom" aria-pressed="false">自定义</button></div><div class="weekday-picker hidden" id="weekdayPicker"></div></div>
       <div class="form-error" id="formError">请给这个习惯取一个名字。</div>
+      </div>
       <div class="modal-footer"><button type="button" class="btn-secondary" id="cancelHabitModal">取消</button><button type="submit" class="btn-primary">保存习惯</button></div>
     </form>
   </div>
@@ -963,7 +1019,7 @@
       function showToast(message) { const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2300); }
       function openHabitModal() {
         document.getElementById('habitForm').reset();draftEmoji=EMOJIS[0];draftRepeat='daily';draftDays=[0,1,2,3,4,5,6];document.getElementById('customIconInput').value='';
-        document.getElementById('formError').classList.remove('show');document.getElementById('modalTitle').textContent='＋ 新习惯';document.getElementById('habitNameInput').value='';renderPickers();document.getElementById('habitModalBackdrop').classList.add('open');setTimeout(()=>document.getElementById('habitNameInput').focus({preventScroll:true}),80);
+        document.getElementById('formError').classList.remove('show');document.getElementById('modalTitle').textContent='＋ 新习惯';document.getElementById('habitNameInput').value='';renderPickers();document.getElementById('habitModalBackdrop').classList.add('open');document.getElementById('habitModalBody').scrollTop=0;
       }
       function closeHabitModal() { document.getElementById('habitModalBackdrop').classList.remove('open'); }
       function renderPickers() {
@@ -981,18 +1037,18 @@
         const h={id:id(),name,emoji:draftEmoji,color:COLORS[data.habits.length%COLORS.length],days,created:todayKey};data.habits.push(h);saveData();closeHabitModal();activeFilter='all';render();setPage('today');showToast('新习惯已添加');
       }
       function exportData() {
-        const payload={app:'日恒',version:'1.2.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
-        const fileName=`日恒打卡备份-${todayKey}.json`;
+        const payload={app:'Persist',version:'1.3.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
+        const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
-        const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}), url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`日恒打卡备份-${todayKey}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);showToast('数据备份已导出');
+        const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}), url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`Persist-backup-${todayKey}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);showToast('数据备份已导出');
       }
       function importBackupText(text) {
         let parsed=null;
         try { parsed=JSON.parse(String(text).replace(/^﻿/,'')); } catch(e) {}
         const source=parsed && typeof parsed==='object' && !Array.isArray(parsed) ? {habits:parsed.habits,checks:parsed.checks||{}} : null;
         const incoming=source ? normalizeData(source) : null;
-        if(!incoming) { showToast('这不是有效的日恒备份文件'); return; }
+        if(!incoming) { showToast('这不是有效的 Persist 备份文件'); return; }
         const records=Object.values(incoming.checks).reduce((sum,arr)=>sum+arr.length,0);
         openConfirm('导入这份备份？',`备份里有 ${incoming.habits.length} 个习惯、${records} 条打卡记录。导入后会替换当前所有数据，此操作无法撤销。`,()=>{data=incoming;saveData();closeConfirm();render();setPage('today');showToast('备份已导入');},'导入并替换');
       }
@@ -1002,7 +1058,7 @@
       }
       function handleImportFile(event) {
         const file=event.target.files && event.target.files[0]; if(!file) return;
-        if(file.size>8*1024*1024) { showToast('文件太大，不像是日恒备份');event.target.value='';return; }
+        if(file.size>8*1024*1024) { showToast('文件太大，不像是 Persist 备份');event.target.value='';return; }
         const reader=new FileReader();
         reader.onerror=()=>showToast('读取备份文件失败');
         reader.onload=()=>importBackupText(String(reader.result));
@@ -1048,6 +1104,36 @@
       setInterval(refreshCurrentDate,60000);
       // ---- 供原生层调用的入口 ----
       window.__RIHENGImportText = importBackupText;
+      // ---- 键盘：原生逐帧回报键盘高度（CSS px），页面据此把弹窗整体抬起 ----
+      // 若系统本身也把窗口缩小了（innerHeight 变小），就扣掉这部分，避免抬两次。
+      let kbReported = 0, kbBaseH = window.innerHeight, kbShown = 0, kbSmoothTimer = null;
+      function applyKeyboard() {
+        const html = document.documentElement;
+        const shrunk = Math.max(0, kbBaseH - window.innerHeight);
+        const px = Math.max(0, kbReported - shrunk);
+        // 个别输入法不给逐帧动画、一次跳变：用 CSS 过渡补上动画
+        if (Math.abs(px - kbShown) > 140) { html.classList.add('kb-smooth'); clearTimeout(kbSmoothTimer); kbSmoothTimer = setTimeout(() => html.classList.remove('kb-smooth'), 380); }
+        kbShown = px;
+        html.style.setProperty('--kb', px.toFixed(1) + 'px');
+        html.classList.toggle('kb-open', px > 80);
+      }
+      window.__RIHENGKeyboard = function(px) { kbReported = Math.max(0, Number(px) || 0); if (kbReported === 0) kbBaseH = window.innerHeight; applyKeyboard(); };
+      window.addEventListener('resize', () => { if (kbReported === 0) kbBaseH = window.innerHeight; applyKeyboard(); });
+      // 点输入框后，等键盘动画结束再把它滚到可见位置
+      document.addEventListener('focusin', e => { const t = e.target; if (t && t.matches && t.matches('input.text-input')) setTimeout(() => { try { t.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch(err) {} }, 320); });
+      // ---- 启动动画：原生启动页淡出的同时，页面内容依次上浮 ----
+      function revealApp() {
+        const body = document.body;
+        if (!body.classList.contains('boot')) return;
+        const ring = document.getElementById('progressCircle');
+        ring.style.transition = 'none'; ring.style.strokeDashoffset = '314.16'; void ring.getBoundingClientRect(); ring.style.transition = '';
+        body.classList.remove('boot'); body.classList.add('entering');
+        renderToday();
+        document.querySelectorAll('.topbar, #page-today > *:not(.habit-list), .bottom-nav').forEach((el, i) => el.style.setProperty('--i', i));
+        document.querySelectorAll('.habit-card').forEach((el, i) => el.style.setProperty('--i', i));
+        setTimeout(() => body.classList.remove('entering'), 1500);
+      }
+      window.__RIHENGReveal = revealApp;
       window.__RIHENGNativeEvent = function(name) {
         if(name==='exported') showToast('数据备份已导出');
         else if(name==='export-failed') showToast('导出失败，请换个位置再试');
@@ -1071,6 +1157,9 @@
       };
       applyTheme();render();
       try { if (window.RiHengNative && typeof window.RiHengNative.syncData === 'function') window.RiHengNative.syncData(JSON.stringify({habits:data.habits,checks:data.checks})); } catch(e) {}
+      // 就绪信号：App 内通知原生撤掉启动页（原生再回调 __RIHENGReveal）；浏览器里直接显示。兜底：2.6 秒内必定显示。
+      if (window.RiHengNative && typeof window.RiHengNative.pageReady === 'function') { setTimeout(() => { try { window.RiHengNative.pageReady(); } catch(e) { revealApp(); } }, 0); setTimeout(revealApp, 2600); }
+      else { requestAnimationFrame(revealApp); setTimeout(revealApp, 600); }
       if(!window.__RIHENG_NATIVE_APP__ && 'serviceWorker' in navigator && location.protocol.startsWith('http')) { window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{})); }
     })();
   </script>

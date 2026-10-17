@@ -6,35 +6,57 @@ import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
+import android.view.ViewTreeObserver
+import android.view.WindowInsets
+import android.view.WindowInsetsAnimation
 import android.webkit.JavascriptInterface
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 
 class MainActivity : Activity() {
     private lateinit var webView: WebView
+    private lateinit var root: FrameLayout
     private val prefs by lazy { getSharedPreferences(HabitWidgetProvider.PREFS, MODE_PRIVATE) }
     private val mainHandler = Handler(Looper.getMainLooper())
     private var fileChooserCallback: ValueCallback<Array<Uri>>? = null
     private var pendingExportJson: String? = null
+
+    // 启动：网页就绪前不绘制第一帧，让系统启动页一直保留；就绪后再淡出并让页面内容上浮
+    @Volatile private var pageIsReady = false
+    private var revealed = false
 
     companion object {
         private const val REQ_FILE_CHOOSER = 4201
         private const val REQ_EXPORT = 4202
         private const val REQ_IMPORT = 4203
         private const val MAX_IMPORT_BYTES = 8 * 1024 * 1024
+        private const val SPLASH_MAX_MS = 2000L
+        private const val PAGE_BG = 0xFFF8F7F2.toInt()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 从启动主题换回正式主题（必须在 super.onCreate 之前）
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        webView = WebView(this)
-        setContentView(webView)
+
+        root = FrameLayout(this).apply { setBackgroundColor(PAGE_BG) }
+        webView = WebView(this).apply { setBackgroundColor(PAGE_BG) }
+        root.addView(webView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+        setContentView(root)
+
+        setupSplash()
+        setupKeyboardInsets()
+
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
         webView.settings.allowFileAccess = true
@@ -72,6 +94,70 @@ class MainActivity : Activity() {
             }
         }
         loadLocalApp()
+        // 兜底：网页万一没发出就绪信号，也不能一直卡在启动页
+        mainHandler.postDelayed({ markPageReady() }, SPLASH_MAX_MS)
+    }
+
+    // ---------- 启动动画 ----------
+    private fun setupSplash() {
+        val content = findViewById<View>(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                if (!pageIsReady) return false // 暂不绘制，系统启动页继续显示
+                content.viewTreeObserver.removeOnPreDrawListener(this)
+                return true
+            }
+        })
+        if (Build.VERSION.SDK_INT >= 31) {
+            splashScreen.setOnExitAnimationListener { splashView ->
+                // 启动页淡出的同时，页面内容开始上浮
+                revealPage()
+                splashView.iconView?.animate()?.alpha(0f)?.scaleX(1.18f)?.scaleY(1.18f)?.setDuration(320)?.start()
+                splashView.animate().alpha(0f).setDuration(380).withEndAction { splashView.remove() }.start()
+            }
+        }
+    }
+
+    private fun markPageReady() {
+        if (pageIsReady) return
+        pageIsReady = true
+        findViewById<View>(android.R.id.content).invalidate()
+        // Android 12+ 由启动页退出回调触发 reveal；其余情况（含启动页没出现的热启动）这里直接触发
+        mainHandler.postDelayed({ revealPage() }, if (Build.VERSION.SDK_INT >= 31) 450L else 0L)
+    }
+
+    private fun revealPage() {
+        if (revealed || !::webView.isInitialized) return
+        revealed = true
+        webView.evaluateJavascript("if(window.__RIHENGReveal){window.__RIHENGReveal();}", null)
+    }
+
+    // ---------- 键盘：逐帧把键盘高度同步给页面 ----------
+    private fun setupKeyboardInsets() {
+        if (Build.VERSION.SDK_INT < 30) return // 更老的系统由 adjustResize 处理
+        window.setDecorFitsSystemWindows(false)
+        val density = resources.displayMetrics.density
+
+        fun report(insets: WindowInsets) {
+            val ime = insets.getInsets(WindowInsets.Type.ime()).bottom
+            val bars = insets.getInsets(WindowInsets.Type.systemBars()).bottom
+            val cssPx = (ime - bars).coerceAtLeast(0) / density
+            webView.evaluateJavascript("if(window.__RIHENGKeyboard){window.__RIHENGKeyboard($cssPx);}", null)
+        }
+
+        root.setOnApplyWindowInsetsListener { v, insets ->
+            val bars = insets.getInsets(WindowInsets.Type.systemBars())
+            // 只给状态栏/导航栏留出位置；键盘不在这里处理，交给页面平滑移动
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            report(insets)
+            insets
+        }
+        root.setWindowInsetsAnimationCallback(object : WindowInsetsAnimation.Callback(WindowInsetsAnimation.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+            override fun onProgress(insets: WindowInsets, runningAnimations: MutableList<WindowInsetsAnimation>): WindowInsets {
+                report(insets)
+                return insets
+            }
+        })
     }
 
     @Deprecated("Deprecated in Android API")
@@ -113,7 +199,7 @@ class MainActivity : Activity() {
 
     // ---------- 备份导出 ----------
     private fun startExport(fileName: String, json: String) {
-        val safeName = fileName.replace(Regex("[\\\\/:*?\"<>|]"), "_").ifBlank { "riheng-backup.json" }
+        val safeName = fileName.replace(Regex("[\\\\/:*?\"<>|]"), "_").ifBlank { "Persist-backup.json" }
         pendingExportJson = json
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -211,7 +297,11 @@ class MainActivity : Activity() {
     }
 
     override fun onDestroy() {
-        if (::webView.isInitialized) webView.destroy()
+        mainHandler.removeCallbacksAndMessages(null)
+        if (::webView.isInitialized) {
+            root.removeView(webView)
+            webView.destroy()
+        }
         super.onDestroy()
     }
 
@@ -234,6 +324,11 @@ class MainActivity : Activity() {
 
         @JavascriptInterface fun importBackup() {
             mainHandler.post { startImport() }
+        }
+
+        /** 网页首屏已就绪：撤掉启动页，开始进场动画。 */
+        @JavascriptInterface fun pageReady() {
+            mainHandler.post { markPageReady() }
         }
     }
 

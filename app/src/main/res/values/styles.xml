@@ -3,10 +3,17 @@
     <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:colorAccent">#2F6C50</item>
+        <item name="android:windowBackground">@color/persist_bg</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">#F8F7F2</item>
-        <item name="android:navigationBarColor">#F8F7F2</item>
+        <item name="android:statusBarColor">@color/persist_bg</item>
+        <item name="android:navigationBarColor">@color/persist_bg</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowActionModeOverlay">true</item>
+    </style>
+
+    <!-- 启动主题：Android 11 及以下用「浅色底 + 图标」的启动窗口；
+         MainActivity.onCreate 里会换回 AppTheme。Android 12+ 见 values-v31。 -->
+    <style name="StartingTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launch_bg</item>
     </style>
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 小组件配色：与应用内页面一致（奶白底 + 墨色文字 + 青柠高亮） -->
 <resources>
+    <!-- 应用页面底色：窗口背景、启动页、系统栏都用它，启动到页面之间没有色差 -->
+    <color name="persist_bg">#F8F7F2</color>
     <color name="widget_bg">#FFFEFA</color>
     <color name="widget_line">#E9E8DF</color>
     <color name="widget_ink">#20221B</color>

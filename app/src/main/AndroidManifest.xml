@@ -2,16 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:allowBackup="true"
-        android:label="日恒"
-        android:icon="@drawable/ic_app"
-        android:roundIcon="@drawable/ic_app"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!-- singleTask：点小组件回到应用时复用已有窗口，不再重新加载页面
-             adjustResize：软键盘弹出时页面整体上移，不遮挡「新习惯」输入框 -->
+        <!-- StartingTheme：启动窗口（系统启动页）；onCreate 里再切换为 AppTheme
+             singleTask：点小组件回到应用时复用已有窗口，不再重新加载页面
+             adjustResize：Android 10 及以下靠它避让键盘；Android 11+ 由原生逐帧同步键盘高度 -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:theme="@style/StartingTheme"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboard|keyboardHidden|uiMode|density|fontScale|layoutDirection">
@@ -21,7 +23,7 @@
             </intent-filter>
         </activity>
         <!-- 小组件只接收系统广播和本应用自己的 PendingIntent，不需要对外暴露 -->
-        <receiver android:name=".HabitWidgetProvider" android:exported="false" android:label="日恒打卡小组件">
+        <receiver android:name=".HabitWidgetProvider" android:exported="false" android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.intent.action.DATE_CHANGED" />

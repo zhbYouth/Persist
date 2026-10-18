@@ -642,8 +642,8 @@
     .habit-icon img,.hist-icon img,.habit-glyph img,.emoji-option-art img { width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block; }
     .emoji-option-art img { width:25px;height:25px; }
 
+    /* v1.4 见下方键盘与背景改动 */
     /* ===== v1.3：启动过渡 · 弹窗系统 · 键盘适配 ===== */
-    :root { --kb: 0px; }
     /* 启动：就绪前内容不可见；原生启动页淡出时依次上浮 */
     body.boot .app, body.boot .bottom-nav { visibility: hidden; }
     @keyframes riseIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
@@ -662,7 +662,7 @@
     #confirmBackdrop.open .modal { transform: none; }
 
     /* 「新习惯」面板：标题和底部按钮固定，中间内容可滚动 —— 键盘弹出时按钮始终可见 */
-    #habitForm.modal { display: flex; flex-direction: column; padding: 0; overflow: hidden; max-height: min(88dvh, 740px, calc(100dvh - var(--kb) - 16px)); }
+    #habitForm.modal { display: flex; flex-direction: column; padding: 0; overflow: hidden; max-height: min(88dvh, 740px); will-change: translate; }
     #habitForm .modal-head { flex: 0 0 auto; margin: 0; padding: 22px 24px 14px; }
     #habitForm .modal-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 24px 8px; }
     #habitForm .modal-footer { flex: 0 0 auto; margin: 0; padding: 12px 24px 16px; border-top: 1px solid var(--line); background: var(--surface); }
@@ -676,20 +676,21 @@
     .confirm-modal .modal-footer { margin-top: 20px; gap: 10px; }
     .confirm-modal .btn-secondary, .confirm-modal .btn-danger { padding: 12px; }
 
-    .toast { bottom: calc(30px + var(--kb)); transition: opacity .22s ease, transform .22s ease; }
+    .toast { transition: opacity .22s ease, transform .22s ease; will-change: translate; }
 
     @media (max-width: 760px) {
-      #habitModalBackdrop { padding-bottom: var(--kb); }
-      #habitForm.modal { max-height: min(91dvh, calc(100dvh - var(--kb) - 12px)); border-radius: 26px 26px 0 0; }
+      #habitForm.modal { max-height: 91dvh; border-radius: 26px 26px 0 0; }
       #habitForm .modal-head, #habitForm .modal-body, #habitForm .modal-footer { padding-left: 20px; padding-right: 20px; }
       #habitForm .modal-footer { padding-bottom: 14px; }
-      html.kb-open #habitForm .modal-head { padding-top: 16px; padding-bottom: 8px; }
-      html.kb-open #habitForm .field { margin-bottom: 15px; }
-      html.kb-open #habitForm .custom-icon-note { display: none; }
     }
-    html.kb-smooth #habitModalBackdrop.open { transition: opacity .24s ease, padding-bottom .32s cubic-bezier(.2,.8,.2,1); }
-    html.kb-smooth #habitForm.modal { transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .26s ease, max-height .32s cubic-bezier(.2,.8,.2,1); }
-    html.kb-smooth .toast { transition: opacity .22s ease, transform .22s ease, bottom .32s cubic-bezier(.2,.8,.2,1); }
+    /* v1.4：「新习惯」的背景不再做模糊。键盘动画期间面板在移动，全屏背景模糊每帧都要重新计算（掉帧来源之一）；
+       删除确认框是静止的，继续保留模糊。 */
+    #habitModalBackdrop { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(15,25,18,.5); }
+    /* v1.4：长名字不能撑宽页面。grid 的默认列宽是 auto，会被不换行的名字撑到超出屏幕，
+       手机浏览器遇到横向溢出会把整个页面缩小（实测 28 个汉字就会触发）。 */
+    .habit-list { grid-template-columns: minmax(0, 1fr); }
+    .habit-card, .habit-main { min-width: 0; }
+    .history-row .hist-title, .insight-name > span:last-child { min-width: 0; overflow-wrap: anywhere; }
 
     /* 青柠底色上的文字改用深色（原来是白字/浅绿字，几乎看不清：「保存习惯」「每天」「自定义」等） */
     .btn-primary { color: var(--ink); }
@@ -702,7 +703,7 @@
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M5.2 2.4V21.6"/><circle cx="12" cy="8.8" r="6.8"/></svg></div>
+        <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div>
         <div><div class="brand-name">Persist</div><div class="brand-sub">MAKE IT A ROUTINE</div></div>
       </div>
       <div class="top-actions"></div>
@@ -742,7 +743,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 27V15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 20C8.8 20 5 15.5 5 8.5c7.4 0 12 3.5 12 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 15c.4-6 4.1-9.5 11-10-0.1 6.7-3.7 10.2-11 10Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.3.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 27V15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 20C8.8 20 5 15.5 5 8.5c7.4 0 12 3.5 12 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 15c.4-6 4.1-9.5 11-10-0.1 6.7-3.7 10.2-11 10Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.4.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。</p></div>
         </section>
       </main>
     </div>
@@ -1021,7 +1022,7 @@
         document.getElementById('habitForm').reset();draftEmoji=EMOJIS[0];draftRepeat='daily';draftDays=[0,1,2,3,4,5,6];document.getElementById('customIconInput').value='';
         document.getElementById('formError').classList.remove('show');document.getElementById('modalTitle').textContent='＋ 新习惯';document.getElementById('habitNameInput').value='';renderPickers();document.getElementById('habitModalBackdrop').classList.add('open');document.getElementById('habitModalBody').scrollTop=0;
       }
-      function closeHabitModal() { document.getElementById('habitModalBackdrop').classList.remove('open'); }
+      function closeHabitModal() { const a=document.activeElement; if(a && a!==document.body && a.blur && document.getElementById('habitForm').contains(a)) a.blur(); document.getElementById('habitModalBackdrop').classList.remove('open'); }
       function renderPickers() {
         document.getElementById('emojiPicker').innerHTML=EMOJIS.map(e=>`<button type="button" class="emoji-option ${e===draftEmoji?'selected':''}" data-emoji="${e}" aria-label="选择图标：${EMOJI_LABELS[e]||e}"><span class="emoji-option-art">${habitIconSVG(e)}</span><span class="emoji-option-label">${EMOJI_LABELS[e]||e}</span></button>`).join('') + (isCustomIcon(draftEmoji)?`<button type="button" class="emoji-option selected" data-emoji="${draftEmoji}" aria-label="当前自定义图标"><span class="emoji-option-art">${habitIconMarkup(draftEmoji)}</span><span class="emoji-option-label">自定义</span></button>`:'');
         
@@ -1037,7 +1038,7 @@
         const h={id:id(),name,emoji:draftEmoji,color:COLORS[data.habits.length%COLORS.length],days,created:todayKey};data.habits.push(h);saveData();closeHabitModal();activeFilter='all';render();setPage('today');showToast('新习惯已添加');
       }
       function exportData() {
-        const payload={app:'Persist',version:'1.3.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
+        const payload={app:'Persist',version:'1.4.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -1072,14 +1073,14 @@
         const pageBtn=e.target.closest('[data-page]');if(pageBtn){setPage(pageBtn.dataset.page);return;}
         const del=e.target.closest('[data-delete]');if(del){deleteHabit(del.dataset.delete);return;}
         const check=e.target.closest('[data-check]');if(check){toggleCheck(check.dataset.check);return;}
-        const week=e.target.closest('[data-date]');if(week){selectedDate=week.dataset.date;calendarMonth=new Date(fromKey(selectedDate).getFullYear(),fromKey(selectedDate).getMonth(),1);setPage('calendar');renderCalendar();return;}
+        const week=e.target.closest('[data-date]');if(week){if(week.dataset.date>todayKey){showToast('未来日期还没有打卡记录');return;}selectedDate=week.dataset.date;calendarMonth=new Date(fromKey(selectedDate).getFullYear(),fromKey(selectedDate).getMonth(),1);setPage('calendar');renderCalendar();return;}
         const cday=e.target.closest('[data-calendar-date]');if(cday){const key=cday.dataset.calendarDate;if(key>todayKey){showToast('未来日期还没有打卡记录');return;}selectedDate=key;const chosen=fromKey(key);calendarMonth=new Date(chosen.getFullYear(),chosen.getMonth(),1);renderCalendar();return;}
         const filter=e.target.closest('[data-filter]');if(filter){activeFilter=filter.dataset.filter;renderToday();return;}
         const emo=e.target.closest('[data-emoji]');if(emo){draftEmoji=emo.dataset.emoji;renderPickers();return;}
         const wd=e.target.closest('[data-weekday]');if(wd){const day=Number(wd.dataset.weekday);draftDays=draftDays.includes(day)?draftDays.filter(x=>x!==day):[...draftDays,day];renderPickers();return;}
         const repeat=e.target.closest('[data-repeat]');if(repeat){draftRepeat=repeat.dataset.repeat;if(draftRepeat==='weekdays')draftDays=[1,2,3,4,5];if(draftRepeat==='daily')draftDays=[0,1,2,3,4,5,6];renderPickers();return;}
       });
-      document.getElementById('heroAction').addEventListener('click',()=>{const first=scheduledHabits(todayKey).find(h=>!isDone(h,todayKey));if(first){toggleCheck(first.id);}else if(!data.habits.length){openHabitModal();}else{showToast('今天的计划已经完成');}});
+      document.getElementById('heroAction').addEventListener('click',()=>{const first=scheduledHabits(todayKey).find(h=>!isDone(h,todayKey));if(first){toggleCheck(first.id);}else if(!data.habits.length){openHabitModal();}else if(!scheduledHabits(todayKey).length){showToast('今天没有安排的习惯，好好休息');}else{showToast('今天的计划已经完成');}});
       document.getElementById('addHabitButton').addEventListener('click',openHabitModal);
       document.getElementById('closeHabitModal').addEventListener('click',closeHabitModal);
       document.getElementById('cancelHabitModal').addEventListener('click',closeHabitModal);
@@ -1104,23 +1105,31 @@
       setInterval(refreshCurrentDate,60000);
       // ---- 供原生层调用的入口 ----
       window.__RIHENGImportText = importBackupText;
-      // ---- 键盘：原生逐帧回报键盘高度（CSS px），页面据此把弹窗整体抬起 ----
-      // 若系统本身也把窗口缩小了（innerHeight 变小），就扣掉这部分，避免抬两次。
-      let kbReported = 0, kbBaseH = window.innerHeight, kbShown = 0, kbSmoothTimer = null;
-      function applyKeyboard() {
-        const html = document.documentElement;
-        const shrunk = Math.max(0, kbBaseH - window.innerHeight);
-        const px = Math.max(0, kbReported - shrunk);
-        // 个别输入法不给逐帧动画、一次跳变：用 CSS 过渡补上动画
-        if (Math.abs(px - kbShown) > 140) { html.classList.add('kb-smooth'); clearTimeout(kbSmoothTimer); kbSmoothTimer = setTimeout(() => html.classList.remove('kb-smooth'), 380); }
-        kbShown = px;
-        html.style.setProperty('--kb', px.toFixed(1) + 'px');
-        html.classList.toggle('kb-open', px > 80);
+      // ---- 键盘 ----
+      // 原生只在键盘动画「开始」时调用一次 __RIHENGKeyboard(目标高度, 时长ms)，动画本身交给浏览器合成线程完成。
+      // 旧做法是每帧改 :root 上的自定义属性，会让整个文档每帧重算样式（实测约 2.5ms/次），手机上就是掉帧。
+      // 现在：不逐帧通知、不碰 :root，只对「新习惯」面板和提示条各设一次 translate / max-height 过渡。
+      const KB_EASE = 'cubic-bezier(.4,0,.2,1)'; // 与系统键盘动画的插值器一致
+      const SHEET_BASE_TRANSITION = 'transform .38s cubic-bezier(.2,.8,.2,1), opacity .26s ease';
+      const TOAST_BASE_TRANSITION = 'opacity .22s ease, transform .22s ease';
+      let kbTarget = 0, kbBaseH = window.innerHeight;
+      function sheetDefaultMax() { return window.matchMedia('(max-width: 760px)').matches ? window.innerHeight * 0.91 : Math.min(window.innerHeight * 0.88, 740); }
+      function applyKeyboard(ms) {
+        // 若系统同时把窗口缩小了（innerHeight 变小），扣掉这部分，避免抬两次
+        const px = Math.max(0, kbTarget - Math.max(0, kbBaseH - window.innerHeight));
+        const form = document.getElementById('habitForm'), toast = document.getElementById('toast');
+        form.style.transition = SHEET_BASE_TRANSITION + (ms > 0 ? `, translate ${ms}ms ${KB_EASE}, max-height ${ms}ms ${KB_EASE}` : '');
+        toast.style.transition = TOAST_BASE_TRANSITION + (ms > 0 ? `, translate ${ms}ms ${KB_EASE}` : '');
+        form.style.translate = `0 ${-px}px`;
+        form.style.maxHeight = (px > 0 ? Math.max(240, window.innerHeight - px - 12) : sheetDefaultMax()) + 'px';
+        toast.style.translate = `0 ${-px}px`;
       }
-      window.__RIHENGKeyboard = function(px) { kbReported = Math.max(0, Number(px) || 0); if (kbReported === 0) kbBaseH = window.innerHeight; applyKeyboard(); };
-      window.addEventListener('resize', () => { if (kbReported === 0) kbBaseH = window.innerHeight; applyKeyboard(); });
-      // 点输入框后，等键盘动画结束再把它滚到可见位置
-      document.addEventListener('focusin', e => { const t = e.target; if (t && t.matches && t.matches('input.text-input')) setTimeout(() => { try { t.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch(err) {} }, 320); });
+      window.__RIHENGKeyboard = function(px, ms) {
+        kbTarget = Math.max(0, Number(px) || 0);
+        if (kbTarget === 0) kbBaseH = window.innerHeight;
+        applyKeyboard(Math.max(0, Number(ms) || 0));
+      };
+      window.addEventListener('resize', () => { if (kbTarget === 0) kbBaseH = window.innerHeight; applyKeyboard(0); });
       // ---- 启动动画：原生启动页淡出的同时，页面内容依次上浮 ----
       function revealApp() {
         const body = document.body;

@@ -132,30 +132,67 @@ class MainActivity : Activity() {
         webView.evaluateJavascript("if(window.__RIHENGReveal){window.__RIHENGReveal();}", null)
     }
 
-    // ---------- 键盘：逐帧把键盘高度同步给页面 ----------
+    // ---------- 键盘：动画开始时把「目标高度 + 时长」告诉页面，由页面在合成线程上完成动画 ----------
+    // 系统的时序是：onPrepare → 先按【最终】状态分发一次 insets → onStart → onProgress… → onEnd。
+    // 所以「分发 insets 的回调」拿到的是终点值，不能当作当前值；只有 onProgress 才是逐帧的当前值。
+    // 旧版把两者都当「当前值」发给页面，页面先被推到终点、再退回起点、再逐帧爬升，而且每帧都改整页样式 → 掉帧。
+    // 现在：整个键盘动画只发一次（onStart），不逐帧通知。
+    private var imeAnimating = false
+    private var imeEndCaptured = false // 本次动画的终点值（onPrepare 之后的第一次分发）是否已记录
+    private var imeTargetCss = 0f      // 键盘高度（CSS px）：静止时是当前值，动画中是终点值
+    private var imeSentCss = -1f       // 最近一次发给页面的值
+
+    private fun sendKeyboard(css: Float, durationMs: Long) {
+        imeSentCss = css
+        if (!::webView.isInitialized) return
+        webView.evaluateJavascript("if(window.__RIHENGKeyboard){window.__RIHENGKeyboard($css,$durationMs);}", null)
+    }
+
     private fun setupKeyboardInsets() {
         if (Build.VERSION.SDK_INT < 30) return // 更老的系统由 adjustResize 处理
         window.setDecorFitsSystemWindows(false)
         val density = resources.displayMetrics.density
 
-        fun report(insets: WindowInsets) {
+        fun imeCss(insets: WindowInsets): Float {
             val ime = insets.getInsets(WindowInsets.Type.ime()).bottom
             val bars = insets.getInsets(WindowInsets.Type.systemBars()).bottom
-            val cssPx = (ime - bars).coerceAtLeast(0) / density
-            webView.evaluateJavascript("if(window.__RIHENGKeyboard){window.__RIHENGKeyboard($cssPx);}", null)
+            return (ime - bars).coerceAtLeast(0) / density
         }
 
         root.setOnApplyWindowInsetsListener { v, insets ->
-            val bars = insets.getInsets(WindowInsets.Type.systemBars())
-            // 只给状态栏/导航栏留出位置；键盘不在这里处理，交给页面平滑移动
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            report(insets)
+            // 只给状态栏/导航栏/刘海留出位置；键盘不在这里处理，交给页面平滑移动
+            val pad = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
+            v.setPadding(pad.left, pad.top, pad.right, pad.bottom)
+            if (!imeAnimating) {
+                imeTargetCss = imeCss(insets)
+                // 没有键盘动画的变化（输入法切换高度、旋转等）：自己发一次，让页面用 200ms 过渡
+                if (imeTargetCss != imeSentCss) sendKeyboard(imeTargetCss, 200)
+            } else if (!imeEndCaptured) {
+                // 动画开始前系统先按终点状态分发一次：只记这一次，之后即使再分发（中间值）也忽略
+                imeTargetCss = imeCss(insets)
+                imeEndCaptured = true
+            }
             insets
         }
         root.setWindowInsetsAnimationCallback(object : WindowInsetsAnimation.Callback(WindowInsetsAnimation.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
-            override fun onProgress(insets: WindowInsets, runningAnimations: MutableList<WindowInsetsAnimation>): WindowInsets {
-                report(insets)
-                return insets
+            override fun onPrepare(animation: WindowInsetsAnimation) {
+                if (animation.typeMask and WindowInsets.Type.ime() != 0) { imeAnimating = true; imeEndCaptured = false }
+            }
+
+            override fun onStart(animation: WindowInsetsAnimation, bounds: WindowInsetsAnimation.Bounds): WindowInsetsAnimation.Bounds {
+                if (animation.typeMask and WindowInsets.Type.ime() != 0) sendKeyboard(imeTargetCss, animation.durationMillis)
+                return bounds
+            }
+
+            override fun onProgress(insets: WindowInsets, runningAnimations: MutableList<WindowInsetsAnimation>): WindowInsets = insets
+
+            override fun onEnd(animation: WindowInsetsAnimation) {
+                if (animation.typeMask and WindowInsets.Type.ime() == 0) return
+                imeAnimating = false
+                // 保险：动画结束后以最终状态为准，和已发送的不一致就立即校正（不带动画）
+                val actual = root.rootWindowInsets?.let { imeCss(it) } ?: imeTargetCss
+                imeTargetCss = actual
+                if (actual != imeSentCss) sendKeyboard(actual, 0)
             }
         })
     }

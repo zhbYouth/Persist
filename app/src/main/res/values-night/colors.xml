@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 深色模式：小组件跟随系统 -->
 <resources>
-    <color name="widget_bg">#22231B</color>
-    <color name="widget_line">#37382E</color>
-    <color name="widget_ink">#F4F2E9</color>
-    <color name="widget_muted">#A5A696</color>
-    <color name="widget_accent">#C7F36B</color>
-    <color name="widget_ring">#5D5E50</color>
+    <color name="widget_bg">#1B2132</color>
+    <color name="widget_line">#2C3550</color>
+    <color name="widget_ink">#EEF2FB</color>
+    <color name="widget_muted">#9AA6C0</color>
+    <color name="widget_accent">#4F80FF</color>
+    <color name="widget_ring">#4A5573</color>
 </resources>

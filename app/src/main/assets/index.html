@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f8f7f2" />
+  <meta name="theme-color" content="#f5f7fb" />
   <meta name="description" content="Persist，一款轻盈、专注的习惯打卡应用。" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
@@ -697,6 +697,114 @@
     .repeat-btn.selected { color: var(--ink); border-color: var(--green); }
     .weekday-btn.selected { color: #20221b; }
 
+
+    /* ===== v1.5：蓝色主题（与图标一致）+ 统一字号 =====
+       字号：原来为了塞进一屏，各版本逐步压到 8–10px（说明文字）/13px（习惯名）。这里按层级重新定标，
+       写在最后并用 !important，保证压过前面各版本的紧凑规则：
+         正文/标题 15–17px · 次要说明 13px · 标签/辅助 12px · 极小徽标不低于 11px */
+    :root {
+      --bg: #f5f7fb; --surface: #ffffff; --surface-soft: #edf1f8; --ink: #151b2b; --muted: #66728a; --line: #e2e7f0;
+      --green: #2c62ee; --green-deep: #1e4bc4; --green-light: #e8efff; --lime: #5b8cff;
+      --danger: #c0443c; --nav-bg: rgba(255,255,255,.94); --shadow: none;
+    }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline-color: rgba(44,98,238,.4); }
+    #habitModalBackdrop { background: rgba(14,22,42,.5); }
+    #confirmBackdrop { background: rgba(14,22,42,.42); }
+    /* 蓝底上一律用白字 */
+    .brand-mark { background: var(--green); color: #fff; }
+    .hero-action { background: var(--green); color: #fff; }
+    .check-btn.checked { background: var(--green); border-color: var(--green); color: #fff; }
+    .btn-primary { background: var(--green); color: #fff; }
+    .weekday-btn.selected { background: var(--green); border-color: var(--green); color: #fff; }
+    .repeat-btn.selected { background: var(--green-light); border-color: var(--green); color: var(--green); }
+    .week-day.selected { background: var(--green); border-color: var(--green); color: #fff; box-shadow: none; }
+    .week-day.selected .day-number { background: rgba(255,255,255,.2); color: #fff; }
+    .week-day.selected .day-dot, .week-day.selected.has-done .day-dot { background: #fff; }
+    .calendar-day.selected { background: var(--green); color: #fff; outline-color: var(--green); }
+    .calendar-day.selected .cal-dot { background: #fff; }
+    .filter-btn.active { color: var(--green); border-bottom-color: var(--green); }
+    .add-btn { color: var(--green); border-color: #b4c6f5; }
+    .habit-card.just-done { background: var(--green-light); }
+    .check-btn.checked { box-shadow: 0 0 0 4px var(--green-light); }
+    .progress-ring .ring-bg { stroke: var(--line); } .progress-ring .ring-value { stroke: var(--green); }
+    .upload-symbol { color: var(--green); }
+    .bottom-nav .nav-item.active, .bottom-nav .nav-item.active svg { color: var(--green); }
+    .filter-btn.active { background: var(--green-light) !important; color: var(--green) !important; border-bottom-color: transparent !important; box-shadow: none !important; }
+    /* 进度环放大一点，「今日完成」不再压到环上 */
+    .progress-ring-wrap, .progress-ring { width: 92px !important; height: 92px !important; }
+    .progress-ring circle { stroke-width: 5 !important; }
+    /* 删除键：原来只有 15px 且几乎看不见，手指也很难点中 */
+    .delete-habit-btn { width: 36px !important; height: 40px !important; opacity: .6 !important; }
+    .delete-habit-btn svg { width: 19px !important; height: 19px !important; }
+
+    /* 页面标题与区块 */
+    .brand-name { font-size: 19px !important; }
+    .brand-sub { font-size: 11px !important; }
+    .eyebrow { font-size: 12px !important; letter-spacing: 1.4px !important; }
+    h1 { font-size: 34px !important; line-height: 1.14 !important; }
+    .section-title { font-size: 21px !important; }
+    #page-calendar .section-title { font-size: 20px !important; }
+    h3 { font-size: 17px !important; }
+    .panel > h3 { margin-bottom: 12px !important; }
+
+    /* 今日 */
+    .hero-label { font-size: 11px !important; letter-spacing: 1.6px !important; }
+    .hero h2 { font-size: 23px !important; line-height: 1.28 !important; }
+    .hero-action { font-size: 15px !important; padding: 12px 18px !important; }
+    .ring-number { font-size: 22px !important; }
+    .ring-caption { font-size: 12px !important; }
+    .week-day .day-label { font-size: 12px !important; }
+    .week-day .day-number { font-size: 16px !important; width: 38px !important; height: 38px !important; }
+    .filter-btn { font-size: 13px !important; padding: 8px 12px !important; }
+    .habit-name { font-size: 16px !important; }
+    .habit-streak { font-size: 12px !important; }
+    .habit-meta { font-size: 13px !important; margin-top: 5px !important; }
+    .check-btn { width: 38px !important; height: 38px !important; }
+    .add-btn { font-size: 15px !important; padding: 15px !important; }
+    .nav-item span { font-size: 12px !important; }
+    .nav-item svg { width: 23px !important; height: 23px !important; }
+    #todayChip { font-size: 13px !important; }
+
+    /* 日历 */
+    .calendar-weekday { font-size: 12px !important; }
+    .calendar-day { font-size: 15px !important; }
+    .calendar-day span:first-child { font-size: 15px !important; }
+    .calendar-legend, #calendarMonthSummary { font-size: 12px !important; }
+    #selectedDateTitle { font-size: 17px !important; }
+    #selectedDateCount { font-size: 13px !important; }
+    .history-row .hist-title { font-size: 15px !important; }
+    .history-row .hist-status { font-size: 13px !important; }
+    .history-row .hist-icon { width: 38px !important; height: 38px !important; }
+    .history-row .hist-icon svg { width: 20px !important; height: 20px !important; }
+
+    /* 统计 */
+    .stat-label { font-size: 12px !important; }
+    .stat-value { font-size: 26px !important; }
+    .stat-value span { font-size: 14px !important; }
+    .bar-value { font-size: 11px !important; }
+    .bar-label { font-size: 12px !important; }
+    #page-stats .insight-name { font-size: 14px !important; }
+    #page-stats .insight-pct { font-size: 13px !important; }
+
+    /* 设置 */
+    .settings-title { font-size: 13px !important; }
+    #page-settings .settings-row strong { font-size: 16px !important; }
+    #page-settings .settings-row small { font-size: 13px !important; }
+    .about-card strong { font-size: 17px !important; }
+    .about-card p { font-size: 13px !important; }
+
+    /* 弹窗与表单 */
+    #habitForm label { font-size: 14px !important; }
+    .emoji-option-label { font-size: 12px !important; }
+    .custom-icon-btn strong { font-size: 15px !important; }
+    .custom-icon-btn small { font-size: 13px !important; }
+    .custom-icon-note { font-size: 12.5px !important; }
+    .repeat-btn, .weekday-btn { font-size: 15px !important; }
+    .btn-primary, .btn-secondary, .btn-danger { font-size: 16px !important; }
+    .form-error { font-size: 13px !important; }
+    #confirmTitle { font-size: 20px !important; }
+    #confirmText { font-size: 15px !important; }
+    .toast { font-size: 14px !important; bottom: calc(92px + env(safe-area-inset-bottom)) !important; }  /* 原来压在底部导航上，盖住「统计/我的」 */
   </style>
 </head>
 <body class="boot">
@@ -727,7 +835,7 @@
           <div class="week-strip" id="weekStrip" aria-label="本周日期"></div>
           <div class="section-head"><div><h2 class="section-title">今日计划</h2><div class="section-meta" id="habitCountLabel" style="margin-top:5px"></div></div><div class="filters"><button class="filter-btn active" data-filter="all">全部</button><button class="filter-btn" data-filter="pending">待完成</button><button class="filter-btn" data-filter="done">已完成</button></div></div>
           <div class="habit-list" id="habitList"></div>
-          <button class="add-btn" id="addHabitButton"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> ＋ 新习惯</button>
+          <button class="add-btn" id="addHabitButton"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> 新习惯</button>
         </section>
         <section class="page" id="page-calendar">
           <div class="page-header"><div><div class="eyebrow">打卡记录</div><h1>日历</h1><p class="subheading"></p></div><div class="month-controls"><button class="small-icon-btn" id="prevMonth" aria-label="上个月"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button><button class="small-icon-btn" id="nextMonth" aria-label="下个月"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button></div></div>
@@ -743,7 +851,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 27V15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 20C8.8 20 5 15.5 5 8.5c7.4 0 12 3.5 12 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 15c.4-6 4.1-9.5 11-10-0.1 6.7-3.7 10.2-11 10Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.4.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.5.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。</p></div>
         </section>
       </main>
     </div>
@@ -755,7 +863,7 @@
   </nav>
   <div class="modal-backdrop" id="habitModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <form class="modal" id="habitForm">
-      <div class="modal-head"><h2 id="modalTitle">＋ 新习惯</h2><button type="button" class="close-btn" id="closeHabitModal" aria-label="关闭">×</button></div>
+      <div class="modal-head"><h2 id="modalTitle">新习惯</h2><button type="button" class="close-btn" id="closeHabitModal" aria-label="关闭">×</button></div>
       <div class="modal-body" id="habitModalBody">
       <div class="field"><label for="habitNameInput">习惯名称</label><input id="habitNameInput" class="text-input" maxlength="28" placeholder="例如：阅读 20 分钟" autocomplete="off" /></div>
       <div class="field"><label>选择图标</label><div class="emoji-picker" id="emojiPicker"></div><div class="custom-icon-tools"><input id="customIconInput" type="file" accept="image/*" hidden /><button type="button" class="custom-icon-btn" id="uploadIconButton"><span class="upload-symbol">＋</span><span><strong>上传自定义图标</strong><small>支持图片，自动裁切为方形</small></span></button><span class="custom-icon-note">找不到合适的图案？从手机相册选择一张即可。</span></div></div>
@@ -936,7 +1044,7 @@
         return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]||icons.check}</svg>`;
       }
       function render() { applyTheme(); renderToday(); renderCalendar(); renderStats(); }
-      function applyTheme() { document.body.dataset.theme='grove'; document.body.classList.remove('dark'); document.querySelector('meta[name="theme-color"]').setAttribute('content','#f8f7f2'); }
+      function applyTheme() { document.body.dataset.theme='grove'; document.body.classList.remove('dark'); document.querySelector('meta[name="theme-color"]').setAttribute('content','#f5f7fb'); }
       function renderToday() {
         const d=fromKey(todayKey);
         document.getElementById('todayEyebrow').textContent=`星期${'日一二三四五六'[d.getDay()]} · ${d.getMonth()+1} 月 ${d.getDate()} 日`;
@@ -946,7 +1054,7 @@
         document.getElementById('progressCircle').style.strokeDashoffset=314.16*(1-pct/100);
         document.getElementById('habitCountLabel').textContent=tasks.length?`已完成 ${completed} / ${tasks.length} 项 · 慢慢来，也算数`:'＋ 新习惯，开始积累你的记录';
         const heroTitle=document.getElementById('heroTitle'), heroSubtitle=document.getElementById('heroSubtitle'), heroAction=document.getElementById('heroAction');
-        if(tasks.length && completed===tasks.length){heroTitle.innerHTML='做得很好，<br/>今天的计划完成了。';heroSubtitle.textContent='给自己一点肯定。明天再继续，不必着急。';heroAction.innerHTML='看看今天的成果 '+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;}
+        if(tasks.length && completed===tasks.length){heroTitle.innerHTML='做得很好，<br/>今天都完成了。';heroSubtitle.textContent='给自己一点肯定。明天再继续，不必着急。';heroAction.innerHTML='看看今天的成果 '+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;}
         else if(completed>0){heroTitle.innerHTML='继续保持，<br/>你已经迈出一步。';heroSubtitle.textContent=`今天完成了 ${completed} 项，剩下的慢慢来。`;heroAction.innerHTML='完成下一项 '+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;}
         else {heroTitle.innerHTML='今天，做一点。';heroSubtitle.textContent='';heroAction.innerHTML='继续 '+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;}
         const start=weekStart(fromKey(todayKey));
@@ -1020,7 +1128,7 @@
       function showToast(message) { const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2300); }
       function openHabitModal() {
         document.getElementById('habitForm').reset();draftEmoji=EMOJIS[0];draftRepeat='daily';draftDays=[0,1,2,3,4,5,6];document.getElementById('customIconInput').value='';
-        document.getElementById('formError').classList.remove('show');document.getElementById('modalTitle').textContent='＋ 新习惯';document.getElementById('habitNameInput').value='';renderPickers();document.getElementById('habitModalBackdrop').classList.add('open');document.getElementById('habitModalBody').scrollTop=0;
+        document.getElementById('formError').classList.remove('show');document.getElementById('modalTitle').textContent='新习惯';document.getElementById('habitNameInput').value='';renderPickers();document.getElementById('habitModalBackdrop').classList.add('open');document.getElementById('habitModalBody').scrollTop=0;
       }
       function closeHabitModal() { const a=document.activeElement; if(a && a!==document.body && a.blur && document.getElementById('habitForm').contains(a)) a.blur(); document.getElementById('habitModalBackdrop').classList.remove('open'); }
       function renderPickers() {
@@ -1038,7 +1146,7 @@
         const h={id:id(),name,emoji:draftEmoji,color:COLORS[data.habits.length%COLORS.length],days,created:todayKey};data.habits.push(h);saveData();closeHabitModal();activeFilter='all';render();setPage('today');showToast('新习惯已添加');
       }
       function exportData() {
-        const payload={app:'Persist',version:'1.4.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
+        const payload={app:'Persist',version:'1.5.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }

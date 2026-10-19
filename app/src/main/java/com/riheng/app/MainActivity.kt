@@ -41,7 +41,7 @@ class MainActivity : Activity() {
         private const val REQ_IMPORT = 4203
         private const val MAX_IMPORT_BYTES = 8 * 1024 * 1024
         private const val SPLASH_MAX_MS = 2000L
-        private const val PAGE_BG = 0xFFF8F7F2.toInt()
+        private const val PAGE_BG = 0xFFF5F7FB.toInt()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

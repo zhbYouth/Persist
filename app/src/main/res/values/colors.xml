@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 小组件配色：与应用内页面一致（奶白底 + 墨色文字 + 青柠高亮） -->
+<!-- 小组件配色：与应用内页面一致（冷白底 + 深蓝灰文字 + 蓝色高亮，对应图标） -->
 <resources>
     <!-- 应用页面底色：窗口背景、启动页、系统栏都用它，启动到页面之间没有色差 -->
-    <color name="persist_bg">#F8F7F2</color>
-    <color name="widget_bg">#FFFEFA</color>
-    <color name="widget_line">#E9E8DF</color>
-    <color name="widget_ink">#20221B</color>
-    <color name="widget_muted">#85877C</color>
-    <color name="widget_accent">#C7F36B</color>
-    <color name="widget_ring">#C5C6B8</color>
-    <!-- 打卡后的对勾画在青柠底上，深浅色模式下都保持深色 -->
-    <color name="widget_check_mark">#20221B</color>
+    <color name="persist_bg">#F5F7FB</color>
+    <color name="widget_bg">#FFFFFF</color>
+    <color name="widget_line">#E2E7F0</color>
+    <color name="widget_ink">#151B2B</color>
+    <color name="widget_muted">#66728A</color>
+    <color name="widget_accent">#2C62EE</color>
+    <color name="widget_ring">#C3CBDB</color>
+    <!-- 打卡后的对勾画在蓝底上，深浅色模式下都保持白色 -->
+    <color name="widget_check_mark">#FFFFFF</color>
 </resources>

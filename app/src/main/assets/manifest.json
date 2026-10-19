@@ -1,14 +1,14 @@
 {
   "id": "./index.html",
-  "name": "日恒 · 把小事做成日常",
-  "short_name": "日恒",
+  "name": "Persist · 把小事做成日常",
+  "short_name": "Persist",
   "description": "轻盈、专注的习惯打卡应用。",
   "lang": "zh-CN",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f8f7f2",
-  "theme_color": "#f8f7f2",
+  "background_color": "#f5f7fb",
+  "theme_color": "#f5f7fb",
   "orientation": "portrait",
   "icons": [
     {

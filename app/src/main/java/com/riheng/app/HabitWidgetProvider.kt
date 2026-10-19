@@ -141,7 +141,9 @@ class HabitWidgetProvider : AppWidgetProvider() {
                     val name = habit.optString("name", "习惯")
                     val done = isDone(checks, id, todayKey)
                     val row = RemoteViews(pkg, if (done) R.layout.widget_habit_row_done else R.layout.widget_habit_row)
-                    val icon = habit.optString("emoji", "🌿").let { if (it.startsWith("data:image/")) "🌿" else it }
+                    // 页面同步时会带上 widgetIcon（图标库图标对应的 emoji）；旧数据没有这个字段，就用原来的 emoji 字段
+                    val icon = habit.optString("widgetIcon", "").ifEmpty { habit.optString("emoji", "🌿") }
+                        .let { if (it.startsWith("data:image/") || it.startsWith("i:")) "🌿" else it }
                     row.setTextViewText(R.id.rowIcon, icon)
                     row.setTextViewText(R.id.rowName, name)
                     row.setContentDescription(R.id.rowCheckArea, (if (done) "取消打卡：" else "打卡：") + name)

@@ -106,8 +106,13 @@ class HabitWidgetProvider : AppWidgetProvider() {
             val checks = root.optJSONObject("checks") ?: JSONObject()
             val today = LocalDate.now()
             val todayKey = today.format(DateTimeFormatter.ISO_LOCAL_DATE)
+            // 与应用内一致：没完成的在上，完成的沉到下面（各自保持习惯原有顺序）；行数有限时，先让没完成的露出来
             val scheduled = (0 until habits.length()).mapNotNull { habits.optJSONObject(it) }
                 .filter { isScheduled(it, todayKey) }
+                .let { list ->
+                    val (finished, pending) = list.partition { isDone(checks, it.optString("id"), todayKey) }
+                    pending + finished
+                }
             val completed = scheduled.count { isDone(checks, it.optString("id"), todayKey) }
             val maxRows = rowsFor(allocatedHeightDp(context, manager, widgetId))
             val openApp = openAppPending(context)

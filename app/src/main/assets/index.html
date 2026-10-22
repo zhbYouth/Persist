@@ -1372,14 +1372,14 @@
     #page-stats .dd-mark { flex: none; font-size: 12px; color: var(--muted); } #page-stats .dd-list li.ok .dd-mark { color: var(--green); font-weight: 750; }
     #page-stats .habit-glyph { flex: none; width: 34px; height: 34px; border-radius: 12px; background: #F1F4FB; display: grid; place-items: center; }
     #page-stats .habit-glyph svg, #page-stats .habit-glyph img { width: 19px; height: 19px; }
-    #page-stats .hs-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid #EDF1FA; } #page-stats .hs-row:first-child { border-top: 0; }
-    #page-stats #habitStats { margin-top: 8px; }
-    #page-stats .hs-main { flex: 1; min-width: 0; }
-    #page-stats .hs-top { display: flex; align-items: baseline; gap: 8px; }
-    #page-stats .hs-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 700; }
-    #page-stats .hs-nums { flex: none; font-size: 12.5px; color: var(--muted); } #page-stats .hs-nums b { color: var(--ink); font-size: 14px; }
-    #page-stats .hs-pct { flex: none; min-width: 38px; text-align: right; font-size: 15px; font-weight: 800; color: var(--green); font-variant-numeric: tabular-nums; }
-    #page-stats .hs-track { margin-top: 7px; height: 6px; border-radius: 3px; background: #E9EEF9; overflow: hidden; } #page-stats .hs-track i { display: block; height: 100%; border-radius: inherit; background: var(--green); transition: width .6s var(--sp-soft); }
+    #page-stats #habitStats { margin-top: 10px; }
+    #page-stats .hs-head, #page-stats .hs-row { display: grid; grid-template-columns: minmax(0, 1fr) 84px 58px; align-items: center; gap: 8px; }
+    #page-stats .hs-head { padding: 0 0 9px; border-bottom: 1px solid #E3E9F6; font-size: 12.5px; color: var(--muted); font-weight: 650; }
+    #page-stats .hs-head span:nth-child(n+2), #page-stats .hs-row span:nth-child(n+2) { text-align: right; }
+    #page-stats .hs-row { padding: 14px 0; border-bottom: 1px solid #EDF1FA; } #page-stats .hs-row:last-child { border-bottom: 0; padding-bottom: 2px; }
+    #page-stats .hs-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15.5px; font-weight: 650; }
+    #page-stats .hs-nums { font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    #page-stats .hs-pct { font-size: 15.5px; font-weight: 800; color: var(--green); font-variant-numeric: tabular-nums; }
     #page-stats .hist { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
     #page-stats .hist > div { background: #F5F7FC; border-radius: 14px; padding: 11px 12px; }
     #page-stats .hist small { display: block; color: var(--muted); font-size: 12px; } #page-stats .hist strong { display: block; margin: 3px 0 1px; font-size: 24px; letter-spacing: -.8px; font-variant-numeric: tabular-nums; } #page-stats .hist strong .u { font-size: 13px; font-weight: 700; margin-left: 3px; color: #51607F; letter-spacing: 0; }
@@ -1439,7 +1439,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.8.1 · 养一只会陪你的小伙伴<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.8.2 · 养一只会陪你的小伙伴<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1760,7 +1760,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const t = fromKey(todayKey); let slots = [];
         if(period === 'month') { const dim = new Date(t.getFullYear(), t.getMonth() + 1, 0).getDate(); slots = Array.from({ length: dim }, (_, i) => dateKey(new Date(t.getFullYear(), t.getMonth(), i + 1))); }
         else { const n = period === '30' ? 30 : 7; slots = Array.from({ length: n }, (_, i) => shiftDate(todayKey, i - (n - 1))); }
-        const keys = slots.filter(k => k <= todayKey);
+        const keys = period === 'month' ? slots : slots.filter(k => k <= todayKey);
         const label = period === 'month' ? '本月' : period === '30' ? '近 30 天' : '近 7 天';
         return { slots, keys, label };
       }
@@ -1800,16 +1800,16 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('ovLabel').textContent = range.label + '完成率';
         $('ovPct').textContent = sum.pct == null ? '—' : sum.pct + '%';
         $('ovCount').innerHTML = sum.planned ? `已完成 <b>${sum.done}</b> / ${sum.planned} 次计划` : '这段时间还没有计划';
-        $('ovRange').textContent = first ? `${fmtMD(first)} – ${fmtMD(last)}${range.label === '本月' ? '（截至今天）' : ''}` : '';
+        $('ovRange').textContent = first ? `${fmtMD(first)} – ${fmtMD(last)}${range.label === '本月' ? '（含还没到的日子）' : ''}` : '';
         $('ovRing').style.strokeDashoffset = String(263.9 * (1 - (sum.pct || 0) / 100));
         $('ovBar').style.width = (sum.pct || 0) + '%';
         $('trendTitle').textContent = range.label + '每日完成趋势';
         $('trendChart').innerHTML = trendHTML(range);
         $('dayDetail').innerHTML = dayDetailHTML(statDay);
         $('habitSub').textContent = `${range.label} · 完成天数 ÷ 计划天数`;
-        $('habitStats').innerHTML = data.habits.length ? data.habits.map(h => {
+        $('habitStats').innerHTML = data.habits.length ? '<div class="hs-head"><span>习惯</span><span>完成情况</span><span>完成率</span></div>' + data.habits.map(h => {
           const r = habitPeriod(h, range.keys);
-          return `<div class="hs-row"><span class="habit-glyph">${habitIconMarkup(h.emoji || '🌿')}</span><div class="hs-main"><div class="hs-top"><span class="hs-name">${escapeHTML(h.name)}</span><span class="hs-nums">${r.poss ? `<b>${r.done}/${r.poss}</b> 天` : '本期无计划'}</span><span class="hs-pct">${r.pct == null ? '—' : r.pct + '%'}</span></div><div class="hs-track"><i style="width:${r.pct || 0}%"></i></div></div></div>`;
+          return `<div class="hs-row"><span class="hs-name">${escapeHTML(h.name)}</span><span class="hs-nums">${r.poss ? `${r.done}/${r.poss}天` : '无计划'}</span><span class="hs-pct">${r.pct == null ? '—' : r.pct + '%'}</span></div>`;
         }).join('') : `<div class="empty-state"><div class="empty-emoji">📈</div><strong>还没有可统计的习惯</strong><p>添加习惯并开始打卡，数据就会慢慢出现。</p></div>`;
         $('statTotal').textContent = totalCheckins();
         $('statStreak').textContent = longestStreakAll();
@@ -2217,7 +2217,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'1.8.1',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings,pet};
+        const payload={app:'Persist',version:'1.8.2',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings,pet};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }

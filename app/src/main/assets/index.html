@@ -1301,6 +1301,15 @@
 
     .page.enter > #petBody { animation: none; }
     .page.enter #petBody > * { animation: itemIn .8s var(--sp-page) both; animation-delay: calc(var(--k, 0) * 55ms); }
+    /* v1.8.3：走动、咀嚼、成长 */
+    .pet-host { will-change: translate; }
+    .pet-svg.walk { animation: petStep .42s ease-in-out infinite; transform-origin: 50% 92%; }
+    .pet-host[data-dir="r"] .pet-svg.walk { --lean: 4deg; }
+    .pet-host[data-dir="l"] .pet-svg.walk { --lean: -4deg; }
+    @keyframes petStep { 0%, 100% { translate: 0 0; rotate: calc(var(--lean, 0deg) * -.4); } 50% { translate: 0 -5%; rotate: var(--lean, 0deg); } }
+    body[data-view="pet"] .pet-chew { transform-box: fill-box; transform-origin: 50% 30%; animation: petChew .3s ease-in-out infinite; }
+    @keyframes petChew { 0%, 100% { transform: scale(1, .55); } 50% { transform: scale(1.1, 1.15); } }
+    @media (prefers-reduced-motion: reduce) { .pet-svg.walk, .pet-chew { animation: none !important; } }
 
 
     /* ===== v1.8.1：主页 ===== */
@@ -1439,7 +1448,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.8.2 · 养一只会陪你的小伙伴<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.8.3 · 养一只会陪你的小伙伴<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -2217,7 +2226,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'1.8.2',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings,pet};
+        const payload={app:'Persist',version:'1.8.3',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings,pet};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2396,9 +2405,11 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         marmot: { name: '土拔鼠', fur: '#C09468', dark: '#9B7048', belly: '#EDD6AF', ink: '#3A2A1E', first: '土豆', price: 150, fav: ['carrot', 'nut'],   tip: '圆脸、两颗大门牙，爱啃胡萝卜。' }
       };
       const SPECIES_ORDER = ['dog', 'tiger', 'lion', 'panda', 'marmot'];
-      const STAGE_NAMES = ['幼崽', '少年', '成年', '成熟'];
-      const STAGE_SCALE = [.74, .86, .96, 1];
-      const STAGE_XP = [0, 120, 400, 900];
+      const STAGE_NAMES = ['新生宝宝', '幼崽', '少年', '成年', '成熟'];
+      const STAGE_AGE = [0, 3, 14, 45, 100];   // 按养育天数划分阶段
+      const MAX_AGE = 100;
+      // 连续成长：g 为 0..1，刚出生约 .5 倍大小，慢慢长到 1；一开始长得快，后面慢
+      const growthOf = age => { const t = Math.max(0, Math.min(1, age / MAX_AGE)); return 1 - Math.pow(1 - t, 1.6); };
       // 服饰：slot = head / face / neck / back；svg 的坐标系与宠物一致（200×200）
       const WEAR = {
         straw:   { name: '草帽',     slot: 'head', price: 60,  svg: '<ellipse cx="100" cy="56" rx="52" ry="10" fill="#E3BC6E"/><path d="M69 56Q70 28 100 28Q130 28 131 56Z" fill="#F2D38D"/><path d="M69.5 49H130.5L131 56H69Z" fill="#E0524F"/><path d="M80 36Q100 30 120 36" stroke="#fff" stroke-opacity=".4" stroke-width="3" fill="none" stroke-linecap="round"/>' },
@@ -2420,14 +2431,14 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       const WEAR_SLOTS = ['head', 'face', 'neck', 'back'];
       const EYE = (x, y, ink, k) => `<g class="pet-eye" style="--d:${k}s"><ellipse cx="${x}" cy="${y}" rx="6.3" ry="7.9" fill="${ink}"/><circle cx="${x - 1.9}" cy="${y - 2.7}" r="2.6" fill="#fff"/><circle cx="${x + 2.2}" cy="${y + 3}" r="1.2" fill="#fff" opacity=".85"/></g>`;
       function maneArt(stage, S) {
-        const R = [42, 49, 55, 60][stage], r = [13, 16, 19, 21][stage], n = 15; let out = '';
+        const R = [38, 44, 50, 55, 60][stage], r = [11, 14, 17, 19, 21][stage], n = 15; let out = '';
         for(let i = 0; i < n; i++) { const a = i / n * Math.PI * 2; out += `<circle cx="${(100 + R * Math.cos(a)).toFixed(1)}" cy="${(92 + R * Math.sin(a) * 0.92).toFixed(1)}" r="${r}" fill="${S.dark}"/>`; }
-        if(stage >= 2) { for(let i = 0; i < n; i++) { const a = (i + .5) / n * Math.PI * 2; out += `<circle cx="${(100 + (R - 9) * Math.cos(a)).toFixed(1)}" cy="${(92 + (R - 9) * Math.sin(a) * 0.92).toFixed(1)}" r="${r - 5}" fill="#D58A3A"/>`; } }
+        if(stage >= 3) { for(let i = 0; i < n; i++) { const a = (i + .5) / n * Math.PI * 2; out += `<circle cx="${(100 + (R - 9) * Math.cos(a)).toFixed(1)}" cy="${(92 + (R - 9) * Math.sin(a) * 0.92).toFixed(1)}" r="${r - 5}" fill="#D58A3A"/>`; } }
         return out + `<ellipse cx="100" cy="92" rx="${R}" ry="${R * .9}" fill="#C97A2E"/>`;
       }
-      // o: { sp, stage, mood: 'happy'|'ok'|'low', sleeping, wear: {head,face,neck,back} }
+      // o: { sp, stage 0..4, g 0..1, mood: 'happy'|'ok'|'low', expr: ''|'eat'|'joy'|'wow', sleeping, wear: {head,face,neck,back} }
       function petArt(o) {
-        const S = SPECIES[o.sp] || SPECIES.dog, st = Math.max(0, Math.min(3, o.stage | 0)), W = o.wear || {}, sp = o.sp, mood = o.mood || 'ok', ink = S.ink;
+        const S = SPECIES[o.sp] || SPECIES.dog, st = Math.max(0, Math.min(4, o.stage | 0)), g = o.g == null ? [0, .12, .35, .7, 1][st] : Math.max(0, Math.min(1, o.g)), expr = o.sleeping ? '' : (o.expr || ''), W = o.wear || {}, sp = o.sp, mood = o.mood || 'ok', ink = S.ink;
         const wearOf = slot => (W[slot] && WEAR[W[slot]] && WEAR[W[slot]].slot === slot) ? WEAR[W[slot]] : null;
         const back = wearOf('back'), neck = wearOf('neck'), face = wearOf('face'), head = wearOf('head');
         let tail = '', behind = '', ears = '', marks = '', muzzle = '', nose = '', teeth = '', front = '', bodyMarks = '';
@@ -2473,24 +2484,30 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         else if(mood === 'happy') mouth = `<path d="M100 111V114" stroke="${mc}" stroke-width="2.4" stroke-linecap="round"/><path d="M89 113Q100 131 111 113Q100 118 89 113Z" fill="#7C2E3C"/><path d="M95 122Q100 128 105 122Q100 120 95 122Z" fill="#FF8FA3"/>`;
         else if(mood === 'low') mouth = `<path d="M100 111V114M92 122Q100 114 108 122" stroke="${mc}" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
         else mouth = `<path d="M100 111V114M92 116Q96 120 100 114Q104 120 108 116" stroke="${mc}" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+        if(expr === 'eat') mouth = `<g class="pet-chew"><ellipse cx="100" cy="120" rx="9" ry="7.5" fill="#7C2E3C"/><ellipse cx="100" cy="123" rx="5" ry="3" fill="#FF8FA3"/></g>`;
+        else if(expr === 'wow') mouth = `<ellipse cx="100" cy="121" rx="6" ry="8" fill="#7C2E3C"/>`;
+        else if(expr === 'joy' && sp !== 'marmot') mouth = `<path d="M100 111V114" stroke="${mc}" stroke-width="2.4" stroke-linecap="round"/><path d="M87 114Q100 134 113 114Q100 119 87 114Z" fill="#7C2E3C"/><path d="M94 124Q100 130 106 124Q100 122 94 124Z" fill="#FF8FA3"/>`;
         // 眼睛
         let eyes;
         const eyeInk = sp === 'panda' ? '#15161B' : ink;
         if(o.sleeping) { const c = sp === 'panda' ? '#fff' : ink; eyes = `<path d="M68 95Q77 102 86 95M114 95Q123 102 132 95" stroke="${c}" stroke-width="3.2" fill="none" stroke-linecap="round"/>`; }
+        else if(expr === 'joy') eyes = `<path d="M67 98Q77 86 87 98M113 98Q123 86 133 98" stroke="${sp === 'panda' ? '#fff' : ink}" stroke-width="3.6" fill="none" stroke-linecap="round"/>`;
         else eyes = EYE(77, 93, eyeInk, 0) + EYE(123, 93, eyeInk, 0.06);
+        if(!o.sleeping && expr !== 'joy') { const ek = 1 + .2 * (1 - g) + (expr === 'wow' ? .18 : 0); eyes = `<g transform="translate(100 95) scale(${ek.toFixed(3)}) translate(-100 -95)">${eyes}</g>`; }
         let brows = '';
         if(!o.sleeping && mood === 'low') brows = `<path d="M66 86L86 80M134 86L114 80" stroke="${sp === 'panda' ? '#fff' : ink}" stroke-width="3" stroke-linecap="round"/>`;
         const cheeks = `<circle cx="61" cy="109" r="7.5" fill="#FF8FA6" opacity="${mood === 'happy' ? .55 : .34}"/><circle cx="139" cy="109" r="7.5" fill="#FF8FA6" opacity="${mood === 'happy' ? .55 : .34}"/>`;
-        const sc = STAGE_SCALE[st];
-        const body = `<ellipse cx="100" cy="148" rx="41" ry="33" fill="${sp === 'panda' ? '#fff' : S.fur}"/>` + (sp === 'panda' ? `<ellipse cx="100" cy="148" rx="41" ry="33" fill="none" stroke="#E2E7F0" stroke-width="2"/>` : '') +
+        const sc = .5 + .5 * g;
+        const bk = (.8 + .2 * g).toFixed(3), bodyOpen = `<g transform="translate(100 182) scale(${bk}) translate(-100 -182)">`;
+        const body = bodyOpen + `<ellipse cx="100" cy="148" rx="41" ry="33" fill="${sp === 'panda' ? '#fff' : S.fur}"/>` + (sp === 'panda' ? `<ellipse cx="100" cy="148" rx="41" ry="33" fill="none" stroke="#E2E7F0" stroke-width="2"/>` : '') +
           `<ellipse cx="100" cy="154" rx="26" ry="22" fill="${S.belly}" opacity="${sp === 'panda' ? 0 : 1}"/>` + bodyMarks +
           `<ellipse cx="62" cy="150" rx="9.5" ry="15" fill="${armCol}" transform="rotate(14 62 150)"/><ellipse cx="138" cy="150" rx="9.5" ry="15" fill="${armCol}" transform="rotate(-14 138 150)"/>` +
           `<ellipse cx="80" cy="177" rx="16" ry="8.5" fill="${feetCol}"/><ellipse cx="120" cy="177" rx="16" ry="8.5" fill="${feetCol}"/>` +
-          (sp === 'dog' || sp === 'tiger' || sp === 'lion' ? `<path d="M72 179h4M80 180h4M116 179h4M124 180h4" stroke="${S.dark}" stroke-width="2" stroke-linecap="round" opacity=".7"/>` : '');
+          (sp === 'dog' || sp === 'tiger' || sp === 'lion' ? `<path d="M72 179h4M80 180h4M116 179h4M124 180h4" stroke="${S.dark}" stroke-width="2" stroke-linecap="round" opacity=".7"/>` : '') + '</g>';
         const headShape = `<ellipse cx="100" cy="92" rx="57" ry="49" fill="${S.fur}"/>` + (sp === 'panda' ? `<ellipse cx="100" cy="92" rx="57" ry="49" fill="none" stroke="#E2E7F0" stroke-width="2"/>` : '') +
           `<ellipse cx="82" cy="64" rx="28" ry="14" fill="#fff" opacity="${sp === 'panda' ? 0 : .16}" transform="rotate(-14 82 64)"/>`;
         const inner = `${back ? back.svg : ''}${tail}${behind}${ears}${body}${headShape}${marks}${muzzle}${cheeks}${nose}${teeth}${mouth}${brows}${eyes}${front}${face ? face.svg : ''}${neck ? neck.svg : ''}${head ? head.svg : ''}${back && back.front ? back.front : ''}`;
-        return `<svg class="pet-svg${o.sleeping ? ' asleep' : ''}" viewBox="0 0 200 200" role="img" aria-label="${S.name}"><ellipse class="pet-shadow" cx="100" cy="182" rx="${46 * sc}" ry="6.5" fill="rgba(36,50,110,.16)"/><g transform="translate(100 182) scale(${sc}) translate(-100 -182)"><g class="pet-breath">${inner}</g></g></svg>`;
+        return `<svg class="pet-svg${o.sleeping ? ' asleep' : ''}${o.expr ? ' x-' + o.expr : ''}" viewBox="0 0 200 200" role="img" aria-label="${S.name}"><ellipse class="pet-shadow" cx="100" cy="182" rx="${46 * sc}" ry="6.5" fill="rgba(36,50,110,.16)"/><g transform="translate(100 182) scale(${sc}) translate(-100 -182)"><g class="pet-breath">${inner}</g></g></svg>`;
       }
 
       // ================= v1.8：宠物系统 · 数据与规则 =================
@@ -2540,7 +2557,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           let pid = typeof x.id === 'string' && /^[A-Za-z0-9_-]{1,40}$/.test(x.id) && !used.has(x.id) ? x.id : 'p_' + Math.random().toString(36).slice(2, 9);
           used.add(pid);
           const wear = {}; if(x.wear && typeof x.wear === 'object') WEAR_SLOTS.forEach(sl => { const w = x.wear[sl]; if(typeof w === 'string' && has(WEAR, w) && WEAR[w].slot === sl) wear[sl] = w; });
-          p.pets.push({ id: pid, sp: x.sp, name: cleanPetName(x.name) || SPECIES[x.sp].first, xp: Math.floor(num(x.xp, 0, 1e6, 0)), hunger: num(x.hunger, 0, 100, 70), mood: num(x.mood, 0, 100, 70), t: Math.floor(num(x.t, 0, nowMs, nowMs)), wear, born: validDateKey(x.born) ? x.born : todayKey });
+          p.pets.push({ id: pid, sp: x.sp, name: cleanPetName(x.name) || SPECIES[x.sp].first, xp: Math.floor(num(x.xp, 0, 1e6, 0)), hunger: num(x.hunger, 0, 100, 70), mood: num(x.mood, 0, 100, 70), t: Math.floor(num(x.t, 0, nowMs, nowMs)), wear, born: validDateKey(x.born) ? x.born : todayKey, seen: Math.floor(num(x.seen, -1, 4, -1)) });
         });
         p.active = p.pets.some(q => q.id === raw.active) ? raw.active : (p.pets[0] ? p.pets[0].id : null);
         const inv = raw.inv && typeof raw.inv === 'object' ? raw.inv : {};
@@ -2575,7 +2592,9 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         return { hunger, mood };
       }
       function commitVitals(p) { const v = vitals(p); p.hunger = v.hunger; p.mood = v.mood; p.t = Date.now(); }
-      function stageOf(xp) { let s = 0; STAGE_XP.forEach((t, i) => { if(xp >= t) s = i; }); return s; }
+      // 年龄按真实天数增长：出生那天是第 0 天；阶段、体型都由年龄决定，喂食/玩耍不会让它长得更快
+      function ageOf(p) { return Math.max(0, Math.min(5000, daysBetween(p.born || todayKey, todayKey))); }
+      function stageOf(p) { const a = ageOf(p); let s = 0; STAGE_AGE.forEach((t, i) => { if(a >= t) s = i; }); return s; }
       function moodOf(p) { const v = vitals(p), w = (v.hunger + v.mood) / 2; return w >= 62 ? 'happy' : w >= 38 ? 'ok' : 'low'; }
       let awakeUntil = 0;
       function isSleeping(p) { const h = new Date().getHours(); return (h >= 23 || h < 6) && Date.now() > awakeUntil; }
@@ -2623,7 +2642,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const price = pet.pets.length ? SPECIES[sp].price : 0;
         if(pet.coins < price) return { error: 'coins', price };
         pet.coins -= price;
-        const p = { id: 'p_' + Math.random().toString(36).slice(2, 9), sp, name: SPECIES[sp].first, xp: 0, hunger: 75, mood: 75, t: Date.now(), wear: {}, born: todayKey };
+        const p = { id: 'p_' + Math.random().toString(36).slice(2, 9), sp, name: SPECIES[sp].first, xp: 0, hunger: 75, mood: 75, t: Date.now(), wear: {}, born: todayKey, seen: 0 };
         pet.pets.push(p); pet.active = p.id;
         if(!pet.bondSince) { pet.bondSince = todayKey; addCoins(WELCOME_COINS, '领养礼金', true); }
         petLog(`领养了${SPECIES[sp].name}「${p.name}」`); savePet(); return { pet: p, price };
@@ -2645,16 +2664,16 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         commitVitals(p); const fav = SPECIES[p.sp].fav.includes(foodId), full = p.hunger >= 96;
         pet.inv.food[foodId]--; if(!pet.inv.food[foodId]) delete pet.inv.food[foodId];
         p.hunger = Math.min(100, p.hunger + F.hunger); p.mood = Math.min(100, p.mood + F.mood + (fav ? 8 : 0));
-        const gain = F.xp * (fav ? 2 : 1); const before = stageOf(p.xp); p.xp += gain; dailyState().feeds++;
+        const gain = F.xp * (fav ? 2 : 1); p.xp += gain; dailyState().feeds++;
         petLog(`${p.name}吃了${F.name}${fav ? '（最爱！）' : ''}`); savePet();
-        return { ok: true, fav, full, gain, grew: stageOf(p.xp) > before };
+        return { ok: true, fav, full, gain };
       }
       function playWithToy(toyId) {
         const p = activePet(), T = TOYS[toyId]; if(!p || !T || !pet.inv.toys[toyId]) return { error: 'none' };
         commitVitals(p); const d = dailyState(), xpOk = d.plays < 12;
         p.mood = Math.min(100, p.mood + T.mood); p.hunger = Math.max(HUNGER_FLOOR, p.hunger - 2);
-        const before = stageOf(p.xp); if(xpOk) p.xp += 4; d.plays++; if(d.plays === 1) petLog(`${p.name}玩起了${T.name}`);
-        savePet(); return { ok: true, grew: stageOf(p.xp) > before };
+        if(xpOk) p.xp += 4; d.plays++; if(d.plays === 1) petLog(`${p.name}玩起了${T.name}`);
+        savePet(); return { ok: true };
       }
       function setWear(itemId) {
         const p = activePet(); if(!p || !has2(WEAR, itemId) || !pet.inv.wear[itemId]) return false;
@@ -2721,6 +2740,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       function pick(a) { return a[(sayIdx++) % a.length]; }
       function petSays(p) {
         if(isSleeping(p)) return 'zZ…（轻点一下会把我吵醒哦）';
+        if(ageOf(p) <= 1 && Math.random() < .5) return pick(['我是刚出生的小宝宝，请多关照～', '世界好大呀，你好呀！', '我还很小，会慢慢长大的']);
         const v = vitals(p), tasks = scheduledHabits(todayKey), done = tasks.filter(h => isDone(h, todayKey)).length, left = tasks.length - done, hr = new Date().getHours();
         if(v.hunger < 30) return pick(['肚子咕咕叫……能给我点吃的吗？', '好想吃点东西呀～']);
         if(tasks.length && !left) return pick(['今天全部完成啦！我都看到了', '你今天好棒，我也跟着开心']);
@@ -2728,7 +2748,9 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if(tasks.length) return hr < 11 ? pick(['早上好！今天从一件小事开始吧', '新的一天，一起慢慢来']) : pick([`还有 ${left} 件小事在等你`, '做一件就好，我陪着你']);
         return pick(['今天没有安排，一起发发呆吧', '休息也是计划的一部分']);
       }
-      function petOpts(p) { return { sp: p.sp, stage: stageOf(p.xp), mood: moodOf(p), sleeping: isSleeping(p), wear: p.wear }; }
+      let curExpr = '', exprTimer = 0;
+      function petOpts(p) { return { sp: p.sp, stage: stageOf(p), g: growthOf(ageOf(p)), mood: moodOf(p), sleeping: isSleeping(p), wear: p.wear, expr: curExpr }; }
+      function setExpr(e, ms) { curExpr = e; clearTimeout(exprTimer); refreshPetArt(); if(e && ms) exprTimer = setTimeout(() => { curExpr = ''; refreshPetArt(); }, ms); }
       function timeOfDay() { const h = new Date().getHours(); return h >= 6 && h < 17 ? 'day' : h >= 17 && h < 20 ? 'dusk' : 'night'; }
       // ---- 小屋场景（v1.9 会在这里接入房子等级和家具）----
       function sceneSVG(p) {
@@ -2750,16 +2772,17 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           <g><path d="M26 206V176L46 168H98L110 176V206Z" fill="#D9A867"/><path d="M26 176L46 168H98L110 176Z" fill="#E8BE80"/><rect x="26" y="176" width="84" height="30" fill="#D9A867"/><path d="M42 186H94" stroke="#B98544" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M34 196H102" stroke="#B98544" stroke-width="2" stroke-linecap="round" opacity=".35"/></g>
           <g><ellipse cx="296" cy="219" rx="26" ry="7" fill="#000" opacity=".1"/><path d="M272 206H320Q318 222 296 222Q274 222 272 206Z" fill="#E85D75"/><ellipse cx="296" cy="206" rx="24" ry="5.5" fill="#F58AA0"/>${food ? `<g fill="#B97B3F"><circle cx="286" cy="203" r="4"/><circle cx="296" cy="201" r="4.5"/><circle cx="306" cy="203" r="4"/>${food > 1 ? '<circle cx="291" cy="197" r="4"/><circle cx="301" cy="197" r="4"/>' : ''}</g>` : ''}</g></svg>`;
       }
-      function barPct(p) { const st = stageOf(p.xp); return st >= 3 ? 100 : Math.round((p.xp - STAGE_XP[st]) / (STAGE_XP[st + 1] - STAGE_XP[st]) * 100); }
-      function barText(p) { const st = stageOf(p.xp); return st >= 3 ? '已成熟' : `${p.xp - STAGE_XP[st]} / ${STAGE_XP[st + 1] - STAGE_XP[st]}`; }
+      function barPct(p) { const st = stageOf(p), a = ageOf(p); return st >= 4 ? 100 : Math.round((a - STAGE_AGE[st]) / (STAGE_AGE[st + 1] - STAGE_AGE[st]) * 100); }
+      function barText(p) { const st = stageOf(p), a = ageOf(p); return st >= 4 ? `${a} 天 · 已成熟` : `${a} 天 · 还差 ${STAGE_AGE[st + 1] - a} 天`; }
+      const stageLine = p => `${SPECIES[p.sp].name} · ${STAGE_NAMES[stageOf(p)]} · 第 ${ageOf(p) + 1} 天`;
       function sceneHTML(p) {
         return `<div class="pet-scene" id="petScene" data-tod="${timeOfDay()}">${sceneSVG(p)}<div class="pet-host" id="petHost" data-pet="pat" role="button" tabindex="0" aria-label="摸摸${escapeHTML(p.name)}">${petArt(petOpts(p))}</div><div class="pet-bubble" id="petBubble"></div><button type="button" class="gift-btn" id="giftBtn" data-pet="gift" aria-label="领取礼物" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${libSvg('gift')}</svg></button><div class="scene-fx" id="sceneFx"></div></div>
           <div class="pet-actions"><button type="button" class="pet-act" data-pet="sheet:food"><span class="pa-ico">${libIconSVG('utensils')}</span><b>喂食</b><i id="foodBadge"></i></button><button type="button" class="pet-act" data-pet="sheet:toys"><span class="pa-ico">${libIconSVG('toy-brick')}</span><b>玩耍</b></button><button type="button" class="pet-act" data-pet="sheet:wear"><span class="pa-ico">${libIconSVG('shirt')}</span><b>衣橱</b></button></div>`;
       }
       function infoHTML(p) {
-        const st = stageOf(p.xp), v = vitals(p);
-        return `<div class="pet-card pet-info"><div class="pet-id"><button type="button" class="pet-name" data-pet="rename" aria-label="改名">${escapeHTML(p.name)}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${libSvg('pencil')}</svg></button><span class="pet-stage" id="petStage">${SPECIES[p.sp].name} · ${STAGE_NAMES[st]}</span></div>
-          <div class="bar-row"><span>成长</span><div class="pbar xp"><i id="barXp" style="width:${barPct(p)}%"></i></div><em id="valXp">${barText(p)}</em></div>
+        const v = vitals(p);
+        return `<div class="pet-card pet-info"><div class="pet-id"><button type="button" class="pet-name" data-pet="rename" aria-label="改名">${escapeHTML(p.name)}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${libSvg('pencil')}</svg></button><span class="pet-stage" id="petStage">${stageLine(p)}</span></div>
+          <div class="bar-row"><span>年龄</span><div class="pbar xp"><i id="barXp" style="width:${barPct(p)}%"></i></div><em id="valXp">${barText(p)}</em></div>
           <div class="bar-row"><span>饱腹</span><div class="pbar hunger"><i id="barHunger" style="width:${Math.round(v.hunger)}%"></i></div><em id="valHunger">${Math.round(v.hunger)}</em></div>
           <div class="bar-row"><span>心情</span><div class="pbar mood"><i id="barMood" style="width:${Math.round(v.mood)}%"></i></div><em id="valMood">${Math.round(v.mood)}</em></div></div>`;
       }
@@ -2767,8 +2790,8 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const cur = activePet();
         return `<div class="pet-card"><h3>我的伙伴</h3><div class="friends">${SPECIES_ORDER.map(sp => {
           const own = pet.pets.find(q => q.sp === sp);
-          if(own) return `<button type="button" class="friend ${cur && own.id === cur.id ? 'on' : ''}" data-pet="switch:${own.id}" aria-label="${escapeHTML(own.name)}，${SPECIES[sp].name}"><span class="fr-art">${petArt({ sp, stage: stageOf(own.xp), mood: 'happy', wear: own.wear })}</span><b>${escapeHTML(own.name)}</b></button>`;
-          return `<button type="button" class="friend locked" data-pet="adopt:${sp}" aria-label="领养${SPECIES[sp].name}"><span class="fr-art">${petArt({ sp, stage: 2, mood: 'ok' })}</span><b>${SPECIES[sp].name}</b><small>${coinIcon(13)}${pet.pets.length ? SPECIES[sp].price : 0}</small></button>`;
+          if(own) return `<button type="button" class="friend ${cur && own.id === cur.id ? 'on' : ''}" data-pet="switch:${own.id}" aria-label="${escapeHTML(own.name)}，${SPECIES[sp].name}"><span class="fr-art">${petArt({ sp, stage: stageOf(own), g: growthOf(ageOf(own)), mood: 'happy', wear: own.wear })}</span><b>${escapeHTML(own.name)}</b></button>`;
+          return `<button type="button" class="friend locked" data-pet="adopt:${sp}" aria-label="领养${SPECIES[sp].name}"><span class="fr-art">${petArt({ sp, stage: 3, g: .7, mood: 'ok' })}</span><b>${SPECIES[sp].name}</b><small>${coinIcon(13)}${pet.pets.length ? SPECIES[sp].price : 0}</small></button>`;
         }).join('')}</div></div>`;
       }
       function goalRow(label, val, list, unit) {
@@ -2797,22 +2820,24 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const host = $('petBody'); if(!host) return;
         const p = activePet();
         host.innerHTML = p ? sceneHTML(p) + infoHTML(p) + friendsHTML() + goalsHTML() + diaryHTML() + helpHTML() : adoptHTML() + helpHTML();
+        roam.x = 0; roam.busy = false; roam.walking = false; curExpr = '';
         if(p) refreshPetBars(true);
         renderCoin(false);
       }
-      function refreshPetArt() { const p = activePet(), h = $('petHost'); if(p && h) { h.innerHTML = petArt(petOpts(p)); h.dataset.sleep = String(isSleeping(p)); } }
+      function refreshPetArt() { const p = activePet(), h = $('petHost'); if(p && h) { h.innerHTML = petArt(petOpts(p)); h.dataset.sleep = String(isSleeping(p)); if(roam.walking) h.querySelector('.pet-svg').classList.add('walk'); } }
       function setBubble(text) { const b = $('petBubble'); if(!b) return; b.textContent = text; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
       function refreshPetBars(withSay) {
         const p = activePet(); if(!p || !$('barXp')) return;
-        const v = vitals(p), st = stageOf(p.xp);
+        const v = vitals(p);
         $('barXp').style.width = barPct(p) + '%'; $('valXp').textContent = barText(p);
         $('barHunger').style.width = Math.round(v.hunger) + '%'; $('valHunger').textContent = Math.round(v.hunger);
         $('barMood').style.width = Math.round(v.mood) + '%'; $('valMood').textContent = Math.round(v.mood);
-        $('petStage').textContent = `${SPECIES[p.sp].name} · ${STAGE_NAMES[st]}`;
+        $('petStage').textContent = stageLine(p);
         const total = Object.values(pet.inv.food).reduce((a, b) => a + b, 0), fb = $('foodBadge'); if(fb) { fb.textContent = total ? String(total) : ''; fb.classList.toggle('on', !!total); }
         const g = $('giftBtn'); if(g) g.hidden = !giftReady();
         const h = $('petHost'); if(h && h.dataset.sleep !== String(isSleeping(p))) refreshPetArt();
         if(withSay) setBubble(petSays(p));
+        checkGrowth(p);
       }
       // ---- 动效 ----
       function petJump() {
@@ -2832,11 +2857,11 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         }
       }
       function foodFx(F, fav, done) {
-        const c = petCenter(); if(REDUCE || !$('sceneFx')) { done && done(); return; }
+        const c = petCenter(); if(REDUCE || !$('sceneFx')) { setExpr('eat', 700); setTimeout(() => { setExpr('joy', 900); done && done(); }, 700); return; }
         const el = sceneFxNode(`<span style="background:${F.tint};color:${F.ink}">${libIconSVG(F.icon)}</span>`, `left:${c.sw - 70}px;top:${c.sh - 70}px;width:44px;height:44px;`, 'food'); if(!el) { done && done(); return; }
         const dx = c.x - (c.sw - 48), dy = c.y + c.h * .12 - (c.sh - 48);
         const a = anim(el, [{ transform: 'translate(0,0) scale(.4)', opacity: 0 }, { transform: `translate(${dx * .3}px,${dy * .3 - 50}px) scale(1.1)`, opacity: 1, offset: .35 }, { transform: `translate(${dx}px,${dy}px) scale(.55)`, opacity: 1, offset: .85 }, { transform: `translate(${dx}px,${dy}px) scale(.1)`, opacity: 0 }], { duration: 820, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'both' });
-        setTimeout(() => { petChomp(); setTimeout(() => { hearts(fav ? 7 : 3); done && done(); }, 500); }, a ? 760 : 0);
+        setTimeout(() => { setExpr('eat', 1500); petChomp(); setTimeout(() => { setExpr('joy', 1300); hearts(fav ? 7 : 3); done && done(); }, 1500); }, a ? 760 : 0);
         if(a) a.onfinish = () => el.remove(); else el.remove();
       }
       function toyFx(T) {
@@ -2855,20 +2880,58 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           const r = $('petScene').getBoundingClientRect(); setTimeout(() => burst(r.left + c.x + c.w * .2, r.top + c.y - c.h * .2, 14), 420); setTimeout(petJump, 450); }
       }
       // ---- 互动 ----
+      let patTimes = [];
       function patPet(e) {
         const p = activePet(); if(!p) return;
         if(isSleeping(p)) { awakeUntil = Date.now() + 90000; refreshPetArt(); setBubble('唔……被你摸醒了'); petJump(); return; }
         commitVitals(p); const d = dailyState(); if(d.pats < 6) p.mood = Math.min(100, p.mood + 2); if(d.pats < 3) p.xp += 1; d.pats++; savePet();
-        petJump(); let x = null, y = null;
+        const now = Date.now(); patTimes = patTimes.filter(t => now - t < 2200); patTimes.push(now);
+        const tickle = patTimes.length >= 4; if(tickle) patTimes = [];
+        let x = null, y = null;
         if(e && e.clientX != null && $('petScene')) { const q = $('petScene').getBoundingClientRect(); x = e.clientX - q.left; y = e.clientY - q.top - 30; }
-        hearts(3, x, y); setBubble(petSays(p)); refreshPetBars(); try { if(navigator.vibrate) navigator.vibrate(10); } catch(err) {}
+        if(tickle) { setExpr('joy', 1800); petWiggle(); hearts(6, x, y); setBubble(pick(['哈哈哈，好痒！', '嘻嘻，别挠啦～', '哎呀哎呀，痒痒～'])); }
+        else { setExpr('joy', 1100); petJump(); hearts(3, x, y); setBubble(petSays(p)); }
+        refreshPetBars(); try { if(navigator.vibrate) navigator.vibrate(tickle ? [10, 40, 10] : 10); } catch(err) {}
+      }
+      function petWiggle() { const h = $('petHost'); if(!h) return; anim(h, [{ transform: 'rotate(0)' }, { transform: 'rotate(-7deg) translateY(-4px)' }, { transform: 'rotate(7deg) translateY(-4px)' }, { transform: 'rotate(-6deg)' }, { transform: 'rotate(6deg)' }, { transform: 'rotate(0)' }], { duration: 720, easing: 'ease-in-out' }); }
+      // ---- 在房间里自己走动 / 玩耍 / 说话（只在宠物页、没睡觉、没打开面板时才动）----
+      const roam = { x: 0, busy: false, walking: false, timer: 0, talk: 0, stopT: 0 };
+      const ROAM_LIM = 30;   // 以宠物自身宽度的百分比计，约等于场景宽度的 ±16%
+      function roamTo(x, done) {
+        const h = $('petHost'); x = Math.max(-ROAM_LIM, Math.min(ROAM_LIM, x));
+        if(!h || REDUCE || Math.abs(x - roam.x) < 3) { if(h && REDUCE) h.style.translate = x + '% 0'; roam.x = x; done && done(); return; }
+        const dx = x - roam.x, dur = Math.max(450, Math.abs(dx) / 20 * 1000);
+        roam.walking = true; h.dataset.dir = dx < 0 ? 'l' : 'r';
+        const sv = h.querySelector('.pet-svg'); if(sv) sv.classList.add('walk');
+        h.style.transition = `translate ${dur}ms cubic-bezier(.45,0,.55,1), scale .5s var(--sp-pop)`; h.style.translate = x + '% 0';
+        clearTimeout(roam.stopT);
+        roam.stopT = setTimeout(() => { roam.walking = false; roam.x = x; h.style.transition = ''; const s2 = h.querySelector('.pet-svg'); if(s2) s2.classList.remove('walk'); done && done(); }, dur + 30);
+      }
+      function roamOK() { const p = activePet(); return !!(p && activePage === 'pet' && !document.hidden && !sheetOpen && !roam.busy && !roam.walking && !REDUCE && $('petHost')); }
+      function roamStep() {
+        if(!roamOK()) return; const p = activePet();
+        if(isSleeping(p)) { if(roam.x > -26) { roam.busy = true; roamTo(-30, () => { roam.busy = false; }); } return; }
+        const r = Math.random(), toys = Object.keys(pet.inv.toys || {}).filter(id => pet.inv.toys[id] && TOYS[id]);
+        if(r < .58) { roam.busy = true; roamTo(rand(-ROAM_LIM, ROAM_LIM), () => { roam.busy = false; if(Math.random() < .3) petJump(); }); }
+        else if(r < .78 && toys.length) { const T = TOYS[toys[Math.floor(Math.random() * toys.length)]]; roam.busy = true; toyFx(T); setExpr('joy', 1800); setTimeout(() => { roam.busy = false; }, 1800); }
+        else if(r < .9) { petWiggle(); setExpr('joy', 900); }
+        else { setBubble(petSays(p)); }
+      }
+      function roamLoop() { clearTimeout(roam.timer); roam.timer = setTimeout(() => { try { roamStep(); } catch(e) {} roamLoop(); }, rand(3200, 7000)); }
+      function talkLoop() { clearTimeout(roam.talk); roam.talk = setTimeout(() => { try { const p = activePet(); if(p && activePage === 'pet' && !document.hidden && !sheetOpen && !isSleeping(p)) setBubble(petSays(p)); } catch(e) {} talkLoop(); }, rand(22000, 38000)); }
+      roamLoop(); talkLoop();
+      // ---- 成长：按天数长大，跨过阶段时庆祝一下 ----
+      function checkGrowth(p) {
+        const st = stageOf(p); if(!(p.seen >= 0)) { p.seen = st; savePet(); return; }
+        if(st > p.seen && activePage === 'pet') { p.seen = st; savePet(); grewUp(p); }
       }
       function doFeed(foodId) {
         const p = activePet(), F = FOODS[foodId]; if(!p || !F) return;
         if(isSleeping(p)) { awakeUntil = Date.now() + 90000; refreshPetArt(); }
-        const before = stageOf(p.xp), r = feedPet(foodId); if(r.error) { showToast('这个吃完了，去买一点吧'); return; }
+        const r = feedPet(foodId); if(r.error) { showToast('这个吃完了，去买一点吧'); return; }
         setBubble(r.fav ? '哇！是我最爱的！' : r.full ? '嗝……已经很饱啦，但还是吃了' : '好吃！谢谢～');
-        foodFx(F, r.fav, () => { refreshPetBars(); renderSheet(); if(r.grew) grewUp(p); });
+        roam.busy = true; closeSheetSoft();
+        roamTo(ROAM_LIM, () => foodFx(F, r.fav, () => { roam.busy = false; refreshPetBars(); renderSheet(); }));
         refreshPetBars(); renderSheet();
       }
       function doPlay(toyId) {
@@ -2876,18 +2939,28 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if(isSleeping(p)) { awakeUntil = Date.now() + 90000; refreshPetArt(); }
         const r = playWithToy(toyId); if(r.error) return;
         toyFx(T); setBubble(pick(['再来一次！', '好好玩～', '嘿嘿，看我的']));
-        setTimeout(() => { hearts(3); refreshPetBars(); if(r.grew) grewUp(p); }, 700); refreshPetBars();
+        setExpr('joy', 1800); setTimeout(() => { hearts(3); refreshPetBars(); }, 700); refreshPetBars();
       }
-      function grewUp(p) { const st = stageOf(p.xp); setBubble(`我长大了！现在是「${STAGE_NAMES[st]}」`); refreshPetArt(); refreshPetBars(); petJump(); confetti(); petLog(`${p.name}长大了：${STAGE_NAMES[st]}`); savePet(); showToast(`${p.name}长大啦：${STAGE_NAMES[st]}`); }
+      function grewUp(p) { const st = stageOf(p); setBubble(`我长大了！现在是「${STAGE_NAMES[st]}」`); setExpr('joy', 2200); refreshPetBars(); petJump(); confetti(); petLog(`${p.name}长大了：${STAGE_NAMES[st]}`); savePet(); showToast(`${p.name}长大啦：${STAGE_NAMES[st]}`); }
       function doBuy(kind, itemId) {
         const r = buyItem(kind, itemId);
         if(r.error === 'coins') { showToast(`爪币不够，还差 ${r.price - pet.coins} 个`); bounce($('sheetCoinsBox'), .9, 500); return; }
         if(r.error === 'owned') return; if(r.error) { showToast(r.error === 'full' ? '这个囤得够多啦' : '买不了这个'); return; }
         renderCoin(true); showToast(`买到「${r.item.name}」`);
-        if(kind === 'wear') { setWear(itemId); refreshPetArt(); petJump(); hearts(4); setBubble('哇，新衣服！'); }
+        if(kind === 'wear') { setWear(itemId); refreshPetArt(); dressFx(); setBubble('哇，新衣服！'); }
         refreshPetBars(); renderSheet();
       }
-      function doWear(itemId) { if(setWear(itemId)) { refreshPetArt(); petJump(); const p = activePet(); if(p.wear[WEAR[itemId].slot] === itemId) hearts(3); renderSheet(); } }
+      const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4Z" fill="#FFD04A"/></svg>';
+      function dressFx() {
+        petWiggle(); setExpr('joy', 1500); if(REDUCE) return; const c = petCenter();
+        for(let i = 0; i < 7; i++) {
+          const a = i / 7 * Math.PI * 2 + rand(-.2, .2), R = c.w * rand(.26, .4), s = rand(14, 24), x = c.x + Math.cos(a) * R, y = c.y - c.h * .12 + Math.sin(a) * R * .8;
+          const el = sceneFxNode(STAR, `left:${x - s / 2}px;top:${y - s / 2}px;width:${s}px;height:${s}px;`); if(!el) return;
+          const an = anim(el, [{ transform: 'scale(0) rotate(0)', opacity: 0 }, { transform: 'scale(1.15) rotate(90deg)', opacity: 1, offset: .35 }, { transform: 'scale(.2) rotate(200deg)', opacity: 0 }], { duration: rand(700, 1000), delay: i * 70, easing: 'ease-out', fill: 'both' });
+          if(an) an.onfinish = () => el.remove(); else el.remove();
+        }
+      }
+      function doWear(itemId) { if(setWear(itemId)) { refreshPetArt(); const p = activePet(); if(p.wear[WEAR[itemId].slot] === itemId) dressFx(); else petJump(); renderSheet(); } }
       function doGift() {
         const g = claimGift(); if(!g) { showToast('宠物今天已经送过礼物啦'); return; }
         const b = $('giftBtn'); const r = b ? b.getBoundingClientRect() : null; payoutOrigin = r; deliverPayout();
@@ -2916,7 +2989,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if(sheetTab === 'food') {
           const fav = SPECIES[p.sp].fav;
           return Object.keys(FOODS).map(id => { const F = FOODS[id], n = pet.inv.food[id] || 0;
-            return shopRow(libIconSVG(F.icon), F.tint, F.ink, F.name, `饱腹 +${F.hunger} · 成长 +${F.xp}${fav.includes(id) ? '（×2）' : ''}`, `${n ? `<button type="button" class="chip use" data-pet="feed:${id}">喂 ×${n}</button>` : ''}${priceBtn('food', id, F.price)}`, fav.includes(id) ? '最爱' : ''); }).join('');
+            return shopRow(libIconSVG(F.icon), F.tint, F.ink, F.name, `饱腹 +${F.hunger} · 心情 +${F.mood}${fav.includes(id) ? '（最爱再 +8）' : ''}`, `${n ? `<button type="button" class="chip use" data-pet="feed:${id}">喂 ×${n}</button>` : ''}${priceBtn('food', id, F.price)}`, fav.includes(id) ? '最爱' : ''); }).join('');
         }
         if(sheetTab === 'toys') {
           return Object.keys(TOYS).map(id => { const T = TOYS[id], own = pet.inv.toys[id];
@@ -2939,6 +3012,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('petSheet').classList.add('open'); $('petSheet').setAttribute('aria-hidden', 'false'); $('sheetBackdrop').classList.add('open');
         const sc = $('petScene'); if(sc && sc.scrollIntoView) { const r = sc.getBoundingClientRect(); window.scrollBy({ top: r.top - 74, behavior: 'smooth' }); }
       }
+      function closeSheetSoft() { if(sheetOpen) closeSheet(); }
       function closeSheet() { if(!sheetOpen) return; sheetOpen = false; $('petSheet').classList.remove('open'); $('petSheet').setAttribute('aria-hidden', 'true'); $('sheetBackdrop').classList.remove('open'); }
       // ---- 改名 ----
       function openRename() { const p = activePet(); if(!p) return; $('petNameInput').value = p.name; $('nameBackdrop').classList.add('open'); }

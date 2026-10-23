@@ -1261,6 +1261,13 @@
     .hd .wk-bar { height: 9px; border-radius: 5px; background: #EEF2FB; overflow: hidden; } .hd .wk-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); } .hd .wk-row.off { opacity: .45; }
     body.hd-open { overflow: hidden; }
     @media (prefers-reduced-motion: reduce) { .hd, .hd.open, #page-stats .period-seg::before, #page-stats .hbar i { transition: none; } }
+    /* 2.1.2：选中的柱子才深色；去掉越出绘图区的阴影 */
+    #page-stats .tb.sel::after { display: none; }
+    #page-stats .tb.today:not(.sel) .tbar i { background: #A9C1FF; }
+    #page-stats .tb.sel .tv { color: var(--green); }
+    /* 首页卡片：去掉按钮后，文字块与右侧百分比环垂直居中 */
+    #heroTitle { min-height: 0 !important; }
+    .hero-copy { align-self: center; }
   </style>
 </head>
 <body class="boot">
@@ -1285,7 +1292,7 @@
         <section class="page active" id="page-today">
           <div class="welcome-row"><div><div class="eyebrow" id="todayEyebrow">星期五 · 10 月 16 日</div><h1>少一点，做到底。</h1><p class="subheading"></p></div><div class="date-chip" id="todayChip">2026 / 10 / 16</div></div>
           <section class="hero" aria-label="今日完成进度">
-            <div class="hero-copy"><div class="hero-label">YOUR DAILY PROGRESS</div><h2 id="heroTitle">今天，做一点。</h2><p id="heroSubtitle"></p><button class="hero-action" id="heroAction">继续 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+            <div class="hero-copy"><div class="hero-label">YOUR DAILY PROGRESS</div><h2 id="heroTitle">今天，做一点。</h2><p id="heroSubtitle"></p></div>
             <div class="progress-ring-wrap"><svg class="progress-ring" viewBox="0 0 110 110"><circle class="ring-bg" cx="55" cy="55" r="50"/><circle class="ring-value" id="progressCircle" cx="55" cy="55" r="50"/></svg><div class="ring-text"><div class="ring-number" id="progressPercent">0%</div><div class="ring-caption">今日完成</div></div></div>
           </section>
           <div class="today-pin">
@@ -1304,16 +1311,16 @@
           <div class="period-seg" id="periodSeg" role="tablist" aria-label="统计周期" style="--seg:0"><button type="button" role="tab" data-period="week" class="selected">周</button><button type="button" role="tab" data-period="month">月</button><button type="button" role="tab" data-period="year">年</button></div>
           <div class="pnav"><button type="button" id="pPrev" aria-label="上一段"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div class="pnav-mid"><b id="pLabel"></b><small id="pName"></small></div><button type="button" id="pNext" aria-label="下一段"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
           <div class="s-card ov"><div><div class="ov-label" id="ovLabel">本周完成率</div><div class="ov-pctrow"><div class="ov-pct" id="ovPct">0%</div><span class="delta hide" id="ovDelta"></span></div><div class="ov-count" id="ovCount"></div><div class="ov-range" id="ovRange"></div></div><svg class="ov-ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="42"/><circle id="ovRing" cx="50" cy="50" r="42"/></svg>
-            <div class="ov-stats"><div><small>全部完成的天数</small><div class="nv" id="stPerfect"></div></div><div><small>连续全部完成</small><div class="nv" id="stCur"></div></div><div><small>最长连续</small><div class="nv" id="stBest"></div></div></div><p class="ov-note">「全部完成」= 当天计划的习惯都打了卡。</p></div>
-          <div class="s-card"><h3 id="trendTitle">每日完成率</h3><p class="s-sub">每天完成了计划的百分之几。没有计划的日子显示「–」。点一天看详情。</p><div id="trendChart"></div><div id="dayDetail"></div></div>
-          <div class="s-card"><h3>各习惯</h3><p class="s-sub" id="habitSub"></p><div id="habitStats"></div></div>
-          <p class="stat-foot" id="statFoot"></p>
+            <div class="ov-stats"><div><small>全部完成的天数</small><div class="nv" id="stPerfect"></div></div><div><small>连续全部完成</small><div class="nv" id="stCur"></div></div><div><small>最长连续</small><div class="nv" id="stBest"></div></div></div></div>
+          <div class="s-card"><h3 id="trendTitle">每日完成率</h3><div id="trendChart"></div><div id="dayDetail"></div></div>
+          <div class="s-card"><h3>各习惯</h3><div id="habitStats"></div></div>
+          
         </section>
         <div class="hd" id="habitDetail" role="dialog" aria-modal="true" aria-label="习惯详情" aria-hidden="true"><div class="hd-top"><button type="button" id="hdBack" aria-label="返回"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><b id="hdTitle"></b><span></span></div><div id="hdBody"></div></div>
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 2.1.1 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 2.1.2 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1570,10 +1577,10 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         document.querySelector('.progress-ring-wrap').classList.toggle('calm',pct===0||pct===100);
         document.getElementById('progressCircle').style.strokeDashoffset=314.16*(1-pct/100);
         document.getElementById('habitCountLabel').textContent=tasks.length?(completed===tasks.length?`全部完成 · ${completed} / ${tasks.length}`:`已完成 ${completed} / ${tasks.length} 项`):(data.habits.length?'今天没有安排的习惯':'还没有习惯');
-        const heroTitle=document.getElementById('heroTitle'), heroSubtitle=document.getElementById('heroSubtitle'), heroAction=document.getElementById('heroAction');
-        if(tasks.length && completed===tasks.length){heroTitle.innerHTML='做得很好，<br/>今天都完成了。';heroSubtitle.textContent='给自己一点肯定。明天再继续，不必着急。';heroAction.innerHTML='看看今天的成果 '+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;}
-        else if(completed>0){heroTitle.innerHTML='继续保持，<br/>你已经迈出一步。';heroSubtitle.textContent=`今天完成了 ${completed} 项，剩下的慢慢来。`;heroAction.innerHTML='完成下一项 '+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;}
-        else {heroTitle.innerHTML='今天，做一点。';heroSubtitle.textContent='';heroAction.innerHTML='继续 '+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;}
+        const heroTitle=document.getElementById('heroTitle'), heroSubtitle=document.getElementById('heroSubtitle');
+        if(tasks.length && completed===tasks.length){heroTitle.innerHTML='做得很好，<br/>今天都完成了。';heroSubtitle.textContent='给自己一点肯定。明天再继续，不必着急。';}
+        else if(completed>0){heroTitle.innerHTML='继续保持，<br/>你已经迈出一步。';heroSubtitle.textContent=`今天完成了 ${completed} 项，剩下的慢慢来。`;}
+        else {heroTitle.innerHTML='今天，做一点。';heroSubtitle.textContent='';}
         const heroState=tasks.length&&completed===tasks.length?2:completed>0?1:0;
         if(lastHero!==null && lastHero!==heroState) anim(heroTitle,[{transform:'translateY(14px) scale(.95)',opacity:0},{transform:'none',opacity:1}],{duration:760,easing:SP('page')});
         lastHero=heroState;
@@ -1731,16 +1738,14 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const dl = $('ovDelta'); dl.className = 'delta ' + (delta == null ? 'hide' : delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat');
         dl.textContent = delta == null ? '' : delta === 0 ? `与${vs}持平` : `${delta > 0 ? '↑' : '↓'} ${Math.abs(delta)}% 比${vs}`;
         $('ovCount').innerHTML = t.planned ? `已完成 <b>${t.done}</b> / ${t.planned} 次计划` : '这段时间还没有计划';
-        $('ovRange').textContent = P.elapsed.length ? (P.elapsed.length === P.keys.length ? `共 ${P.keys.length} 天` : `已过 ${P.elapsed.length} 天，共 ${P.keys.length} 天（只统计已到期的计划）`) : '这段时间还没有开始';
+        $('ovRange').textContent = P.elapsed.length ? (P.elapsed.length === P.keys.length ? `共 ${P.keys.length} 天` : `已过 ${P.elapsed.length} 天，共 ${P.keys.length} 天`) : '这段时间还没有开始';
         $('ovRing').style.strokeDashoffset = String(263.9 * (1 - (t.pct || 0) / 100));
         const runs = perfectRuns();
         $('stPerfect').innerHTML = `<b>${t.perfect}</b><i>/ ${t.active} 天</i>`; $('stCur').innerHTML = `<b>${runs.cur}</b><i>天</i>`; $('stBest').innerHTML = `<b>${runs.best}</b><i>天</i>`;
         $('trendTitle').textContent = statMode === 'year' ? '每月完成率' : '每日完成率';
         $('trendChart').innerHTML = chartHTML(P);
         const sel = P.slots.find(s => s.k === statSel); $('dayDetail').innerHTML = P.mode === 'year' ? monthSummaryHTML(sel) : dayListHTML(statSel);
-        $('habitSub').textContent = `${P.name} · 点一个习惯，看它的日历和连续天数`;
         $('habitStats').innerHTML = habitRowsHTML(P);
-        $('statFoot').textContent = footnoteText(P, min);
         if(hdId) renderHD();
       }
       const daysBetween2 = (a, b) => Math.round((fromKey(b) - fromKey(a)) / 86400000);
@@ -2180,7 +2185,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'2.1.1',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
+        const payload={app:'Persist',version:'2.1.2',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2240,7 +2245,6 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const wd=e.target.closest('[data-weekday]');if(wd){const day=Number(wd.dataset.weekday);draftDays=draftDays.includes(day)?draftDays.filter(x=>x!==day):[...draftDays,day];renderRepeat();return;}
         const repeat=e.target.closest('[data-repeat]');if(repeat){draftRepeat=repeat.dataset.repeat;if(draftRepeat==='weekdays')draftDays=[1,2,3,4,5];if(draftRepeat==='daily')draftDays=[0,1,2,3,4,5,6];renderRepeat();return;}
       });
-      document.getElementById('heroAction').addEventListener('click',()=>{const first=scheduledHabits(todayKey).find(h=>!isDone(h,todayKey));if(first){toggleCheck(first.id);}else if(!data.habits.length){openEditor(null);}else if(!scheduledHabits(todayKey).length){showToast('今天没有安排的习惯，好好休息');}else{setDoneView(true);}});
       $('addHabitButton').addEventListener('click',()=>openEditor(null));
       function setDoneView(on) { flushLeave(); doneView = on; renderToday(); const l=$('habitList'); l.classList.remove('swap'); void l.offsetWidth; l.classList.add('swap'); setTimeout(()=>l.classList.remove('swap'),900); }
       $('doneViewBtn').addEventListener('click',()=>setDoneView(!doneView));

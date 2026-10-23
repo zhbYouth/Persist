@@ -3,6 +3,9 @@
 原名「日恒」。可用 Android Studio 打开的原生 Android 项目：主界面运行网页应用（`app/src/main/assets/index.html`），
 原生桌面小组件直接读取共享数据，可在桌面查看今日计划并点按打卡。
 
+## v2.1.1
+- 统计页和日历页的当天列表：未完成排在上面，已完成统一沉到底部。
+
 ## 下载安装
 推送到 main 后 GitHub Actions 会自动构建，并发布成 **Release**：打开仓库的 **Releases** 页，点最新一条里的 `Persist-x.y.z.apk` 即可下载（公开仓库无需登录，也不用解压）。
 

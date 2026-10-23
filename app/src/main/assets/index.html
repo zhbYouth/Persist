@@ -1310,6 +1310,28 @@
     body[data-view="pet"] .pet-chew { transform-box: fill-box; transform-origin: 50% 30%; animation: petChew .3s ease-in-out infinite; }
     @keyframes petChew { 0%, 100% { transform: scale(1, .55); } 50% { transform: scale(1.1, 1.15); } }
     @media (prefers-reduced-motion: reduce) { .pet-svg.walk, .pet-chew { animation: none !important; } }
+    /* v1.9：小屋 / 小镇 */
+    .pet-actions { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .pet-act:nth-child(4) .pa-ico { background: #DDF5E6; color: #25946A; }
+    .sheet-seg { grid-template-columns: repeat(4, 1fr); }
+    .sheet-seg::before { width: calc((100% - 6px) / 4); }
+    .home-card { padding: 14px; border-radius: 18px; background: #F3F7FF; border: 1px solid var(--line); margin-bottom: 6px; }
+    .home-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .home-top strong { font-size: 17px; letter-spacing: -.3px; } .home-top small { color: var(--muted); font-size: 12px; font-weight: 650; }
+    .home-card p { margin: 6px 0 10px; font-size: 13px; color: var(--muted); }
+    .home-max { font-style: normal; font-size: 13px; color: var(--muted); font-weight: 700; }
+    .chip.big { width: 100%; justify-content: center; padding: 11px 12px; }
+    .npcs { display: grid; gap: 10px; }
+    .npc { display: grid; grid-template-columns: 52px minmax(0,1fr) auto; gap: 11px; align-items: center; padding: 10px; border-radius: 18px; background: #F6F8FD; border: 1px solid var(--line); }
+    .npc-ava { width: 52px; height: 52px; border-radius: 16px; background: #fff; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(40,60,120,.08); }
+    .npc-ava svg { width: 46px; height: 46px; } .npc-ava.zz { filter: saturate(.6); opacity: .75; }
+    .npc-top { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; } .npc-top strong { font-size: 15px; } .npc-top span { font-size: 11.5px; color: var(--muted); } .npc-top em { font-style: normal; font-size: 11px; font-weight: 800; color: #2C62EE; background: #E4EDFF; padding: 1px 7px; border-radius: 9px; }
+    .npc-now { font-size: 12.5px; color: var(--ink); margin: 3px 0 6px; overflow-wrap: anywhere; }
+    .pbar.fr { height: 6px; } .pbar.fr > i { background: linear-gradient(90deg, #FF9DB4, #FF6F9F); }
+    .npc-say { margin: 7px 0 0; font-size: 12.5px; color: #4A5578; background: #fff; border-radius: 12px; padding: 6px 10px; overflow-wrap: anywhere; }
+    .npc-act { display: grid; gap: 6px; } .npc-act .chip[disabled] { opacity: .45; pointer-events: none; }
+    @media (max-width: 380px) { .pet-act b { font-size: 12px; } .npc { grid-template-columns: 44px minmax(0,1fr); } .npc-act { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; } .npc-ava { width: 44px; height: 44px; } .npc-ava svg { width: 38px; height: 38px; } }
+    .shop-ico svg.fz { width: 44px; height: 44px; }
 
 
     /* ===== v1.8.1：主页 ===== */
@@ -1448,7 +1470,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.8.3 · 养一只会陪你的小伙伴<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 1.9.0 · 养一只会陪你的小伙伴<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1466,7 +1488,7 @@
   <div id="petSheet" role="dialog" aria-modal="true" aria-label="宠物商店" aria-hidden="true">
     <div class="sheet-grab"></div>
     <div class="sheet-head"><h2>小店</h2><span class="sheet-coins" id="sheetCoinsBox"><svg class="coin-ico" style="width:22px;height:22px" viewBox="0 0 24 24" aria-hidden="true"><use href="#coinSym"/></svg><b id="sheetCoins">0</b></span></div>
-    <div class="sheet-seg" role="tablist"><button type="button" role="tab" data-pet="tab:food">粮食</button><button type="button" role="tab" data-pet="tab:toys">玩具</button><button type="button" role="tab" data-pet="tab:wear">服饰</button></div>
+    <div class="sheet-seg" role="tablist"><button type="button" role="tab" data-pet="tab:food">粮食</button><button type="button" role="tab" data-pet="tab:toys">玩具</button><button type="button" role="tab" data-pet="tab:wear">服饰</button><button type="button" role="tab" data-pet="tab:home">小屋</button></div>
     <div id="sheetBody"></div>
   </div>
   <div class="modal-backdrop" id="nameBackdrop" role="dialog" aria-modal="true" aria-labelledby="nameTitle"><div class="modal"><div class="modal-head"><h2 id="nameTitle">给它起个名字</h2></div><input id="petNameInput" class="text-input" type="text" maxlength="8" autocomplete="off" placeholder="最多 8 个字" /><div class="modal-footer"><button type="button" class="btn-secondary" id="cancelName">取消</button><button type="button" class="btn-primary" id="saveName">保存</button></div></div></div>
@@ -2226,7 +2248,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'1.8.3',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings,pet};
+        const payload={app:'Persist',version:'1.9.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings,pet};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2510,6 +2532,158 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         return `<svg class="pet-svg${o.sleeping ? ' asleep' : ''}${o.expr ? ' x-' + o.expr : ''}" viewBox="0 0 200 200" role="img" aria-label="${S.name}"><ellipse class="pet-shadow" cx="100" cy="182" rx="${46 * sc}" ry="6.5" fill="rgba(36,50,110,.16)"/><g transform="translate(100 182) scale(${sc}) translate(-100 -182)"><g class="pet-breath">${inner}</g></g></svg>`;
       }
 
+      // ================= v1.9：小屋（房子等级 + 家具）=================
+      const HOUSE_TIERS = [
+        { name: '小窝',     price: 0,    slots: 1, tip: '一张小床、一个饭碗，先住下来。' },
+        { name: '温馨木屋', price: 300,  slots: 2, tip: '木头地板和护墙板，多一个摆放位。' },
+        { name: '花园小屋', price: 900,  slots: 3, tip: '浅绿色的墙和窗帘，可以摆书架和鱼缸。' },
+        { name: '梦想别墅', price: 2200, slots: 4, tip: '大理石地面和吊灯，四个摆放位全开。' }
+      ];
+      const HOUSE_SLOTS = ['wall', 'floorA', 'shelf', 'floorB'];
+      const HOUSE_SLOT_NAMES = { wall: '墙面', floorA: '地面', shelf: '架子', floorB: '角落' };
+      const mixHex = (a, b, k) => { const g = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)); const x = g(a), y = g(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * k).toString(16).padStart(2, '0')).join(''); };
+      // 家具：svg 画在场景坐标（360×240）里；tn() 会按昼夜把颜色调暗
+      const FURN = {
+        frame:  { name: '风景画框', slot: 'wall',   price: 40,  comfort: 2, svg: tn => `<rect x="44" y="40" width="54" height="46" rx="4" fill="${tn('#C9945A')}"/><rect x="49" y="45" width="44" height="36" fill="${tn('#DDF0FF')}"/><path d="M49 74L61 62L70 70L80 58L93 72V81H49Z" fill="${tn('#7DBE8A')}"/><circle cx="82" cy="54" r="5" fill="${tn('#FFD66B')}"/>` },
+        clock:  { name: '挂钟',     slot: 'wall',   price: 70,  comfort: 3, svg: tn => `<circle cx="72" cy="62" r="24" fill="${tn('#D9A867')}"/><circle cx="72" cy="62" r="19.5" fill="${tn('#FFFDF7')}"/><g stroke="${tn('#5A4636')}" stroke-width="2.2" stroke-linecap="round"><path d="M72 62V48"/><path d="M72 62L83 68"/></g><circle cx="72" cy="62" r="2.4" fill="${tn('#E4545C')}"/>` },
+        lights: { name: '星星灯串', slot: 'wall',   price: 110, comfort: 4, svg: tn => `<path d="M6 32Q60 62 114 34T222 36" stroke="${tn('#7A6A5A')}" stroke-width="1.8" fill="none"/>${[[24, 44, '#FFD66B'], [48, 53, '#FF8FA6'], [74, 55, '#7FD1FF'], [100, 45, '#FFD66B'], [128, 40, '#B9A0FF'], [156, 45, '#FF8FA6'], [186, 47, '#7FD1FF']].map(([x, y, c]) => `<circle cx="${x}" cy="${y}" r="5" fill="${tn(c)}"/><circle cx="${x}" cy="${y}" r="9" fill="${c}" opacity=".18"/>`).join('')}` },
+        plant:  { name: '绿植',     slot: 'floorA', price: 60,  comfort: 3, svg: tn => `<ellipse cx="228" cy="207" rx="20" ry="4" fill="#000" opacity=".1"/><path d="M212 188H244L240 207H216Z" fill="${tn('#D9754A')}"/><g fill="${tn('#4FA865')}"><ellipse cx="220" cy="172" rx="8" ry="17" transform="rotate(-24 220 172)"/><ellipse cx="236" cy="170" rx="8" ry="18" transform="rotate(22 236 170)"/><ellipse cx="228" cy="164" rx="8" ry="19"/></g>` },
+        lamp:   { name: '落地灯',   slot: 'floorA', price: 90,  comfort: 4, svg: tn => `<ellipse cx="228" cy="207" rx="16" ry="3.6" fill="#000" opacity=".1"/><path d="M228 207V160" stroke="${tn('#8A7A6A')}" stroke-width="4" stroke-linecap="round"/><path d="M212 162L216 138H240L244 162Z" fill="${tn('#FFE7A8')}"/><ellipse cx="228" cy="170" rx="30" ry="22" fill="#FFE7A8" opacity=".18"/>` },
+        sofa:   { name: '小沙发',   slot: 'floorA', price: 220, comfort: 8, svg: tn => `<ellipse cx="232" cy="208" rx="40" ry="5" fill="#000" opacity=".1"/><rect x="196" y="168" width="72" height="36" rx="12" fill="${tn('#7C9BFF')}"/><rect x="190" y="182" width="18" height="24" rx="8" fill="${tn('#6483EE')}"/><rect x="256" y="182" width="18" height="24" rx="8" fill="${tn('#6483EE')}"/><rect x="206" y="186" width="52" height="18" rx="7" fill="${tn('#93AEFF')}"/><rect x="214" y="172" width="16" height="14" rx="5" fill="${tn('#FFB4C6')}"/>` },
+        books:  { name: '小书架',   slot: 'shelf',  price: 110, comfort: 4, svg: tn => `<rect x="120" y="96" width="92" height="6" rx="2" fill="${tn('#C9945A')}"/>${[[126, 74, 8, '#E4545C'], [135, 70, 7, '#4A86E8'], [143, 76, 9, '#F2B94B'], [153, 72, 7, '#5FB878'], [161, 77, 8, '#9B6CE0'], [172, 71, 9, '#E4545C'], [183, 75, 7, '#4A86E8'], [191, 72, 8, '#F2B94B']].map(([x, y, w, c]) => `<rect x="${x}" y="${y}" width="${w}" height="${96 - y}" rx="1.5" fill="${tn(c)}"/>`).join('')}` },
+        trophy: { name: '奖杯架',   slot: 'shelf',  price: 160, comfort: 5, svg: tn => `<rect x="120" y="96" width="92" height="6" rx="2" fill="${tn('#C9945A')}"/><path d="M146 66H170V78Q170 88 158 88Q146 88 146 78Z" fill="${tn('#F7C93E')}"/><rect x="154" y="88" width="8" height="8" fill="${tn('#E3AE20')}"/><path d="M146 70H138Q138 80 147 80M170 70H178Q178 80 169 80" stroke="${tn('#F7C93E')}" stroke-width="3" fill="none"/><circle cx="194" cy="86" r="9" fill="${tn('#E4545C')}"/><path d="M190 77L194 70L198 77" fill="${tn('#4A86E8')}"/>` },
+        tank:   { name: '小鱼缸',   slot: 'shelf',  price: 260, comfort: 8, svg: tn => `<rect x="124" y="60" width="84" height="38" rx="8" fill="${tn('#BDE6FF')}" opacity=".9"/><rect x="124" y="70" width="84" height="28" rx="6" fill="${tn('#7CC4F2')}" opacity=".75"/><ellipse cx="150" cy="82" rx="7" ry="4.5" fill="${tn('#FF9D4A')}"/><path d="M157 82L163 78V86Z" fill="${tn('#FF9D4A')}"/><ellipse cx="184" cy="88" rx="6" ry="4" fill="${tn('#FF8FA6')}"/><path d="M178 88L173 84V92Z" fill="${tn('#FF8FA6')}"/><circle cx="168" cy="74" r="2" fill="#fff" opacity=".7"/><circle cx="172" cy="68" r="1.4" fill="#fff" opacity=".7"/><rect x="120" y="98" width="92" height="6" rx="2" fill="${tn('#C9945A')}"/>` },
+        bigplant: { name: '大绿植', slot: 'floorB', price: 130, comfort: 5, svg: tn => `<ellipse cx="338" cy="207" rx="18" ry="4" fill="#000" opacity=".1"/><path d="M324 184H352L348 207H328Z" fill="${tn('#B7794E')}"/><g fill="${tn('#3F9E5E')}"><ellipse cx="330" cy="156" rx="9" ry="26" transform="rotate(-26 330 156)"/><ellipse cx="348" cy="154" rx="9" ry="27" transform="rotate(24 348 154)"/><ellipse cx="339" cy="144" rx="9" ry="30"/></g>` },
+        globe:  { name: '地球仪',   slot: 'floorB', price: 180, comfort: 6, svg: tn => `<ellipse cx="338" cy="207" rx="14" ry="3.4" fill="#000" opacity=".1"/><path d="M338 207V190M326 207H350" stroke="${tn('#8A6A4A')}" stroke-width="4" stroke-linecap="round"/><circle cx="338" cy="172" r="19" fill="${tn('#5BA9F0')}"/><path d="M328 166Q334 158 340 164Q344 170 337 176Q330 178 328 166Z M342 178Q349 176 350 184Q346 190 342 184Z" fill="${tn('#7DCB86')}"/>` },
+        tree:   { name: '彩灯小树', slot: 'floorB', price: 200, comfort: 6, svg: tn => `<ellipse cx="338" cy="207" rx="16" ry="3.6" fill="#000" opacity=".1"/><rect x="334" y="192" width="8" height="15" fill="${tn('#8A5A3A')}"/><path d="M338 118L358 158H318Z M338 140L362 178H314Z M338 164L366 196H310Z" fill="${tn('#3F9E5E')}"/><circle cx="338" cy="118" r="5" fill="${tn('#FFD66B')}"/>${[[332, 150, '#FF8FA6'], [346, 168, '#7FD1FF'], [326, 180, '#FFD66B'], [350, 186, '#FF8FA6'], [338, 176, '#B9A0FF']].map(([x, y, c]) => `<circle cx="${x}" cy="${y}" r="3.4" fill="${tn(c)}"/>`).join('')}` }
+      };
+      const FURN_ORDER = Object.keys(FURN);
+      function houseOf(P) { P = P || pet; return P.house; }
+      function houseTier() { return Math.max(0, Math.min(3, pet.house.tier | 0)); }
+      function slotsOpen() { return HOUSE_TIERS[houseTier()].slots; }
+      function placedFurn() { return HOUSE_SLOTS.slice(0, slotsOpen()).map(sl => pet.house.furn[sl]).filter(id => id && FURN[id]); }
+      function comfortOf() { return houseTier() * 5 + placedFurn().reduce((a, id) => a + FURN[id].comfort, 0); }
+      function giftBonus() { return Math.floor(comfortOf() / 5); }
+      function upgradeHouse() {
+        const t = houseTier(); if(t >= 3) return { error: 'max' };
+        const price = HOUSE_TIERS[t + 1].price; if(pet.coins < price) return { error: 'coins', price };
+        pet.coins -= price; pet.house.tier = t + 1; petLog(`小屋升级为「${HOUSE_TIERS[t + 1].name}」`); savePet(); return { ok: true, tier: t + 1 };
+      }
+      function buyFurn(id) {
+        if(!has2(FURN, id)) return { error: 'bad' }; if(pet.house.own[id]) return { error: 'owned' };
+        const F = FURN[id]; if(pet.coins < F.price) return { error: 'coins', price: F.price };
+        pet.coins -= F.price; pet.house.own[id] = true; petLog(`买了家具「${F.name}」`);
+        if(HOUSE_SLOTS.indexOf(F.slot) < slotsOpen() && !pet.house.furn[F.slot]) pet.house.furn[F.slot] = id;
+        savePet(); return { ok: true, item: F };
+      }
+      function placeFurn(id) {
+        if(!has2(FURN, id) || !pet.house.own[id]) return false; const sl = FURN[id].slot;
+        if(HOUSE_SLOTS.indexOf(sl) >= slotsOpen()) return false;
+        if(pet.house.furn[sl] === id) delete pet.house.furn[sl]; else pet.house.furn[sl] = id; savePet(); return true;
+      }
+      function normalizeHouse(raw) {
+        const h = { tier: 0, furn: {}, own: {} }; if(!raw || typeof raw !== 'object') return h;
+        const t = Math.floor(Number(raw.tier)); h.tier = Number.isFinite(t) ? Math.max(0, Math.min(3, t)) : 0;
+        if(raw.own && typeof raw.own === 'object') FURN_ORDER.forEach(k => { if(raw.own[k] === true) h.own[k] = true; });
+        if(raw.furn && typeof raw.furn === 'object') HOUSE_SLOTS.forEach(sl => { const id = raw.furn[sl]; if(typeof id === 'string' && Object.prototype.hasOwnProperty.call(FURN, id) && FURN[id].slot === sl && h.own[id]) h.furn[sl] = id; });
+        return h;
+      }
+      // ---- 画面：按房子等级换墙面/地板，再叠上装饰和家具 ----
+      function houseLayers(C, t) {
+        const tier = houseTier(), k = t === 'night' ? .5 : t === 'dusk' ? .1 : 0, tn = c => k ? mixHex(c, '#2B3665', k) : c;
+        const PAL = [null,
+          { w1: '#FFEFD6', w2: '#FFF8EA', f1: '#D8A468', f2: '#C58F52', base: '#E6C79B', rug: '#F2B8A8', rug2: '#F8D2C6' },
+          { w1: '#E1F2E0', w2: '#F2FAEE', f1: '#E8D3A8', f2: '#D9BE8A', base: '#BFD8B8', rug: '#BFE0C8', rug2: '#D6EEDC' },
+          { w1: '#ECE4FF', w2: '#F8F4FF', f1: '#F3EEF8', f2: '#E0D8EE', base: '#CFC3E8', rug: '#D7C8F6', rug2: '#E7DDFB' }][tier];
+        if(PAL) Object.keys(PAL).forEach(key => { C[key] = k ? mixHex(PAL[key], '#2B3665', t === 'night' ? .55 : .12) : PAL[key]; });
+        let deco = '', curtain = '';
+        if(tier >= 1) deco += `<rect y="130" width="360" height="38" fill="${tn(tier === 2 ? '#FFFFFF' : tier === 3 ? '#F7F2FF' : '#E7C490')}" opacity="${tier === 1 ? .9 : .85}"/><g stroke="${tn(tier === 2 ? '#BFD8B8' : tier === 3 ? '#D7CBEF' : '#CFA46B')}" stroke-width="2">${Array.from({ length: 13 }, (_, i) => `<path d="M${14 + i * 28} 132V166"/>`).join('')}</g><rect y="128" width="360" height="4" fill="${tn(tier === 3 ? '#E8C766' : tier === 2 ? '#9CC79A' : '#C79556')}"/>`;
+        if(tier === 1) deco += `<path d="M0 20Q45 40 90 20T180 20T270 20T360 20" stroke="${tn('#B98544')}" stroke-width="2" fill="none"/>${[[22, '#FF8FA6'], [66, '#FFD66B'], [112, '#7FD1FF'], [158, '#7DCB86'], [204, '#FF8FA6'], [250, '#FFD66B'], [296, '#7FD1FF'], [340, '#7DCB86']].map(([x, c]) => `<path d="M${x - 7} 27L${x + 7} 27L${x} 42Z" fill="${tn(c)}"/>`).join('')}`;
+        if(tier >= 2) curtain = `<path d="M230 22H250Q246 66 252 112H226Z" fill="${tn(tier === 3 ? '#C9B3F2' : '#9CC79A')}"/><path d="M328 22H308Q312 66 306 112H332Z" fill="${tn(tier === 3 ? '#C9B3F2' : '#9CC79A')}"/><rect x="222" y="18" width="116" height="6" rx="3" fill="${tn(tier === 3 ? '#E8C766' : '#8A6A4A')}"/>`;
+        if(tier === 2) deco += `<path d="M20 0V24M44 0V34M68 0V20" stroke="${tn('#6FAF72')}" stroke-width="2"/><g fill="${tn('#5FB878')}"><ellipse cx="20" cy="30" rx="8" ry="6"/><ellipse cx="44" cy="40" rx="9" ry="6.5"/><ellipse cx="68" cy="26" rx="8" ry="6"/></g>`;
+        if(tier === 3) deco += `<rect y="0" width="360" height="6" fill="${tn('#E8C766')}"/><path d="M180 0V20" stroke="${tn('#C9A23E')}" stroke-width="2"/><path d="M158 44H202L194 28H166Z" fill="${tn('#E8C766')}"/><g fill="${tn('#FFF1B8')}"><circle cx="166" cy="46" r="3.5"/><circle cx="180" cy="48" r="3.5"/><circle cx="194" cy="46" r="3.5"/></g><ellipse cx="180" cy="40" rx="46" ry="26" fill="#FFF1B8" opacity="${t === 'night' ? .22 : .1}"/><g opacity=".18" stroke="#fff" stroke-width="1.5"><path d="M0 192H360M0 212H360M90 172V192M250 172V192M40 192V212M180 192V212M320 192V212"/></g>`;
+        const F = pet.house.furn, fv = id => id && FURN[id] ? FURN[id].svg(tn) : '';
+        const wallId = F.wall && HOUSE_SLOTS.indexOf('wall') < slotsOpen() ? F.wall : null;
+        const wall = wallId ? fv(wallId) : `<path d="M40 40q10-10 20 0t20 0" stroke="${C.base}" stroke-width="3" fill="none" stroke-linecap="round"/><g fill="${C.base}"><rect x="40" y="52" width="40" height="30" rx="5" opacity=".7"/></g><circle cx="60" cy="67" r="8" fill="#fff" opacity=".75"/>`;
+        const open = sl => HOUSE_SLOTS.indexOf(sl) < slotsOpen() ? fv(F[sl]) : '';
+        return { deco, curtain, wall, front: open('shelf') + open('floorA') + open('floorB') };
+      }
+
+      // ================= v1.9：小镇邻居 =================
+      // 每个邻居有自己的作息（按钟点）；拜访每天每位一次，送礼也是；好感度到阶段有奖励。
+      const NPCS = {
+        bun:   { name: '糯米', kind: 'rabbit',   fur: '#FFFFFF', acc: '#FF9DB4', role: '面包店老板', fav: 'cookie',    home: '街角面包店',
+                 plan: [[5, '在揉面团', '面包店'], [9, '在柜台招呼客人', '面包店'], [13, '在后院晒太阳', '后院'], [16, '在烤明天的面包', '面包店'], [20, '在家数零钱', '家里'], [23, '睡着了', '家里']],
+                 says: ['今天的面包刚出炉，香吧？', '你养的小家伙又长大了一点呢。', '做一件小事，也是一份面包的热气。'] },
+        owl:   { name: '老猫头', kind: 'owl',     fur: '#B98A5E', acc: '#F2C14E', role: '图书管理员', fav: 'nut',       home: '树洞图书馆',
+                 plan: [[6, '还在补觉', '家里'], [11, '在整理书架', '图书馆'], [15, '在窗边读书', '图书馆'], [19, '在泡茶', '图书馆'], [22, '在夜里看星星', '山坡'], [4, '在夜里看星星', '山坡']],
+                 says: ['慢慢读，书不会跑。', '坚持这件事，比聪明更重要。', '嘘……我在数星星。'] },
+        deer:  { name: '小鹿', kind: 'deer',     fur: '#D9A66B', acc: '#7DCB86', role: '花园园丁', fav: 'sprout',    home: '花园',
+                 plan: [[6, '在给花浇水', '花园'], [10, '在修剪树枝', '花园'], [13, '在树荫下午休', '花园'], [15, '在挑种子', '花园'], [18, '在收工回家', '路上'], [22, '睡着了', '家里']],
+                 says: ['每天一点点，花就开了。', '你的习惯也像种子呢。', '今天的太阳刚刚好。'] },
+        peng:  { name: '企鹅邮差', kind: 'penguin', fur: '#3E4A63', acc: '#FF9F43', role: '邮差', fav: 'fish',      home: '小镇邮局',
+                 plan: [[7, '在分拣信件', '邮局'], [9, '在小镇里送信', '路上'], [12, '在喝汤吃饭', '邮局'], [14, '在送包裹', '路上'], [18, '在邮局打烊', '邮局'], [21, '睡着了', '家里']],
+                 says: ['有你的信！……开玩笑的。', '每天走一圈，路就熟了。', '送信最怕下雨，不过我喜欢。'] },
+        hedge: { name: '刺球', kind: 'hedgehog', fur: '#A9825E', acc: '#6C8CFF', role: '画家',     fav: 'cake',      home: '山坡画室',
+                 plan: [[8, '在晨光里写生', '公园'], [11, '在调颜料', '画室'], [14, '在画一幅宠物肖像', '画室'], [17, '在看晚霞', '山坡'], [20, '在洗画笔', '画室'], [23, '睡着了', '家里']],
+                 says: ['我想把今天画下来。', '你的小家伙很上镜哦。', '颜色是有心情的。'] },
+        fox:   { name: '橘子', kind: 'fox',      fur: '#F08A3C', acc: '#FFFFFF', role: '旅行家',   fav: 'drumstick', home: '山脚帐篷',
+                 plan: [[7, '在收拾背包', '帐篷'], [9, '在山路上赶路', '山上'], [14, '在山顶看风景', '山上'], [17, '在回来的路上', '路上'], [19, '在讲旅行故事', '广场'], [22, '睡着了', '帐篷']],
+                 says: ['山那边有好多没见过的东西。', '走一步，是一步。', '给你讲个故事……'] }
+      };
+      const NPC_ORDER = Object.keys(NPCS);
+      const FRIEND_LV = [[0, '陌生', 0], [3, '熟人', 20], [8, '朋友', 40], [16, '好友', 80], [30, '知己', 150]];   // [好感度, 名称, 升级奖励爪币]
+      function friendLevel(pts) { let l = 0; FRIEND_LV.forEach(([n], i) => { if(pts >= n) l = i; }); return l; }
+      function npcNow(id, hour) {
+        const h = hour == null ? new Date().getHours() : hour, plan = NPCS[id].plan.slice().sort((a, b) => a[0] - b[0]);
+        let cur = plan[plan.length - 1]; plan.forEach(s => { if(h >= s[0]) cur = s; });   // 比最早一段还早，就还在上一晚的那一段
+        return { text: cur[1], place: cur[2], asleep: /睡着|补觉/.test(cur[1]) };
+      }
+      function normalizeTown(raw) {
+        const t = { fr: {}, v: {}, g: {}, lv: {} }; if(!raw || typeof raw !== 'object') return t;
+        const vk = k => typeof k === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(k);
+        NPC_ORDER.forEach(id => {
+          const n = Math.floor(Number(raw.fr && raw.fr[id])); if(Number.isFinite(n) && n > 0) t.fr[id] = Math.min(9999, n);
+          if(raw.v && vk(raw.v[id])) t.v[id] = raw.v[id]; if(raw.g && vk(raw.g[id])) t.g[id] = raw.g[id];
+        });
+        if(raw.lv && typeof raw.lv === 'object') Object.keys(raw.lv).slice(0, 60).forEach(k => { if(/^[a-z]{2,8}:\d$/.test(k) && raw.lv[k]) t.lv[k] = 1; });
+        return t;
+      }
+      function npcArt(id) {
+        const N = NPCS[id], f = N.fur, a = N.acc; let back = '', ears = '', face = '', extra = '';
+        const eye = (x, y) => `<circle cx="${x}" cy="${y}" r="3.6" fill="#2A2C33"/><circle cx="${x - 1}" cy="${y - 1.2}" r="1.2" fill="#fff"/>`;
+        let eyes = eye(33, 44) + eye(57, 44), nose = `<ellipse cx="45" cy="53" rx="3.4" ry="2.6" fill="#2A2C33"/>`, mouth = `<path d="M40 58Q45 62 50 58" stroke="#2A2C33" stroke-width="2" fill="none" stroke-linecap="round"/>`, belly = '';
+        if(N.kind === 'rabbit') ears = `<ellipse cx="32" cy="14" rx="7" ry="17" fill="${f}" stroke="#E7ECF5" stroke-width="1.5"/><ellipse cx="58" cy="14" rx="7" ry="17" fill="${f}" stroke="#E7ECF5" stroke-width="1.5"/><ellipse cx="32" cy="16" rx="3.4" ry="11" fill="${a}"/><ellipse cx="58" cy="16" rx="3.4" ry="11" fill="${a}"/>`;
+        else if(N.kind === 'owl') { ears = `<path d="M24 28L28 8L40 22Z M66 28L62 8L50 22Z" fill="${f}"/>`; eyes = `<circle cx="33" cy="44" r="9" fill="#fff"/><circle cx="57" cy="44" r="9" fill="#fff"/><circle cx="33" cy="44" r="4.6" fill="#2A2C33"/><circle cx="57" cy="44" r="4.6" fill="#2A2C33"/>`; nose = `<path d="M40 52L45 60L50 52Z" fill="${a}"/>`; mouth = ''; }
+        else if(N.kind === 'deer') { ears = `<ellipse cx="22" cy="30" rx="9" ry="6" fill="${f}" transform="rotate(-25 22 30)"/><ellipse cx="68" cy="30" rx="9" ry="6" fill="${f}" transform="rotate(25 68 30)"/><path d="M34 22L30 6M30 12L24 10M56 22L60 6M60 12L66 10" stroke="#8A6A4A" stroke-width="3" stroke-linecap="round" fill="none"/>`; extra = `<circle cx="36" cy="30" r="2" fill="#fff" opacity=".8"/><circle cx="52" cy="28" r="2" fill="#fff" opacity=".8"/>`; nose = `<ellipse cx="45" cy="53" rx="3.6" ry="2.8" fill="#6B4A3A"/>`; }
+        else if(N.kind === 'penguin') { ears = ''; belly = `<ellipse cx="45" cy="52" rx="24" ry="22" fill="#fff"/>`; nose = `<path d="M39 50Q45 46 51 50Q45 58 39 50Z" fill="${a}"/>`; mouth = ''; extra = `<path d="M24 34Q45 20 66 34" stroke="${a}" stroke-width="4" fill="none" stroke-linecap="round"/>`; }
+        else if(N.kind === 'hedgehog') { back = Array.from({ length: 11 }, (_, i) => { const t = -Math.PI * .95 + i * (Math.PI * .9 / 10); return `<path d="M${45 + 33 * Math.cos(t)} ${48 + 33 * Math.sin(t)}L${45 + 46 * Math.cos(t)} ${48 + 46 * Math.sin(t)}" stroke="#6B5038" stroke-width="5" stroke-linecap="round"/>`; }).join(''); ears = `<circle cx="24" cy="32" r="6" fill="${f}"/><circle cx="66" cy="32" r="6" fill="${f}"/>`; belly = `<ellipse cx="45" cy="54" rx="20" ry="17" fill="#F4E3CB"/>`; extra = `<path d="M26 22Q45 12 64 22" stroke="${a}" stroke-width="5" fill="none" stroke-linecap="round"/>`; }
+        else if(N.kind === 'fox') { ears = `<path d="M22 36L26 8L42 26Z M68 36L64 8L48 26Z" fill="${f}"/><path d="M27 28L28 16L36 25Z M63 28L62 16L54 25Z" fill="#3E2A1E"/>`; belly = `<path d="M18 52Q45 74 72 52Q70 70 45 74Q20 70 18 52Z" fill="#fff"/>`; nose = `<ellipse cx="45" cy="52" rx="3.4" ry="2.6" fill="#2A2C33"/>`; }
+        return `<svg viewBox="0 0 90 90" aria-hidden="true">${back}${ears}<circle cx="45" cy="48" r="29" fill="${f}"/>${belly}${extra}<circle cx="27" cy="54" r="5" fill="#FF8FA6" opacity=".4"/><circle cx="63" cy="54" r="5" fill="#FF8FA6" opacity=".4"/>${eyes}${nose}${mouth}</svg>`;
+      }
+      // 拜访：每位每天一次，好感 +1，偶尔得小礼物；送礼：每位每天一次，拿一份背包里的食物，最爱 +3，否则 +1
+      function visitNpc(id) {
+        if(!has2(NPCS, id)) return { error: 'bad' }; const st = npcNow(id); if(st.asleep) return { error: 'asleep' };
+        if(pet.town.v[id] === todayKey) return { error: 'done' };
+        pet.town.v[id] = todayKey; const r = addFriend(id, 1); const N = NPCS[id], line = N.says[Math.floor(Math.random() * N.says.length)];
+        let coins = 0; if(Math.random() < .4) { coins = 2 + Math.floor(Math.random() * 5); addCoins(coins, `${N.name}塞给你的小零花`); }
+        petLog(`拜访了${N.name}`); savePet(); return { ok: true, line, coins, up: r.up };
+      }
+      function giftNpc(id) {
+        if(!has2(NPCS, id)) return { error: 'bad' }; const st = npcNow(id); if(st.asleep) return { error: 'asleep' };
+        if(pet.town.g[id] === todayKey) return { error: 'done' };
+        const N = NPCS[id], own = Object.keys(pet.inv.food).filter(k => pet.inv.food[k] > 0 && FOODS[k]); if(!own.length) return { error: 'nofood' };
+        const fid = own.includes(N.fav) ? N.fav : own.sort((a, b) => FOODS[a].price - FOODS[b].price)[0];
+        pet.inv.food[fid]--; if(!pet.inv.food[fid]) delete pet.inv.food[fid];
+        pet.town.g[id] = todayKey; const loved = fid === N.fav, r = addFriend(id, loved ? 3 : 1);
+        petLog(`送了${N.name}一份${FOODS[fid].name}`); savePet(); return { ok: true, food: FOODS[fid], loved, up: r.up };
+      }
+      function addFriend(id, n) {
+        const before = friendLevel(pet.town.fr[id] || 0); pet.town.fr[id] = Math.min(9999, (pet.town.fr[id] || 0) + n); const after = friendLevel(pet.town.fr[id]); let up = null;
+        for(let l = before + 1; l <= after; l++) { const key = id + ':' + l; if(!pet.town.lv[key]) { pet.town.lv[key] = 1; addCoins(FRIEND_LV[l][2], `和${NPCS[id].name}成为${FRIEND_LV[l][1]}`, true); up = FRIEND_LV[l][1]; } }
+        return { up };
+      }
+
       // ================= v1.8：宠物系统 · 数据与规则 =================
       // 设计参考（取其所长，去其所短）：Finch（把「完成目标」换成宠物的成长与装扮）、Neko Atsume（没有失败状态、不惩罚、
       // 来访与小礼物让人愿意回来看看）、Habitica（食物 / 装备 / 里程碑）、动物森友会（有自己生活的邻居，v1.9）。
@@ -2543,7 +2717,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       const BOND_MS   = [[7, 30], [30, 100], [100, 300], [365, 800]];                                               // 与宠物相伴的天数
       const REWARD_HABIT = 10, REWARD_PERFECT = 15, WELCOME_COINS = 100;
       const HUNGER_RATE = 2.2, MOOD_RATE = 1.5, HUNGER_FLOOR = 15, MOOD_FLOOR = 20;
-      function defaultPet() { return { v: 1, coins: 0, earned: 0, init: false, bondSince: '', pets: [], active: null, inv: { food: {}, toys: {}, wear: {} }, paid: {}, ms: {}, log: [], gift: { d: '', got: false }, daily: { d: '', pats: 0, feeds: 0, plays: 0 } }; }
+      function defaultPet() { return { house: { tier: 0, furn: {}, own: {} }, town: { fr: {}, v: {}, g: {}, lv: {} }, v: 1, coins: 0, earned: 0, init: false, bondSince: '', pets: [], active: null, inv: { food: {}, toys: {}, wear: {} }, paid: {}, ms: {}, log: [], gift: { d: '', got: false }, daily: { d: '', pats: 0, feeds: 0, plays: 0 } }; }
       function cleanPetName(s) { return typeof s === 'string' ? s.replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 8) : ''; }
       function normalizePet(raw) {
         const p = defaultPet(); if(!raw || typeof raw !== 'object' || Array.isArray(raw)) return p;
@@ -2559,6 +2733,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           const wear = {}; if(x.wear && typeof x.wear === 'object') WEAR_SLOTS.forEach(sl => { const w = x.wear[sl]; if(typeof w === 'string' && has(WEAR, w) && WEAR[w].slot === sl) wear[sl] = w; });
           p.pets.push({ id: pid, sp: x.sp, name: cleanPetName(x.name) || SPECIES[x.sp].first, xp: Math.floor(num(x.xp, 0, 1e6, 0)), hunger: num(x.hunger, 0, 100, 70), mood: num(x.mood, 0, 100, 70), t: Math.floor(num(x.t, 0, nowMs, nowMs)), wear, born: validDateKey(x.born) ? x.born : todayKey, seen: Math.floor(num(x.seen, -1, 4, -1)) });
         });
+        p.house = normalizeHouse(raw.house); p.town = normalizeTown(raw.town);
         p.active = p.pets.some(q => q.id === raw.active) ? raw.active : (p.pets[0] ? p.pets[0].id : null);
         const inv = raw.inv && typeof raw.inv === 'object' ? raw.inv : {};
         if(inv.food && typeof inv.food === 'object') Object.keys(FOODS).forEach(k => { const n = Math.floor(num(inv.food[k], 0, 999, 0)); if(n) p.inv.food[k] = n; });
@@ -2682,7 +2857,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       function claimGift() {
         const p = activePet(); if(!p || pet.gift.d === todayKey) return null;
         const v = vitals(p); if(v.hunger < 50 || v.mood < 50) return null;
-        const coins = 8 + Math.floor(Math.random() * 13); let food = null;
+        const coins = 8 + Math.floor(Math.random() * 13) + giftBonus(); let food = null;
         if(Math.random() < .3) { const ks = Object.keys(FOODS).filter(k => FOODS[k].price <= 14); food = ks[Math.floor(Math.random() * ks.length)]; pet.inv.food[food] = Math.min(99, (pet.inv.food[food] || 0) + 1); }
         pet.gift = { d: todayKey, got: true }; addCoins(coins, `${p.name}送你的礼物`); petLog(`${p.name}送来礼物：${coins} 爪币${food ? '和' + FOODS[food].name : ''}`); savePet();
         return { coins, food };
@@ -2758,17 +2933,19 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const C = { day: { w1: '#D9E7FF', w2: '#EEF4FF', f1: '#F4DAB4', f2: '#E8C697', sky1: '#8FCBFF', sky2: '#DDF0FF', rug: '#C7D7FF', rug2: '#DCE6FF', base: '#C9D6EE' },
                     dusk: { w1: '#FFD9C6', w2: '#FFEEE2', f1: '#EBC6A4', f2: '#DDAE88', sky1: '#FF9A74', sky2: '#FFD9A6', rug: '#F5C0B4', rug2: '#FAD6CC', base: '#E8C3B3' },
                     night: { w1: '#2B3665', w2: '#3A4780', f1: '#4B466E', f2: '#3E3A5E', sky1: '#131A44', sky2: '#27316C', rug: '#53609E', rug2: '#6573B2', base: '#3C4778' } }[t];
-        const v = vitals(p), food = v.hunger > 62 ? 2 : v.hunger > 36 ? 1 : 0;
+        const v = vitals(p), food = v.hunger > 62 ? 2 : v.hunger > 36 ? 1 : 0, HZ = houseLayers(C, t);
         const sky = t === 'night' ? '<circle cx="283" cy="56" r="13" fill="#FFF3C4"/><circle cx="289" cy="52" r="11" fill="#27316C"/><circle cx="252" cy="48" r="1.6" fill="#fff"/><circle cx="300" cy="86" r="1.4" fill="#fff"/><circle cx="262" cy="90" r="1.2" fill="#fff"/>'
           : t === 'dusk' ? '<circle cx="262" cy="92" r="16" fill="#FFE9A8"/><ellipse cx="300" cy="62" rx="20" ry="7" fill="#fff" opacity=".7"/>'
           : '<circle cx="296" cy="52" r="14" fill="#FFE27A"/><ellipse cx="256" cy="70" rx="22" ry="8" fill="#fff"/><ellipse cx="268" cy="64" rx="13" ry="7" fill="#fff"/>';
         return `<svg class="scene-bg" viewBox="0 0 360 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${C.w1}"/><stop offset="1" stop-color="${C.w2}"/></linearGradient><linearGradient id="sf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${C.f1}"/><stop offset="1" stop-color="${C.f2}"/></linearGradient><linearGradient id="ss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${C.sky1}"/><stop offset="1" stop-color="${C.sky2}"/></linearGradient><clipPath id="wc"><rect x="236" y="30" width="86" height="76" rx="10"/></clipPath></defs>
           <rect width="360" height="170" fill="url(#sw)"/><rect y="166" width="360" height="8" fill="${C.base}"/><rect y="172" width="360" height="68" fill="url(#sf)"/>
+          ${HZ.deco}
           <g stroke="#000" stroke-opacity=".06" stroke-width="2"><path d="M0 192H360M0 212H360M0 232H360M90 172V192M250 172V192M40 192V212M180 192V212M320 192V212M110 212V232M260 212V232"/></g>
           <rect x="230" y="24" width="98" height="88" rx="14" fill="#fff" opacity=".95"/><g clip-path="url(#wc)"><rect x="236" y="30" width="86" height="76" fill="url(#ss)"/>${sky}</g><path d="M279 30V106M236 68H322" stroke="#fff" stroke-width="5"/>
-          <rect x="226" y="108" width="106" height="9" rx="4.5" fill="#fff"/>
-          <path d="M40 40q10-10 20 0t20 0" stroke="${C.base}" stroke-width="3" fill="none" stroke-linecap="round"/><g fill="${C.base}"><rect x="40" y="52" width="40" height="30" rx="5" opacity=".7"/></g><circle cx="60" cy="67" r="8" fill="#fff" opacity=".75"/>
+          <rect x="226" y="108" width="106" height="9" rx="4.5" fill="#fff"/>${HZ.curtain}
+          ${HZ.wall}
           <ellipse cx="180" cy="214" rx="104" ry="17" fill="${C.rug}"/><ellipse cx="180" cy="214" rx="82" ry="12" fill="${C.rug2}"/>
+          ${HZ.front}
           <g><path d="M26 206V176L46 168H98L110 176V206Z" fill="#D9A867"/><path d="M26 176L46 168H98L110 176Z" fill="#E8BE80"/><rect x="26" y="176" width="84" height="30" fill="#D9A867"/><path d="M42 186H94" stroke="#B98544" stroke-width="2.4" stroke-linecap="round" opacity=".7"/><path d="M34 196H102" stroke="#B98544" stroke-width="2" stroke-linecap="round" opacity=".35"/></g>
           <g><ellipse cx="296" cy="219" rx="26" ry="7" fill="#000" opacity=".1"/><path d="M272 206H320Q318 222 296 222Q274 222 272 206Z" fill="#E85D75"/><ellipse cx="296" cy="206" rx="24" ry="5.5" fill="#F58AA0"/>${food ? `<g fill="#B97B3F"><circle cx="286" cy="203" r="4"/><circle cx="296" cy="201" r="4.5"/><circle cx="306" cy="203" r="4"/>${food > 1 ? '<circle cx="291" cy="197" r="4"/><circle cx="301" cy="197" r="4"/>' : ''}</g>` : ''}</g></svg>`;
       }
@@ -2777,7 +2954,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       const stageLine = p => `${SPECIES[p.sp].name} · ${STAGE_NAMES[stageOf(p)]} · 第 ${ageOf(p) + 1} 天`;
       function sceneHTML(p) {
         return `<div class="pet-scene" id="petScene" data-tod="${timeOfDay()}">${sceneSVG(p)}<div class="pet-host" id="petHost" data-pet="pat" role="button" tabindex="0" aria-label="摸摸${escapeHTML(p.name)}">${petArt(petOpts(p))}</div><div class="pet-bubble" id="petBubble"></div><button type="button" class="gift-btn" id="giftBtn" data-pet="gift" aria-label="领取礼物" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${libSvg('gift')}</svg></button><div class="scene-fx" id="sceneFx"></div></div>
-          <div class="pet-actions"><button type="button" class="pet-act" data-pet="sheet:food"><span class="pa-ico">${libIconSVG('utensils')}</span><b>喂食</b><i id="foodBadge"></i></button><button type="button" class="pet-act" data-pet="sheet:toys"><span class="pa-ico">${libIconSVG('toy-brick')}</span><b>玩耍</b></button><button type="button" class="pet-act" data-pet="sheet:wear"><span class="pa-ico">${libIconSVG('shirt')}</span><b>衣橱</b></button></div>`;
+          <div class="pet-actions"><button type="button" class="pet-act" data-pet="sheet:food"><span class="pa-ico">${libIconSVG('utensils')}</span><b>喂食</b><i id="foodBadge"></i></button><button type="button" class="pet-act" data-pet="sheet:toys"><span class="pa-ico">${libIconSVG('toy-brick')}</span><b>玩耍</b></button><button type="button" class="pet-act" data-pet="sheet:wear"><span class="pa-ico">${libIconSVG('shirt')}</span><b>衣橱</b></button><button type="button" class="pet-act" data-pet="sheet:home"><span class="pa-ico">${libIconSVG('house')}</span><b>小屋</b></button></div>`;
       }
       function infoHTML(p) {
         const v = vitals(p);
@@ -2819,7 +2996,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       function renderPet() {
         const host = $('petBody'); if(!host) return;
         const p = activePet();
-        host.innerHTML = p ? sceneHTML(p) + infoHTML(p) + friendsHTML() + goalsHTML() + diaryHTML() + helpHTML() : adoptHTML() + helpHTML();
+        host.innerHTML = p ? sceneHTML(p) + infoHTML(p) + townHTML() + friendsHTML() + goalsHTML() + diaryHTML() + helpHTML() : adoptHTML() + helpHTML();
         roam.x = 0; roam.busy = false; roam.walking = false; curExpr = '';
         if(p) refreshPetBars(true);
         renderCoin(false);
@@ -2943,6 +3120,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
       function grewUp(p) { const st = stageOf(p); setBubble(`我长大了！现在是「${STAGE_NAMES[st]}」`); setExpr('joy', 2200); refreshPetBars(); petJump(); confetti(); petLog(`${p.name}长大了：${STAGE_NAMES[st]}`); savePet(); showToast(`${p.name}长大啦：${STAGE_NAMES[st]}`); }
       function doBuy(kind, itemId) {
+        if(kind === 'furn') return doBuyFurn(itemId);
         const r = buyItem(kind, itemId);
         if(r.error === 'coins') { showToast(`爪币不够，还差 ${r.price - pet.coins} 个`); bounce($('sheetCoinsBox'), .9, 500); return; }
         if(r.error === 'owned') return; if(r.error) { showToast(r.error === 'full' ? '这个囤得够多啦' : '买不了这个'); return; }
@@ -2976,6 +3154,56 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         }, '领养');
       }
       function doSwitch(pid) { if(!pet.pets.some(q => q.id === pid) || pet.active === pid) return; pet.active = pid; savePet(); renderPet(); setTimeout(petJump, 80); }
+      // ---- 小屋 ----
+      const FURN_CROP = { frame: '38 34 66 58', clock: '44 36 56 56', lights: '2 24 226 44', plant: '204 154 48 56', lamp: '200 128 56 82', sofa: '184 158 94 54', books: '116 64 100 42', trophy: '116 60 100 46', tank: '116 54 100 54', bigplant: '314 122 50 88', globe: '314 148 48 62', tree: '304 112 68 98' };
+      function refreshScene() { const el = document.querySelector('#petScene .scene-bg'), p = activePet(); if(el && p) el.outerHTML = sceneSVG(p); }
+      function homeSheetHTML() {
+        const t = houseTier(), H = HOUSE_TIERS[t], nx = HOUSE_TIERS[t + 1];
+        let out = `<div class="home-card"><div class="home-top"><strong>${H.name}</strong><small>舒适度 ${comfortOf()} · 每天的礼物多 ${giftBonus()} 爪币</small></div><p>${H.tip}</p>${nx ? `<button type="button" class="chip buy big ${pet.coins < nx.price ? 'poor' : ''}" data-pet="upg">升级为「${nx.name}」${coinIcon(16)}${nx.price}</button>` : '<em class="home-max">已经是最高等级啦</em>'}</div>`;
+        HOUSE_SLOTS.forEach((sl, i) => {
+          const locked = i >= H.slots; out += `<div class="shop-sec">${HOUSE_SLOT_NAMES[sl]}${locked ? `（升级到「${HOUSE_TIERS.find(h => h.slots > i).name}」解锁）` : ''}</div>`;
+          if(locked) return;
+          out += FURN_ORDER.filter(id => FURN[id].slot === sl).map(id => { const F = FURN[id], own = pet.house.own[id], on = pet.house.furn[sl] === id;
+            const ico = `<svg class="fz" viewBox="${FURN_CROP[id]}" aria-hidden="true">${F.svg(c => c)}</svg>`;
+            return shopRow(ico, '#EEF3FF', '#2C62EE', F.name, `舒适度 +${F.comfort}`, own ? `<button type="button" class="chip ${on ? 'off' : 'use'}" data-pet="place:${id}">${on ? '收起' : '摆上'}</button>` : priceBtn('furn', id, F.price)); }).join('');
+        });
+        return out;
+      }
+      function doUpgrade() {
+        const r = upgradeHouse();
+        if(r.error === 'coins') { showToast(`爪币不够，还差 ${r.price - pet.coins} 个`); bounce($('sheetCoinsBox'), .9, 500); return; } if(r.error) return;
+        renderCoin(true); refreshScene(); renderSheet(); confetti(); petJump(); setExpr('joy', 1800); hearts(6); setBubble(`新家好漂亮！这里是「${HOUSE_TIERS[r.tier].name}」`); showToast(`小屋升级为「${HOUSE_TIERS[r.tier].name}」`);
+      }
+      function doBuyFurn(id) {
+        const r = buyFurn(id);
+        if(r.error === 'coins') { showToast(`爪币不够，还差 ${r.price - pet.coins} 个`); bounce($('sheetCoinsBox'), .9, 500); return; } if(r.error) return;
+        renderCoin(true); refreshScene(); renderSheet(); showToast(`买到「${r.item.name}」`); setExpr('joy', 1500); petJump(); setBubble('家里更像样啦！');
+      }
+      function doPlace(id) { if(placeFurn(id)) { refreshScene(); renderSheet(); petJump(); } }
+      // ---- 小镇 ----
+      const npcSay = {};
+      function townHTML() {
+        const rows = NPC_ORDER.map(id => {
+          const N = NPCS[id], st = npcNow(id), pts = pet.town.fr[id] || 0, lv = friendLevel(pts), nxt = FRIEND_LV[lv + 1];
+          const prog = nxt ? Math.round((pts - FRIEND_LV[lv][0]) / (nxt[0] - FRIEND_LV[lv][0]) * 100) : 100, visited = pet.town.v[id] === todayKey, gifted = pet.town.g[id] === todayKey;
+          return `<div class="npc" data-npc="${id}"><div class="npc-ava ${st.asleep ? 'zz' : ''}">${npcArt(id)}</div><div class="npc-main"><div class="npc-top"><strong>${N.name}</strong><span>${N.role}</span><em>${FRIEND_LV[lv][1]}</em></div>
+            <div class="npc-now">${st.asleep ? '' : `在${st.place} · `}${st.text}</div><div class="pbar fr"><i style="width:${prog}%"></i></div>${npcSay[id] ? `<p class="npc-say">${escapeHTML(npcSay[id])}</p>` : ''}</div>
+            <div class="npc-act"><button type="button" class="chip use" data-pet="visit:${id}" ${st.asleep || visited ? 'disabled' : ''}>${visited ? '今天去过' : '拜访'}</button><button type="button" class="chip off" data-pet="npcgift:${id}" ${st.asleep || gifted ? 'disabled' : ''}>${gifted ? '送过了' : '送礼'}</button></div></div>`; }).join('');
+        return `<div class="pet-card" id="townCard"><h3>小镇邻居</h3><p class="muted-p">邻居们各有各的日子。每天可以拜访、送礼各一次，混熟了有奖励。</p><div class="npcs">${rows}</div></div>`;
+      }
+      function refreshTown() { const el = $('townCard'); if(!el) return; const top = el.querySelector('.npcs') ? 0 : 0; el.outerHTML = townHTML(); }
+      function doVisit(id) {
+        const r = visitNpc(id);
+        if(r.error === 'asleep') { showToast('现在睡着了，晚点再来'); return; } if(r.error === 'done') { showToast('今天已经拜访过啦'); return; } if(r.error) return;
+        npcSay[id] = r.line + (r.coins ? `（塞给你 ${r.coins} 爪币）` : ''); refreshTown(); deliverPayout(); renderCoin(true);
+        if(r.up) { showToast(`和${NPCS[id].name}成为${r.up}了！`); confetti(); } setExpr('joy', 1200); hearts(2); setBubble(`去找${NPCS[id].name}玩啦～`);
+      }
+      function doNpcGift(id) {
+        const r = giftNpc(id);
+        if(r.error === 'asleep') { showToast('现在睡着了，晚点再来'); return; } if(r.error === 'done') { showToast('今天已经送过啦'); return; } if(r.error === 'nofood') { showToast('背包里没有食物，先去买一点吧'); return; } if(r.error) return;
+        npcSay[id] = r.loved ? `哇，是我最爱的${r.food.name}！` : `谢谢你的${r.food.name}～`; refreshTown(); deliverPayout(); renderCoin(true); refreshPetBars();
+        if(r.up) { showToast(`和${NPCS[id].name}成为${r.up}了！`); confetti(); } hearts(r.loved ? 5 : 2);
+      }
       // ---- 商店 / 背包 ----
       let sheetTab = 'food', sheetOpen = false;
       const WEAR_SLOT_NAMES = { head: '头饰', face: '眼镜', neck: '颈饰', back: '背饰' };
@@ -2991,6 +3219,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           return Object.keys(FOODS).map(id => { const F = FOODS[id], n = pet.inv.food[id] || 0;
             return shopRow(libIconSVG(F.icon), F.tint, F.ink, F.name, `饱腹 +${F.hunger} · 心情 +${F.mood}${fav.includes(id) ? '（最爱再 +8）' : ''}`, `${n ? `<button type="button" class="chip use" data-pet="feed:${id}">喂 ×${n}</button>` : ''}${priceBtn('food', id, F.price)}`, fav.includes(id) ? '最爱' : ''); }).join('');
         }
+        if(sheetTab === 'home') return homeSheetHTML();
         if(sheetTab === 'toys') {
           return Object.keys(TOYS).map(id => { const T = TOYS[id], own = pet.inv.toys[id];
             return shopRow(libIconSVG(T.icon), T.tint, T.ink, T.name, T.tip, own ? `<button type="button" class="chip use" data-pet="play:${id}">玩</button>` : priceBtn('toys', id, T.price)); }).join('');
@@ -3001,7 +3230,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
       function renderSheet() {
         const sh = $('petSheet'); if(!sh) return;
-        const idx = ['food', 'toys', 'wear'].indexOf(sheetTab);
+        const idx = ['food', 'toys', 'wear', 'home'].indexOf(sheetTab);
         sh.querySelector('.sheet-seg').style.setProperty('--seg', String(idx));
         sh.querySelectorAll('[data-pet^="tab:"]').forEach(b => { const on = b.dataset.pet === 'tab:' + sheetTab; b.classList.toggle('selected', on); b.setAttribute('aria-selected', String(on)); });
         const body = $('sheetBody'), top = body.scrollTop; body.innerHTML = sheetBodyHTML(); body.scrollTop = top;
@@ -3025,6 +3254,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         else if(act === 'tab') { sheetTab = parts[1]; renderSheet(); }
         else if(act === 'buy') doBuy(parts[1], parts[2]); else if(act === 'feed') doFeed(parts[1]); else if(act === 'play') doPlay(parts[1]); else if(act === 'wear') doWear(parts[1]);
         else if(act === 'rename') openRename(); else if(act === 'adopt') doAdopt(parts[1]); else if(act === 'switch') doSwitch(parts[1]); else if(act === 'close') closeSheet();
+        else if(act === 'upg') doUpgrade(); else if(act === 'place') doPlace(parts[1]); else if(act === 'visit') doVisit(parts[1]); else if(act === 'npcgift') doNpcGift(parts[1]);
       });
       // 往下拖面板顶部可以收起（松手超过 90px 就收，否则弹回）
       (function() {
@@ -3040,7 +3270,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       $('nameBackdrop').addEventListener('click', e => { if(e.target.id === 'nameBackdrop') closeRename(); });
       $('petNameInput').addEventListener('keydown', e => { if(e.key === 'Enter') { e.preventDefault(); saveRename(); } });
       $('petBody').addEventListener('keydown', e => { if((e.key === 'Enter' || e.key === ' ') && e.target.id === 'petHost') { e.preventDefault(); patPet(null); } });
-      setInterval(() => { if(activePage === 'pet' && !document.hidden) refreshPetBars(); }, 30000);
+      setInterval(() => { if(activePage === 'pet' && !document.hidden) { refreshPetBars(); refreshTown(); } }, 30000);
 
       document.body.dataset.view = activePage;
       initFx();

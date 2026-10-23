@@ -1199,56 +1199,68 @@
     #page-stats .hist > div { background: #F5F7FC; border-radius: 14px; padding: 11px 12px; }
     #page-stats .hist small { display: block; color: var(--muted); font-size: 12px; } #page-stats .hist strong { display: block; margin: 3px 0 1px; font-size: 24px; letter-spacing: -.8px; font-variant-numeric: tabular-nums; } #page-stats .hist strong .u { font-size: 13px; font-weight: 700; margin-left: 3px; color: #51607F; letter-spacing: 0; }
     #page-stats .hist em { display: block; font-style: normal; font-size: 11px; color: var(--muted); line-height: 1.4; }
-    /* ===== v2.0：统计页 ===== */
+    /* ===== v2.1：统计页 + 图标 ===== */
     #page-stats .period-seg { display: grid; grid-template-columns: repeat(3, 1fr); position: relative; padding: 3px; border-radius: 14px; background: #E9EEF9; margin: 0 0 8px; }
     #page-stats .period-seg::before { content: ""; position: absolute; z-index: 0; top: 3px; bottom: 3px; left: 3px; width: calc((100% - 6px) / 3); border-radius: 11px; background: #fff; box-shadow: 0 2px 8px rgba(21,27,43,.14); translate: calc(var(--seg, 0) * 100%) 0; transition: translate .5s var(--sp-pop, cubic-bezier(.34,1.4,.5,1)); }
     #page-stats .period-seg button { position: relative; z-index: 1; border: 0; background: transparent; padding: 10px 4px; font-size: 14px; font-weight: 750; color: var(--muted); border-radius: 11px; transition: color .25s ease; }
     #page-stats .period-seg button.selected { color: var(--ink); }
     #page-stats .pnav { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; margin: 0 0 12px; }
-    #page-stats .pnav button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--ink); display: grid; place-items: center; transition: scale .3s var(--sp-pop, ease), opacity .2s; }
-    #page-stats .pnav button:active { scale: .86; } #page-stats .pnav button:disabled { opacity: .25; pointer-events: none; }
-    #page-stats .pnav svg { width: 20px; height: 20px; }
+    #page-stats .pnav button, .hd .cal-head button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--ink); display: grid; place-items: center; transition: scale .3s var(--sp-pop, ease), opacity .2s; }
+    #page-stats .pnav button:active, .hd .cal-head button:active { scale: .86; } #page-stats .pnav button:disabled, .hd .cal-head button:disabled { opacity: .25; pointer-events: none; }
+    #page-stats .pnav svg, .hd .cal-head svg { width: 20px; height: 20px; }
     #page-stats .pnav-mid { text-align: center; min-width: 0; } #page-stats .pnav-mid b { display: block; font-size: 15.5px; letter-spacing: -.2px; } #page-stats .pnav-mid small { display: block; margin-top: 1px; font-size: 12px; color: var(--muted); }
     #page-stats .ov-pctrow { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
     #page-stats .delta { font-size: 12.5px; font-weight: 750; padding: 2px 8px; border-radius: 9px; white-space: nowrap; }
     #page-stats .delta.hide { display: none; } #page-stats .delta.up { color: #1F8A52; background: #E3F6EA; } #page-stats .delta.down { color: #C2503A; background: #FDEBE6; } #page-stats .delta.flat { color: #51607F; background: #EEF2FB; }
-    #page-stats .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 12px; }
-    #page-stats .tile { background: #fff; border: 1px solid rgba(214,224,245,.9); border-radius: 18px; padding: 13px 14px; min-width: 0; }
-    #page-stats .tile small { display: block; font-size: 12px; color: var(--muted); } #page-stats .tile .tv2 { display: flex; align-items: baseline; gap: 5px; margin-top: 4px; white-space: nowrap; }
-    #page-stats .tile .tv2 b { font-size: 27px; letter-spacing: -1px; font-variant-numeric: tabular-nums; } #page-stats .tile .tv2 span { font-size: 12.5px; color: var(--muted); }
-    #page-stats .tile em { display: block; margin-top: 2px; font-style: normal; font-size: 11px; color: var(--muted); }
-    /* 热力图 */
-    #page-stats .heat { display: grid; grid-template-columns: 16px 1fr; gap: 6px; margin-top: 12px; }
-    #page-stats .heat-wk { display: grid; grid-template-rows: repeat(7, 1fr); margin-top: 17px; font-size: 10px; color: var(--muted); align-items: center; }
-    #page-stats .heat-m { display: grid; grid-template-columns: repeat(var(--w), 1fr); height: 15px; font-size: 10px; color: var(--muted); white-space: nowrap; }
-    #page-stats .heat-g { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); grid-template-columns: repeat(var(--w), 1fr); gap: 3px; }
-    #page-stats .hc { display: block; width: 100%; aspect-ratio: 1; border-radius: 4px; border: 0; padding: 0; background: #EEF2FB; min-width: 0; }
-    #page-stats .hc.l-1 { background: transparent; border: 1px dashed #D5DDF0; } #page-stats .hc.l0 { background: #FBE3DD; } #page-stats .hc.l1 { background: #D3E1FF; } #page-stats .hc.l2 { background: #9FBDFF; } #page-stats .hc.l3 { background: #6A97FF; } #page-stats .hc.l4 { background: #2C62EE; }
-    #page-stats .hc.fut { background: transparent; } #page-stats .hc.today { outline: 2px solid #1D2847; outline-offset: 1px; } #page-stats .hc.sel { outline: 2px solid var(--green); outline-offset: 1px; }
-    #page-stats .heat-key { display: flex; align-items: center; gap: 4px; margin-top: 10px; font-size: 11px; color: var(--muted); } #page-stats .heat-key .hc { width: 13px; } #page-stats .heat-key em { margin-left: auto; font-style: normal; }
-    #page-stats .heat-detail { margin-top: 8px; padding-top: 9px; border-top: 1px solid #EDF1FA; font-size: 13px; color: #51607F; min-height: 20px; }
-    /* 星期分布 */
-    #page-stats .wkd { display: grid; gap: 9px; margin-top: 12px; }
-    #page-stats .wk-row { display: grid; grid-template-columns: 34px 1fr 40px; align-items: center; gap: 10px; font-size: 13px; }
-    #page-stats .wk-n { color: #51607F; } #page-stats .wk-p { text-align: right; font-weight: 750; font-variant-numeric: tabular-nums; }
-    #page-stats .wk-bar { height: 9px; border-radius: 5px; background: #EEF2FB; overflow: hidden; } #page-stats .wk-bar i { display: block; height: 100%; border-radius: inherit; background: #A9C1FF; transition: width .6s var(--sp-soft, ease); }
-    #page-stats .wk-row.best .wk-bar i { background: var(--green); } #page-stats .wk-row.best .wk-n { color: var(--ink); font-weight: 750; }
-    /* 各习惯 */
-    #page-stats #habitStats { margin-top: 6px; }
-    #page-stats .hrow { padding: 12px 0; border-bottom: 1px solid #EDF1FA; } #page-stats .hrow:last-child { border-bottom: 0; padding-bottom: 2px; }
-    #page-stats .hmain { width: 100%; display: grid; grid-template-columns: 34px minmax(0,1fr) auto; align-items: center; gap: 11px; border: 0; background: transparent; padding: 0; text-align: left; color: inherit; font: inherit; }
-    #page-stats .hmain:active { opacity: .7; }
-    #page-stats .hinfo { min-width: 0; } #page-stats .hinfo strong { display: block; font-size: 15.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } #page-stats .hinfo small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    #page-stats .hpct { font-size: 17px; font-weight: 800; color: var(--green); font-variant-numeric: tabular-nums; }
-    #page-stats .hbar { height: 6px; border-radius: 3px; background: #EEF2FB; margin: 10px 0 0 45px; overflow: hidden; } #page-stats .hbar i { display: block; height: 100%; border-radius: inherit; background: var(--green); transition: width .6s var(--sp-soft, ease); }
-    #page-stats .hmore { margin: 12px 0 0 45px; }
-    #page-stats .dots { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; } #page-stats .dt { display: block; aspect-ratio: 1; border-radius: 50%; border: 1.5px solid #B8C8F0; }
-    #page-stats .dt.ok { background: var(--green); border-color: var(--green); } #page-stats .dt.na { border: 1.5px dashed #D5DDF0; }
-    #page-stats .hfacts { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 10px; font-size: 12.5px; color: #51607F; } #page-stats .hfacts b { color: var(--ink); }
-    #page-stats .hist4 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-    #page-stats .hist4 > div { background: #F5F7FC; border-radius: 14px; padding: 11px 12px; } #page-stats .hist4 small { display: block; color: var(--muted); font-size: 12px; } #page-stats .hist4 strong { display: block; margin: 3px 0 1px; font-size: 24px; letter-spacing: -.8px; font-variant-numeric: tabular-nums; } #page-stats .hist4 strong .u { font-size: 13px; color: var(--muted); font-weight: 650; margin-left: 3px; letter-spacing: 0; }
-    @media (max-width: 380px) { #page-stats .tile .tv2 b { font-size: 24px; } #page-stats .heat-g { gap: 2px; } }
-    @media (prefers-reduced-motion: reduce) { #page-stats .period-seg::before, #page-stats .wk-bar i, #page-stats .hbar i { transition: none; } }
+    #page-stats .ov { grid-template-columns: 1fr 96px; }
+    #page-stats .ov-ring { width: 96px; height: 96px; }
+    #page-stats .ov-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 4px; padding-top: 14px; border-top: 1px solid #EDF1FA; }
+    #page-stats .ov-stats > div { padding: 0 4px; min-width: 0; } #page-stats .ov-stats > div + div { border-left: 1px solid #EDF1FA; padding-left: 14px; }
+    #page-stats .ov-stats small { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; } #page-stats .ov-stats .nv { margin-top: 3px; white-space: nowrap; }
+    #page-stats .ov-stats .nv b { font-size: 24px; letter-spacing: -.8px; font-variant-numeric: tabular-nums; } #page-stats .ov-stats .nv i { font-style: normal; font-size: 12.5px; color: var(--muted); margin-left: 3px; }
+    #page-stats .ov-note { grid-column: 1 / -1; margin: 2px 0 0; font-size: 11.5px; color: var(--muted); }
+    #page-stats .stat-foot { text-align: center; margin: 4px 8px 6px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+    /* 习惯列表 */
+    #page-stats #habitStats { margin-top: 4px; }
+    #page-stats .hrow { width: 100%; display: grid; grid-template-columns: 40px minmax(0,1fr) auto 18px; align-items: center; column-gap: 12px; row-gap: 10px; border: 0; background: transparent; padding: 13px 0; border-bottom: 1px solid #EDF1FA; text-align: left; color: inherit; font: inherit; }
+    #page-stats .hrow:last-child { border-bottom: 0; padding-bottom: 2px; } #page-stats .hrow:active { opacity: .7; }
+    #page-stats .hinfo { min-width: 0; } #page-stats .hinfo strong { display: block; font-size: 15.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } #page-stats .hinfo small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+    #page-stats .hpct { font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; } #page-stats .hgo { color: #B3BDD3; display: grid; place-items: center; } #page-stats .hgo svg { width: 16px; height: 16px; }
+    #page-stats .hbar { grid-column: 2 / 4; height: 6px; border-radius: 3px; background: #EEF2FB; overflow: hidden; display: block; } #page-stats .hbar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width .6s var(--sp-soft, ease); }
+    #page-stats .hrow .hpct { color: var(--ink); }
+    /* 彩色图标底块（首页、日历、统计共用） */
+    .habit-glyph, .habit-card .habit-icon, .history-row .hist-icon { background: var(--tint, #E2EAFE) !important; color: var(--accent, #3F6FF0) !important; border: 0 !important; filter: none !important; }
+    .habit-card .habit-icon { border-radius: 16px !important; width: 48px; height: 48px; }
+    .habit-card .habit-icon svg, .habit-glyph svg, .hist-icon svg { stroke-width: 2.1; }
+    .habit-card .habit-icon svg { width: 24px; height: 24px; }
+    .habit-glyph { width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; flex: none; } .habit-glyph svg { width: 21px; height: 21px; } .habit-glyph.big { width: 54px; height: 54px; border-radius: 17px; } .habit-glyph.big svg { width: 28px; height: 28px; }
+    .habit-card.done .habit-icon { opacity: .6; }
+    .habit-streak { display: inline-flex; align-items: center; gap: 3px; color: #E5792B !important; font-size: 11px !important; font-weight: 800; }
+    .habit-streak .flame { width: 14px; height: 14px; flex: none; }
+    .empty-state .empty-art { width: 72px; height: 72px; margin: 0 auto 12px; } .empty-state .empty-art svg { width: 100%; height: 100%; display: block; }
+    /* 习惯详情 */
+    .hd { position: fixed; inset: 0; z-index: 90; overflow-y: auto; overscroll-behavior: contain; background: var(--bg); padding: calc(env(safe-area-inset-top) + 8px) 16px calc(36px + env(safe-area-inset-bottom)); transform: translateX(100%); visibility: hidden; transition: transform .5s var(--sp-page, cubic-bezier(.2,.8,.2,1)), visibility 0s linear .5s; }
+    .hd.open { transform: none; visibility: visible; transition: transform .5s var(--sp-page, cubic-bezier(.2,.8,.2,1)); }
+    .hd-top { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; margin: 0 -16px 8px; padding: 4px 16px; background: var(--bg); }
+    .hd-top button { width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--ink); display: grid; place-items: center; } .hd-top button:active { scale: .86; } .hd-top svg { width: 22px; height: 22px; }
+    .hd-top b { text-align: center; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hd-head { display: flex; align-items: center; gap: 14px; margin: 4px 0 14px; } .hd-head strong { display: block; font-size: 20px; letter-spacing: -.4px; } .hd-head small { display: block; margin-top: 3px; font-size: 12.5px; color: var(--muted); }
+    .hd-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+    .hd-stats > div { background: #fff; border: 1px solid rgba(214,224,245,.9); border-radius: 16px; padding: 11px 12px; min-width: 0; } .hd-stats small { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+    .hd-stats b { font-size: 23px; letter-spacing: -.7px; font-variant-numeric: tabular-nums; } .hd-stats i { font-style: normal; font-size: 12px; color: var(--muted); margin-left: 3px; }
+    .hd .s-card { background: #fff; border: 1px solid rgba(214,224,245,.9); border-radius: 20px; padding: 16px; margin: 0 0 12px; } .hd .s-card h3 { margin: 0; font-size: 16px; } .hd .s-sub { margin: 3px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .hd .cal-head { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; text-align: center; } .hd .cal-head b { display: block; font-size: 15.5px; } .hd .cal-head small { display: block; margin-top: 1px; font-size: 12px; color: var(--muted); }
+    .hd .cal-w, .hd .cal-g { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; } .hd .cal-w { margin: 12px 0 6px; font-size: 11.5px; color: var(--muted); text-align: center; }
+    .hd .cal-d { aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink); background: transparent; }
+    .hd .cal-d.done { background: var(--accent); color: #fff; font-weight: 700; } .hd .cal-d.extra { background: var(--tint); color: var(--accent); font-weight: 700; }
+    .hd .cal-d.miss { background: #FDECEA; color: #C2503A; } .hd .cal-d.open { box-shadow: inset 0 0 0 2px var(--accent); color: var(--accent); font-weight: 700; }
+    .hd .cal-d.none { color: #B3BDD3; } .hd .cal-d.fut { color: #D0D7E6; } .hd .cal-d.today { box-shadow: inset 0 0 0 2px #1D2847; } .hd .cal-d.done.today { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent); }
+    .hd .cal-key { display: flex; gap: 16px; margin-top: 12px; font-size: 11.5px; color: var(--muted); } .hd .cal-key span { display: inline-flex; align-items: center; gap: 6px; } .hd .cal-key .k { width: 11px; height: 11px; border-radius: 50%; display: block; }
+    .hd .cal-key .k.done { background: var(--accent); } .hd .cal-key .k.miss { background: #F6C4BC; } .hd .cal-key .k.none { border: 1.5px dashed #C3CDE3; }
+    .hd .wkd { display: grid; gap: 9px; margin-top: 12px; } .hd .wk-row { display: grid; grid-template-columns: 34px 1fr 46px; align-items: center; gap: 10px; font-size: 13px; } .hd .wk-n { color: #51607F; } .hd .wk-p { text-align: right; font-weight: 750; font-variant-numeric: tabular-nums; }
+    .hd .wk-bar { height: 9px; border-radius: 5px; background: #EEF2FB; overflow: hidden; } .hd .wk-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); } .hd .wk-row.off { opacity: .45; }
+    body.hd-open { overflow: hidden; }
+    @media (prefers-reduced-motion: reduce) { .hd, .hd.open, #page-stats .period-seg::before, #page-stats .hbar i { transition: none; } }
   </style>
 </head>
 <body class="boot">
@@ -1291,18 +1303,17 @@
           <div class="page-header"><div><div class="eyebrow">SMALL STEPS, REAL PROGRESS</div><h1>坚持的痕迹。</h1><p class="subheading"></p></div></div>
           <div class="period-seg" id="periodSeg" role="tablist" aria-label="统计周期" style="--seg:0"><button type="button" role="tab" data-period="week" class="selected">周</button><button type="button" role="tab" data-period="month">月</button><button type="button" role="tab" data-period="year">年</button></div>
           <div class="pnav"><button type="button" id="pPrev" aria-label="上一段"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div class="pnav-mid"><b id="pLabel"></b><small id="pName"></small></div><button type="button" id="pNext" aria-label="下一段"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
-          <div class="s-card ov"><div><div class="ov-label" id="ovLabel">本周完成率</div><div class="ov-pctrow"><div class="ov-pct" id="ovPct">0%</div><span class="delta hide" id="ovDelta"></span></div><div class="ov-count" id="ovCount"></div><div class="ov-range" id="ovRange"></div></div><svg class="ov-ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="42"/><circle id="ovRing" cx="50" cy="50" r="42"/></svg></div>
-          <div class="tiles"><div class="tile"><small>完成次数</small><div class="tv2" id="tileDone"></div></div><div class="tile"><small>全勤天数</small><div class="tv2" id="tilePerfect"></div><em>当天计划全部完成</em></div><div class="tile"><small>当前连续全勤</small><div class="tv2" id="tileStreak"></div></div><div class="tile"><small>最长连续全勤</small><div class="tv2" id="tileBest"></div></div></div>
-          <div class="s-card"><h3 id="trendTitle">每日完成率</h3><p class="s-sub">完成数 ÷ 当天计划数。没有计划的日子显示「–」，不算 0%。点一天看详情。</p><div id="trendChart"></div><div id="dayDetail"></div></div>
-          <div class="s-card"><h3>近 16 周热力图</h3><p class="s-sub">颜色越深，那天完成得越多。</p><div id="heatChart"></div></div>
-          <div class="s-card"><h3>哪天最稳</h3><div id="wkdChart"></div></div>
-          <div class="s-card"><h3>各习惯完成情况</h3><p class="s-sub" id="habitSub"></p><div id="habitStats"></div></div>
-          <div class="s-card"><h3>历史记录</h3><div class="hist4"><div><small>累计完成次数</small><strong id="statTotal">0</strong></div><div><small>最长连续打卡</small><strong><span id="statStreak">0</span><span class="u">天</span></strong></div><div><small>已记录</small><strong><span id="statSince">0</span><span class="u">天</span></strong></div><div><small>平均每天完成</small><strong><span id="statAvg">0</span><span class="u">次</span></strong></div></div></div>
+          <div class="s-card ov"><div><div class="ov-label" id="ovLabel">本周完成率</div><div class="ov-pctrow"><div class="ov-pct" id="ovPct">0%</div><span class="delta hide" id="ovDelta"></span></div><div class="ov-count" id="ovCount"></div><div class="ov-range" id="ovRange"></div></div><svg class="ov-ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="42"/><circle id="ovRing" cx="50" cy="50" r="42"/></svg>
+            <div class="ov-stats"><div><small>全部完成的天数</small><div class="nv" id="stPerfect"></div></div><div><small>连续全部完成</small><div class="nv" id="stCur"></div></div><div><small>最长连续</small><div class="nv" id="stBest"></div></div></div><p class="ov-note">「全部完成」= 当天计划的习惯都打了卡。</p></div>
+          <div class="s-card"><h3 id="trendTitle">每日完成率</h3><p class="s-sub">每天完成了计划的百分之几。没有计划的日子显示「–」。点一天看详情。</p><div id="trendChart"></div><div id="dayDetail"></div></div>
+          <div class="s-card"><h3>各习惯</h3><p class="s-sub" id="habitSub"></p><div id="habitStats"></div></div>
+          <p class="stat-foot" id="statFoot"></p>
         </section>
+        <div class="hd" id="habitDetail" role="dialog" aria-modal="true" aria-label="习惯详情" aria-hidden="true"><div class="hd-top"><button type="button" id="hdBack" aria-label="返回"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><b id="hdTitle"></b><span></span></div><div id="hdBody"></div></div>
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 2.0.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 2.1.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1572,10 +1583,10 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const list=document.getElementById('habitList'), hadDivider=!!list.querySelector('.list-divider');
         const shape=new Map(tasks.map((h,i)=>[h.id,i%3]));
         // 未完成在上、已完成沉到下面；两组各自按习惯原有顺序排列（拖动排序也只在本组内）
-        const cardHTML=(h,done,group)=>{const streak=habitStreak(h);return `<article class="habit-card ${done?'done just-done':''}" data-habit="${h.id}" data-done="${done?1:0}" data-shape="${shape.get(h.id)}">${group.length>1?`<button type="button" class="drag-handle" data-drag="${h.id}" aria-label="拖动排序：${escapeHTML(h.name)}" title="按住拖动排序">${GRIP}</button>`:''}<div class="habit-open" role="button" tabindex="0" data-edit="${h.id}" aria-label="编辑习惯：${escapeHTML(h.name)}"><div class="habit-icon" style="background:${h.color||COLORS[0]}">${habitIconMarkup(h.emoji||'🌿')}</div><div class="habit-main"><div class="habit-title-row"><div class="habit-name">${escapeHTML(h.name)}</div>${streak>0?`<span class="habit-streak">🔥 ${streak} 天</span>`:''}</div><div class="habit-meta">${done?'今日已完成 · 做得不错':repeatLabel(h)}${!done&&streak>0?' · 连续坚持中':''}</div></div></div><button class="check-btn ${done?'checked':''}" data-check="${h.id}" aria-label="${done?'取消打卡':'完成打卡'}：${escapeHTML(h.name)}">${done?safeIconSVG('check'):''}</button></article>`;};
-        const emptyNone=`<div class="empty-state"><div class="empty-emoji">☀</div><strong>今天的计划都完成了</strong><p>点上方的「已完成」回顾今天的成果。</p></div>`, emptyDone=`<div class="empty-state"><div class="empty-emoji">🌱</div><strong>今天还没有完成的习惯</strong><p>完成一个习惯后，它会出现在这里。</p></div>`;
+        const cardHTML=(h,done,group)=>{const streak=habitStreak(h);return `<article class="habit-card ${done?'done just-done':''}" data-habit="${h.id}" data-done="${done?1:0}" data-shape="${shape.get(h.id)}">${group.length>1?`<button type="button" class="drag-handle" data-drag="${h.id}" aria-label="拖动排序：${escapeHTML(h.name)}" title="按住拖动排序">${GRIP}</button>`:''}<div class="habit-open" role="button" tabindex="0" data-edit="${h.id}" aria-label="编辑习惯：${escapeHTML(h.name)}"><div class="habit-icon" style="${toneStyle(h)}">${habitIconMarkup(h.emoji||'🌿')}</div><div class="habit-main"><div class="habit-title-row"><div class="habit-name">${escapeHTML(h.name)}</div>${streak>0?`<span class="habit-streak">${FLAME}${streak} 天</span>`:''}</div><div class="habit-meta">${done?'今天已完成':repeatLabel(h)}</div></div></div><button class="check-btn ${done?'checked':''}" data-check="${h.id}" aria-label="${done?'取消打卡':'完成打卡'}：${escapeHTML(h.name)}">${done?safeIconSVG('check'):''}</button></article>`;};
+        const emptyNone=`<div class="empty-state">${eart('sun')}<strong>今天的计划都完成了</strong><p>点上方的「已完成」回顾今天的成果。</p></div>`, emptyDone=`<div class="empty-state">${eart('sprout')}<strong>今天还没有完成的习惯</strong><p>完成一个习惯后，它会出现在这里。</p></div>`;
         if(!tasks.length) doneView=false;
-        list.innerHTML=!tasks.length?`<div class="empty-state"><div class="empty-emoji">${data.habits.length?'☀':'＋'}</div><strong>${data.habits.length?'今天没有安排的习惯':'先添加第一个习惯'}</strong><p>${data.habits.length?'好好休息，或者点右上方的「添加习惯」再加一件小事。':'点上方的「添加习惯」，选一件你想坚持的小事，不必从很多件开始。'}</p></div>`:(doneView?(finished.length?finished.map(h=>cardHTML(h,true,[h])).join(''):emptyDone):(pending.length?pending.map(h=>cardHTML(h,false,pending)).join(''):emptyNone));
+        list.innerHTML=!tasks.length?`<div class="empty-state">${eart(data.habits.length?'sun':'plus')}<strong>${data.habits.length?'今天没有安排的习惯':'先添加第一个习惯'}</strong><p>${data.habits.length?'好好休息，或者点右上方的「添加习惯」再加一件小事。':'点上方的「添加习惯」，选一件你想坚持的小事，不必从很多件开始。'}</p></div>`:(doneView?(finished.length?finished.map(h=>cardHTML(h,true,[h])).join(''):emptyDone):(pending.length?pending.map(h=>cardHTML(h,false,pending)).join(''):emptyNone));
         $('doneNum').textContent=finished.length; $('doneViewBtn').setAttribute('aria-pressed',String(doneView)); $('doneViewLabel').textContent=doneView?'返回计划':'已完成'; $('planTitle').textContent=doneView?'今日已完成':'今日计划';
         const divider=list.querySelector('.list-divider'); if(divider&&!hadDivider) divider.classList.add('fresh');
       }
@@ -1602,15 +1613,15 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const historyHabits=scheduledHabits(selectedDate), completed=historyHabits.filter(h=>isDone(h,selectedDate)).length;
         document.getElementById('selectedDateTitle').textContent=selectedDate===todayKey?'今日记录':fmtChineseDate(selectedDate);
         document.getElementById('selectedDateCount').textContent=`${completed} / ${historyHabits.length} 项完成`;
-        document.getElementById('historyList').innerHTML=historyHabits.length?historyHabits.map(h=>{const done=isDone(h,selectedDate);return `<div class="history-row"><div class="hist-icon" style="background:${h.color||COLORS[0]}">${habitIconMarkup(h.emoji||'🌿')}</div><div class="hist-title">${escapeHTML(h.name)}</div><div class="hist-status ${done?'ok':''}">${done?'✓ 已完成':'未完成'}</div></div>`;}).join(''):`<div class="empty-state" style="padding:22px 12px"><div class="empty-emoji">🗓️</div><strong>这一天没有安排的习惯</strong><p>选择其他日期，回顾你的记录。</p></div>`;
+        document.getElementById('historyList').innerHTML=historyHabits.length?historyHabits.map(h=>{const done=isDone(h,selectedDate);return `<div class="history-row"><div class="hist-icon" style="${toneStyle(h)}">${habitIconMarkup(h.emoji||'🌿')}</div><div class="hist-title">${escapeHTML(h.name)}</div><div class="hist-status ${done?'ok':''}">${done?'✓ 已完成':'未完成'}</div></div>`;}).join(''):`<div class="empty-state" style="padding:22px 12px"><div class="empty-emoji">🗓️</div><strong>这一天没有安排的习惯</strong><p>选择其他日期，回顾你的记录。</p></div>`;
       }
-      // ================= v2.0：统计页 =================
+      // ================= v2.1：统计页 =================
       // 口径（全页统一，下面每个数字都来自这里）：
       //  · 计划次数 = 周期内「已到期」（≤ 今天）的每个习惯按自己的重复日、且在创建日之后的计划；没有计划的日子既不算完成也不算漏。
       //  · 完成率 = 完成次数 ÷ 计划次数。没有计划时显示「—」，不是 0%。
       //  · 全勤日 = 当天有计划且全部完成；连续全勤 = 一路都是全勤的天数（没有计划的日子跳过；今天还没做完不算断）。
       //  · 与上一段比较：同类型的上一周 / 月 / 年的完成率之差（百分点）。
-      let statMode = 'week', statOff = 0, statSel = null, statOpen = null, heatSel = null;
+      let statMode = 'week', statOff = 0, statSel = null;
       const STAT_MODES = ['week', 'month', 'year'];
       const WK = '日一二三四五六';
       const fmtMD = key => { const d = fromKey(key); return `${d.getMonth() + 1} 月 ${d.getDate()} 日`; };
@@ -1671,7 +1682,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const fut = key > todayKey, hs = fut ? [] : scheduledHabits(key), done = hs.filter(h => isDone(h, key)).length;
         const head = `<div class="dd-head"><strong>${fmtMD(key)} · 星期${WK[fromKey(key).getDay()]}</strong><span>${fut ? '还没到这一天' : hs.length ? `完成 ${done} / ${hs.length}` : '没有计划'}</span></div>`;
         if(fut || !hs.length) return head + `<p class="dd-empty">${fut ? '这一天还没有到来。' : '这一天没有计划的习惯，不计入完成率。'}</p>`;
-        return head + '<ul class="dd-list">' + hs.map(h => { const ok = isDone(h, key); return `<li class="${ok ? 'ok' : ''}"><span class="habit-glyph">${habitIconMarkup(h.emoji || '🌿')}</span><span class="dd-name">${escapeHTML(h.name)}</span><span class="dd-mark">${ok ? '已完成' : '未完成'}</span></li>`; }).join('') + '</ul>';
+        return head + '<ul class="dd-list">' + hs.map(h => { const ok = isDone(h, key); return `<li class="${ok ? 'ok' : ''}"><span class="habit-glyph" style="${toneStyle(h)}">${habitIconMarkup(h.emoji || '🌿')}</span><span class="dd-name">${escapeHTML(h.name)}</span><span class="dd-mark">${ok ? '已完成' : '未完成'}</span></li>`; }).join('') + '</ul>';
       }
       function monthSummaryHTML(slot) {
         const t = tally(slot.keys), fut = slot.keys[0] > todayKey;
@@ -1679,43 +1690,34 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if(fut || !t.planned) return head + `<p class="dd-empty">${fut ? '这个月还没有到来。' : '这个月没有计划的习惯。'}</p>`;
         return head + `<p class="dd-empty">完成 ${t.done} / ${t.planned} 次计划 · 全勤 ${t.perfect} 天（有计划的 ${t.active} 天）</p>`;
       }
-      function heatHTML() {
-        const weeks = 16, start = shiftDate(weekMonday(todayKey), -(weeks - 1) * 7); let cells = '', mlab = '', lastM = -1;
-        for(let w = 0; w < weeks; w++) {
-          const ws = shiftDate(start, w * 7), m = fromKey(ws).getMonth(); mlab += `<span>${m !== lastM ? (m + 1) + '月' : ''}</span>`; lastM = m;
-          for(let i = 0; i < 7; i++) {
-            const k = shiftDate(ws, i); if(k > todayKey) { cells += '<i class="hc fut"></i>'; continue; }
-            const hs = scheduledHabits(k), p = hs.length ? Math.round(hs.filter(h => isDone(h, k)).length / hs.length * 100) : null;
-            cells += `<button type="button" class="hc l${rateLevel(p)} ${k === heatSel ? 'sel' : ''} ${k === todayKey ? 'today' : ''}" data-hday="${k}" aria-label="${fmtMD(k)}，${p == null ? '没有计划' : p + '%'}"></button>`;
-          }
-        }
-        return `<div class="heat"><div class="heat-wk"><span>一</span><span></span><span>三</span><span></span><span>五</span><span></span><span>日</span></div><div class="heat-main"><div class="heat-m" style="--w:${weeks}">${mlab}</div><div class="heat-g" style="--w:${weeks}">${cells}</div></div></div>
-          <div class="heat-key"><span>少</span><i class="hc l0"></i><i class="hc l1"></i><i class="hc l2"></i><i class="hc l3"></i><i class="hc l4"></i><span>多</span><em>空格 = 当天没有计划</em></div><div id="heatDetail" class="heat-detail"></div>`;
+      // ---- 习惯配色：每个习惯一个鲜明的主色 + 同色系浅底（旧数据里的淡色会自动映射）----
+      const HABIT_TONES = { '#e4efe3': ['#22A06B', '#E0F5EA'], '#f7e8d2': ['#EE8A2A', '#FDEBD3'], '#e3e9fa': ['#3F6FF0', '#E2EAFE'], '#f7e0e3': ['#E8506B', '#FCE3E8'], '#e8e2f7': ['#8B5CF0', '#EDE5FD'], '#e1eff1': ['#16A3B7', '#DAF2F6'], '#f0edce': ['#D1A011', '#F9F0C6'], '#e9e9e5': ['#667085', '#EAEDF2'] };
+      const habitTone = h => HABIT_TONES[h && h.color] || HABIT_TONES['#e3e9fa'];
+      const toneStyle = h => { const t = habitTone(h); return `--accent:${t[0]};--tint:${t[1]};`; };
+      const FLAME = '<svg class="flame" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="flg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB02E"/><stop offset="1" stop-color="#FF5A1F"/></linearGradient></defs><path d="M12 2.5C12.8 6 16.5 8 16.5 12.6A4.5 4.5 0 0 1 12 17.2a4.5 4.5 0 0 1-4.5-4.6c0-1.7.8-2.8 1.6-3.7.2 1.1.8 1.9 1.6 2.2C10.3 8 11 5 12 2.5Z" fill="url(#flg)" transform="translate(0 2.2)"/></svg>';
+      // 空状态插画（矢量，跟随主题色）
+      const EA = {
+        sun: '<svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="26" fill="#E4EBFD"/><circle cx="36" cy="36" r="17" fill="#3F6FF0"/><path d="M28.5 36.5l5.3 5.3 9.9-10.6" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><g stroke="#9DB6FA" stroke-width="3" stroke-linecap="round"><path d="M36 5v4M36 63v4M5 36h4M63 36h4M14 14l3 3M55 55l3 3M58 14l-3 3M17 55l-3 3"/></g></svg>',
+        sprout: '<svg viewBox="0 0 72 72" aria-hidden="true"><ellipse cx="36" cy="60" rx="20" ry="5" fill="#E4EBFD"/><path d="M36 58V34" stroke="#3F6FF0" stroke-width="4" stroke-linecap="round"/><path d="M36 36C36 24 28 17 15 17c0 12 7 19 21 19Z" fill="#7FA2FA"/><path d="M36 30C36 20 43 13 56 13c0 11-6 17-20 17Z" fill="#3F6FF0"/></svg>',
+        plus: '<svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="25" fill="#EEF2FE" stroke="#B5C7FA" stroke-width="2.5" stroke-dasharray="5 6"/><path d="M36 25v22M25 36h22" stroke="#3F6FF0" stroke-width="4.5" stroke-linecap="round"/></svg>',
+        chart: '<svg viewBox="0 0 72 72" aria-hidden="true"><rect x="11" y="38" width="12" height="22" rx="4" fill="#B5C7FA"/><rect x="30" y="24" width="12" height="36" rx="4" fill="#7FA2FA"/><rect x="49" y="12" width="12" height="48" rx="4" fill="#3F6FF0"/><path d="M8 63h56" stroke="#D5DDF0" stroke-width="3" stroke-linecap="round"/></svg>'
+      };
+      const eart = k => `<div class="empty-art">${EA[k]}</div>`;
+      // ---- 概览 / 习惯列表 ----
+      function habitRowsHTML(P) {
+        if(!data.habits.length) return `<div class="empty-state">${eart('chart')}<strong>还没有可统计的习惯</strong><p>添加习惯并开始打卡，数据就会慢慢出现。</p></div>`;
+        return data.habits.map(h => {
+          const r = habitTally(h, P.keys);
+          return `<button type="button" class="hrow" data-hopen="${h.id}" aria-label="${escapeHTML(h.name)}，${r.poss ? `完成 ${r.done}/${r.poss} 天` : '本期没有计划'}，查看详情"><span class="habit-glyph" style="${toneStyle(h)}">${habitIconMarkup(h.emoji || '🌿')}</span><span class="hinfo"><strong>${escapeHTML(h.name)}</strong><small>${r.poss ? `完成 ${r.done} / ${r.poss} 天` : '本期没有计划'}</small></span><span class="hpct">${r.pct == null ? '—' : r.pct + '%'}</span><span class="hgo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span><span class="hbar" style="${toneStyle(h)}"><i style="width:${r.pct || 0}%"></i></span></button>`;
+        }).join('');
       }
-      function heatDetailText(k) {
-        if(!k) return '点一格，看那一天的完成情况。'; const hs = scheduledHabits(k), d = hs.filter(h => isDone(h, k)).length;
-        return `${fmtMD(k)} · 星期${WK[fromKey(k).getDay()]}：` + (hs.length ? `完成 ${d} / ${hs.length}` : '没有计划');
-      }
-      function weekdayHTML(P) {
+      function footnoteText(P, min) {
+        const since = (data.habits.length || totalCheckins()) ? daysBetween2(min, todayKey) + 1 : 0; if(!since) return '';
         const rows = []; for(let w = 0; w < 7; w++) rows.push({ w, planned: 0, done: 0 });
         P.elapsed.forEach(k => { const w = (fromKey(k).getDay() + 6) % 7, hs = scheduledHabits(k); rows[w].planned += hs.length; rows[w].done += hs.filter(h => isDone(h, k)).length; });
-        rows.forEach(r => { r.pct = r.planned ? Math.round(r.done / r.planned * 100) : null; });
-        const valid = rows.filter(r => r.pct != null), best = valid.length > 1 ? valid.reduce((a, b) => b.pct > a.pct ? b : a) : null, worst = valid.length > 1 ? valid.reduce((a, b) => b.pct < a.pct ? b : a) : null;
-        const insight = best && worst && best.pct !== worst.pct ? `周${'一二三四五六日'[best.w]}最稳（${best.pct}%），周${'一二三四五六日'[worst.w]}最容易漏（${worst.pct}%）。` : valid.length ? '各天表现很均衡。' : '这段时间还没有数据。';
-        return `<p class="s-sub">${insight}</p><div class="wkd">${rows.map(r => `<div class="wk-row ${best && r === best && best.pct !== worst.pct ? 'best' : ''}"><span class="wk-n">周${'一二三四五六日'[r.w]}</span><div class="wk-bar"><i style="width:${r.pct || 0}%"></i></div><span class="wk-p">${r.pct == null ? '—' : r.pct + '%'}</span></div>`).join('')}</div>`;
-      }
-      function habitRowsHTML(P) {
-        if(!data.habits.length) return `<div class="empty-state"><div class="empty-emoji">📈</div><strong>还没有可统计的习惯</strong><p>添加习惯并开始打卡，数据就会慢慢出现。</p></div>`;
-        return data.habits.map(h => {
-          const r = habitTally(h, P.keys), cur = habitStreak(h), best = bestStreak(h), open = statOpen === h.id;
-          let more = '';
-          if(open) {
-            const dots = Array.from({ length: 14 }, (_, i) => { const k = shiftDate(todayKey, i - 13), sc = isScheduled(h, k); return `<i class="dt ${!sc ? 'na' : isDone(h, k) ? 'ok' : 'no'}" title="${fmtMD(k)}"></i>`; }).join('');
-            const total = (data.checks[h.id] || []).length;
-            more = `<div class="hmore"><div class="dots">${dots}</div><div class="hfacts"><span>累计完成 <b>${total}</b> 次</span><span>${P.name}漏打 <b>${Math.max(0, r.poss - r.done)}</b> 次</span><span>最长连续 <b>${best}</b> 天</span></div><p class="dd-empty">最近 14 天：实心 = 完成，空心 = 计划了但没完成，虚线 = 没有计划。</p></div>`;
-          }
-          return `<div class="hrow ${open ? 'open' : ''}"><button type="button" class="hmain" data-hopen="${h.id}" aria-expanded="${open}"><span class="habit-glyph">${habitIconMarkup(h.emoji || '🌿')}</span><span class="hinfo"><strong>${escapeHTML(h.name)}</strong><small>${cur ? `已连续 ${cur} 天` : '今天开始新的一段'} · ${r.poss ? `${r.done}/${r.poss} 天` : '本期没有计划'}</small></span><span class="hpct">${r.pct == null ? '—' : r.pct + '%'}</span></button><div class="hbar"><i style="width:${r.pct || 0}%"></i></div>${more}</div>`;
-        }).join('');
+        const valid = rows.filter(r => r.planned >= 2).map(r => Object.assign(r, { pct: r.done / r.planned })); let tip = '';
+        if(valid.length >= 3) { const best = valid.reduce((a, b) => b.pct > a.pct ? b : a), worst = valid.reduce((a, b) => b.pct < a.pct ? b : a); if(best.pct !== worst.pct) tip = `本期周${'一二三四五六日'[best.w]}最稳，周${'一二三四五六日'[worst.w]}最容易漏`; }
+        return `已记录 ${since} 天 · 累计打卡 ${totalCheckins()} 次${tip ? ' · ' + tip : ''}`;
       }
       function renderStats() {
         const P = statPeriod(statMode, statOff), min = statMinKey();
@@ -1724,36 +1726,60 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         seg.querySelectorAll('[data-period]').forEach(b => { const on = b.dataset.period === statMode; b.classList.toggle('selected', on); b.setAttribute('aria-selected', String(on)); });
         $('pLabel').textContent = P.label; $('pName').textContent = P.name;
         $('pPrev').disabled = P.keys[0] <= min; $('pNext').disabled = statOff >= 0;
-        const t = tally(P.keys), prev = tally(statPeriod(statMode, statOff - 1).keys), delta = t.pct != null && prev.pct != null ? t.pct - prev.pct : null;
+        const t = tally(P.keys), prev = tally(statPeriod(statMode, statOff - 1).keys), delta = t.pct != null && prev.pct != null ? t.pct - prev.pct : null, vs = statMode === 'week' ? '上周' : statMode === 'month' ? '上月' : '去年';
         $('ovLabel').textContent = P.name + '完成率'; $('ovPct').textContent = t.pct == null ? '—' : t.pct + '%';
         const dl = $('ovDelta'); dl.className = 'delta ' + (delta == null ? 'hide' : delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat');
-        dl.textContent = delta == null ? '' : delta === 0 ? `与${statMode === 'week' ? '上周' : statMode === 'month' ? '上月' : '去年'}持平` : `${delta > 0 ? '↑' : '↓'} ${Math.abs(delta)}% 比${statMode === 'week' ? '上周' : statMode === 'month' ? '上月' : '去年'}`;
+        dl.textContent = delta == null ? '' : delta === 0 ? `与${vs}持平` : `${delta > 0 ? '↑' : '↓'} ${Math.abs(delta)}% 比${vs}`;
         $('ovCount').innerHTML = t.planned ? `已完成 <b>${t.done}</b> / ${t.planned} 次计划` : '这段时间还没有计划';
-        const last = P.elapsed[P.elapsed.length - 1];
         $('ovRange').textContent = P.elapsed.length ? (P.elapsed.length === P.keys.length ? `共 ${P.keys.length} 天` : `已过 ${P.elapsed.length} 天，共 ${P.keys.length} 天（只统计已到期的计划）`) : '这段时间还没有开始';
         $('ovRing').style.strokeDashoffset = String(263.9 * (1 - (t.pct || 0) / 100));
         const runs = perfectRuns();
-        $('tilePerfect').innerHTML = `<b>${t.perfect}</b><span>/ ${t.active} 天</span>`; $('tileDone').innerHTML = `<b>${t.done}</b><span>次</span>`;
-        $('tileStreak').innerHTML = `<b>${runs.cur}</b><span>天</span>`; $('tileBest').innerHTML = `<b>${runs.best}</b><span>天</span>`;
+        $('stPerfect').innerHTML = `<b>${t.perfect}</b><i>/ ${t.active} 天</i>`; $('stCur').innerHTML = `<b>${runs.cur}</b><i>天</i>`; $('stBest').innerHTML = `<b>${runs.best}</b><i>天</i>`;
         $('trendTitle').textContent = statMode === 'year' ? '每月完成率' : '每日完成率';
         $('trendChart').innerHTML = chartHTML(P);
         const sel = P.slots.find(s => s.k === statSel); $('dayDetail').innerHTML = P.mode === 'year' ? monthSummaryHTML(sel) : dayListHTML(statSel);
-        $('heatChart').innerHTML = heatHTML(); $('heatDetail').textContent = heatDetailText(heatSel);
-        $('wkdChart').innerHTML = weekdayHTML(P);
-        $('habitSub').textContent = `${P.name} · 完成天数 ÷ 计划天数，点一行看详情`;
+        $('habitSub').textContent = `${P.name} · 点一个习惯，看它的日历和连续天数`;
         $('habitStats').innerHTML = habitRowsHTML(P);
-        $('statTotal').textContent = totalCheckins(); $('statStreak').textContent = longestStreakAll();
-        const since = data.habits.length || totalCheckins() ? daysBetween2(min, todayKey) + 1 : 0;
-        $('statSince').textContent = since; $('statAvg').textContent = since ? (totalCheckins() / since).toFixed(1) : '0';
+        $('statFoot').textContent = footnoteText(P, min);
+        if(hdId) renderHD();
       }
       const daysBetween2 = (a, b) => Math.round((fromKey(b) - fromKey(a)) / 86400000);
+      // ---- 单个习惯详情 ----
+      let hdId = null, hdMonth = 0;
+      function hdFirstKey(h) { let m = h.created || todayKey; (data.checks[h.id] || []).forEach(k => { if(k < m) m = k; }); return m; }
+      function renderHD() {
+        const h = data.habits.find(x => x.id === hdId); if(!h) { closeHD(); return; }
+        const first = hdFirstKey(h), cur = habitStreak(h), best = bestStreak(h), total = (data.checks[h.id] || []).length;
+        const unit = (h.days || []).length === 7 ? '天' : '次';
+        const allKeys = []; for(let k = first; k <= todayKey; k = shiftDate(k, 1)) allKeys.push(k);
+        const all = habitTally(h, allKeys), last30 = habitTally(h, Array.from({ length: 30 }, (_, i) => shiftDate(todayKey, i - 29)));
+        const t = fromKey(todayKey), base = new Date(t.getFullYear(), t.getMonth() + hdMonth, 1), mk = monthKeys(base.getFullYear(), base.getMonth()), mt = habitTally(h, mk);
+        const lead = (base.getDay() + 6) % 7; let cells = '<i class="cal-e"></i>'.repeat(lead);
+        mk.forEach((k, i) => { const sc = isScheduled(h, k), dn = isDone(h, k), fut = k > todayKey;
+          const st = fut ? 'fut' : dn ? (sc ? 'done' : 'extra') : sc ? (k === todayKey ? 'open' : 'miss') : 'none';
+          cells += `<span class="cal-d ${st} ${k === todayKey ? 'today' : ''}" aria-label="${fmtMD(k)}，${st === 'done' || st === 'extra' ? '已完成' : st === 'miss' ? '未完成' : st === 'open' ? '今天还没完成' : st === 'none' ? '没有计划' : '还没到'}">${i + 1}</span>`; });
+        const days = h.days || [0, 1, 2, 3, 4, 5, 6]; const wk = [1, 2, 3, 4, 5, 6, 0].map(w => { let pl = 0, dn = 0; allKeys.forEach(k => { if(fromKey(k).getDay() === w && isScheduled(h, k)) { pl++; if(isDone(h, k)) dn++; } }); return { w, pl, pct: pl ? Math.round(dn / pl * 100) : null, on: days.includes(w) }; });
+        $('hdTitle').textContent = h.name;
+        $('hdBody').innerHTML = `<div class="hd-head"><span class="habit-glyph big" style="${toneStyle(h)}">${habitIconMarkup(h.emoji || '🌿')}</span><div><strong>${escapeHTML(h.name)}</strong><small>${repeatLabel(h)} · 开始于 ${fmtMD(first)}</small></div></div>
+          <div class="hd-stats"><div><small>当前连续</small><b>${cur}</b><i>${unit}</i></div><div><small>最长连续</small><b>${best}</b><i>${unit}</i></div><div><small>累计完成</small><b>${total}</b><i>次</i></div><div><small>近 30 天</small><b>${last30.pct == null ? '—' : last30.pct + '%'}</b></div><div><small>全部时间</small><b>${all.pct == null ? '—' : all.pct + '%'}</b></div><div><small>漏掉</small><b>${Math.max(0, all.poss - all.done)}</b><i>次</i></div></div>
+          <div class="s-card"><div class="cal-head"><button type="button" id="hdPrev" aria-label="上个月" ${base.getFullYear() * 12 + base.getMonth() <= fromKey(first).getFullYear() * 12 + fromKey(first).getMonth() ? 'disabled' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div><b>${base.getFullYear()} 年 ${base.getMonth() + 1} 月</b><small>${mt.poss ? `完成 ${mt.done} / ${mt.poss} 天` : '这个月没有计划'}</small></div><button type="button" id="hdNext" aria-label="下个月" ${hdMonth >= 0 ? 'disabled' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+            <div class="cal-w">${'一二三四五六日'.split('').map(c => `<span>${c}</span>`).join('')}</div><div class="cal-g" style="${toneStyle(h)}">${cells}</div>
+            <div class="cal-key" style="${toneStyle(h)}"><span><i class="k done"></i>完成</span><span><i class="k miss"></i>未完成</span><span><i class="k none"></i>没有计划</span></div></div>
+          <div class="s-card"><h3>哪天最稳</h3><p class="s-sub">按这个习惯自己的重复日，统计开始以来每个星期几的完成率。</p><div class="wkd" style="${toneStyle(h)}">${wk.map(r => `<div class="wk-row ${r.on ? '' : 'off'}"><span class="wk-n">周${'日一二三四五六'[r.w]}</span><div class="wk-bar"><i style="width:${r.pct || 0}%"></i></div><span class="wk-p">${!r.on ? '不安排' : r.pct == null ? '—' : r.pct + '%'}</span></div>`).join('')}</div></div>`;
+      }
+      function openHD(id) {
+        if(!data.habits.some(h => h.id === id)) return; hdId = id; hdMonth = 0; renderHD(); const p = $('habitDetail'); p.scrollTop = 0; p.classList.add('open'); p.setAttribute('aria-hidden', 'false'); document.body.classList.add('hd-open');
+      }
+      function closeHD() { hdId = null; const p = $('habitDetail'); p.classList.remove('open'); p.setAttribute('aria-hidden', 'true'); document.body.classList.remove('hd-open'); }
       document.addEventListener('click', e => {
         const tab = e.target.closest('[data-period]'); if(tab && STAT_MODES.includes(tab.dataset.period)) { if(statMode !== tab.dataset.period) { statMode = tab.dataset.period; statOff = 0; statSel = null; renderStats(); } return; }
         if(e.target.closest('#pPrev')) { if(!$('pPrev').disabled) { statOff--; statSel = null; renderStats(); } return; }
         if(e.target.closest('#pNext')) { if(!$('pNext').disabled) { statOff++; statSel = null; renderStats(); } return; }
         const sl = e.target.closest('[data-ssel]'); if(sl) { statSel = sl.dataset.ssel; renderStats(); return; }
-        const hd = e.target.closest('[data-hday]'); if(hd) { heatSel = hd.dataset.hday; document.querySelectorAll('#heatChart .hc.sel').forEach(c => c.classList.remove('sel')); hd.classList.add('sel'); $('heatDetail').textContent = heatDetailText(heatSel); return; }
-        const ho = e.target.closest('[data-hopen]'); if(ho) { statOpen = statOpen === ho.dataset.hopen ? null : ho.dataset.hopen; renderStats(); }
+        const ho = e.target.closest('[data-hopen]'); if(ho) { openHD(ho.dataset.hopen); return; }
+        if(e.target.closest('#hdBack')) { closeHD(); return; }
+        if(e.target.closest('#hdPrev')) { if(!e.target.closest('#hdPrev').disabled) { hdMonth--; renderHD(); } return; }
+        if(e.target.closest('#hdNext')) { if(!e.target.closest('#hdNext').disabled) { hdMonth++; renderHD(); } }
       });
       function setPage(page) {
         const prevPage=activePage; activePage=page;
@@ -2154,7 +2180,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'2.0.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
+        const payload={app:'Persist',version:'2.1.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2250,7 +2276,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       document.getElementById('confirmAction').addEventListener('click',()=>{const callback=confirmCallback;if(callback)callback();});
       document.getElementById('confirmBackdrop').addEventListener('click',e=>{if(e.target.id==='confirmBackdrop')closeConfirm();});
       document.addEventListener('keydown',e=>{
-        if(e.key==='Escape'){ if($('confirmBackdrop').classList.contains('open')) closeConfirm(); else closeEditor(false); return; }
+        if(e.key==='Escape'){ if($('confirmBackdrop').classList.contains('open')) closeConfirm(); else if(hdId) closeHD(); else closeEditor(false); return; }
         const t=e.target; if(!t || !t.matches) return;
         if(t.matches('.habit-open') && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); openEditor(t.dataset.edit); return; }
         if(t.matches('.drag-handle') && (e.key==='ArrowUp' || e.key==='ArrowDown')){ e.preventDefault(); moveHabit(t.dataset.drag,e.key==='ArrowUp'?-1:1); }
@@ -2308,6 +2334,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       // 系统返回键：先关弹窗，再关编辑页（有未保存修改会先确认），再从统计/设置页回到「今日」，都不需要才退出应用
       window.__RIHENGHandleBack = function() {
         if(document.getElementById('confirmBackdrop').classList.contains('open')) { closeConfirm(); return true; }
+        if(hdId) { closeHD(); return true; }
         if($('editorPage').classList.contains('open')) { closeEditor(false); return true; }
         if(activePage!=='today') { setPage('today'); return true; }
         return false;

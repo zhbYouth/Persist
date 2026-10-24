@@ -83,8 +83,9 @@ class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
             Reminder.ACTION_FIRE -> Reminder.fire(context)
+            TodoReminders.ACTION_FIRE -> TodoReminders.fire(context)
             // 重启、改时间/时区、应用更新后，闹钟会丢失或错位，重新排一次
-            else -> Reminder.schedule(context)
+            else -> { Reminder.schedule(context); TodoReminders.scheduleNext(context) }
         }
     }
 }

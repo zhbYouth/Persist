@@ -333,6 +333,7 @@ class MainActivity : Activity() {
         // 应用回到前台时顺便刷新小组件（日期可能已经跨天）
         HabitWidgetProvider.updateAll(this)
         Reminder.schedule(this)
+        TodoReminders.scheduleNext(this)
     }
 
     override fun onPause() {
@@ -378,6 +379,16 @@ class MainActivity : Activity() {
         @JavascriptInterface fun setReminder(enabled: Boolean, minutes: Int) {
             Reminder.set(this@MainActivity, enabled, minutes)
             if (enabled && !Reminder.canNotify(this@MainActivity) && Build.VERSION.SDK_INT >= 33) {
+                mainHandler.post { requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), REQ_NOTIFY) }
+            }
+        }
+
+        /** 网页把接下来要提醒的待办（id、标题、时间戳）整份交给原生。 */
+        @JavascriptInterface fun setTodoReminders(json: String) { TodoReminders.set(this@MainActivity, json) }
+
+        /** 网页里用到了需要通知的功能（比如给待办设了时间），请求通知权限。 */
+        @JavascriptInterface fun requestNotifications() {
+            if (!Reminder.canNotify(this@MainActivity) && Build.VERSION.SDK_INT >= 33) {
                 mainHandler.post { requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), REQ_NOTIFY) }
             }
         }

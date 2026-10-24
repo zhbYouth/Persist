@@ -1285,6 +1285,20 @@
     #page-settings .rem-time { border: 0; background: var(--surface-soft); border-radius: 12px; padding: 9px 12px; font: inherit; font-size: 15px; font-weight: 750; color: var(--ink); min-width: 92px; text-align: center; }
     #page-settings #remGroup[hidden], #page-settings #remTimeRow[hidden] { display: none; }
     #page-settings #remToggle .switch { margin-left: 4px; }
+    /* 2.3.0：账号 */
+    #authSheet { align-items: flex-start; padding: 12vh 18px 0; }
+    #authSheet .auth-modal { width: min(100%, 360px); margin: 0 auto; padding: 22px 22px 20px; border-radius: 26px; border: 1px solid var(--line); max-height: none; }
+    #authSheet .modal-head { margin-bottom: 14px; }
+    .auth-field { display: block; margin-bottom: 12px; }
+    .auth-field span { display: block; font-size: 12px; font-weight: 750; color: var(--muted); margin: 0 0 6px 2px; }
+    .auth-field input { width: 100%; box-sizing: border-box; border: 1px solid var(--line); background: var(--surface-soft); border-radius: 14px; padding: 13px 14px; font: inherit; font-size: 16px; color: var(--ink); outline: none; }
+    .auth-field input:focus { border-color: #9DB6FA; background: #fff; }
+    .auth-err { min-height: 18px; margin: 2px 2px 10px; font-size: 12.5px; color: var(--danger, #D64550); line-height: 1.5; }
+    .auth-go { width: 100%; flex: none; font-size: 16px; padding: 14px; }
+    .auth-go:disabled { opacity: .6; }
+    .auth-switch { display: block; width: 100%; margin-top: 10px; padding: 8px; border: 0; background: transparent; color: var(--green); font-size: 14px; font-weight: 700; }
+    #accIn[hidden], #accOut[hidden] { display: none; }
+    #page-settings #accEmail { word-break: break-all; }
   </style>
 </head>
 <body class="boot">
@@ -1336,8 +1350,8 @@
         <div class="hd" id="habitDetail" role="dialog" aria-modal="true" aria-label="习惯详情" aria-hidden="true"><div class="hd-top"><button type="button" id="hdBack" aria-label="返回"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><b id="hdTitle"></b><span></span></div><div id="hdBody"></div></div>
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
-          <div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 2.2.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯和打卡记录</small></span><span class="chevron">›</span></button></div></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 2.3.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1390,6 +1404,7 @@
     </form>
     <footer class="editor-footer" id="editorFooter"><div class="editor-footer-inner"><button type="button" class="btn-primary" id="editorSave">保存</button></div></footer>
   </div>
+  <div class="modal-backdrop" id="authSheet" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="modal auth-modal"><div class="modal-head"><h2 id="authTitle">登录</h2><button type="button" class="close-btn" id="authClose" aria-label="关闭">×</button></div><form id="authForm" novalidate><label class="auth-field"><span>邮箱</span><input id="authEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@example.com" /></label><label class="auth-field"><span>密码</span><input id="authPass" type="password" autocomplete="current-password" placeholder="至少 6 位" /></label><p class="auth-err" id="authErr" role="alert"></p><button type="submit" class="btn-primary auth-go" id="authGo">登录</button><button type="button" class="auth-switch" id="authSwitch">没有账号？去注册</button></form></div></div>
   <div class="modal-backdrop" id="confirmBackdrop" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="modal confirm-modal"><div class="modal-head"><h2 id="confirmTitle">确定要继续吗？</h2><button type="button" class="close-btn" id="closeConfirm" aria-label="关闭">×</button></div><p id="confirmText">此操作无法撤销。</p><div class="modal-footer"><button type="button" class="btn-secondary" id="cancelConfirm">取消</button><button type="button" class="btn-danger" id="confirmAction">确认</button></div></div></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
@@ -1484,6 +1499,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
         catch(e) { showToast('保存失败，请检查手机存储空间'); }
         try { if (window.RiHengNative && typeof window.RiHengNative.syncData === 'function') window.RiHengNative.syncData(JSON.stringify(syncPayload())); } catch(e) {}
+        try { syncDirty(); } catch(e) {}
       }
       function saveSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch(e) {} }
       function isScheduled(habit, key) { return (habit.days||[0,1,2,3,4,5,6]).includes(fromKey(key).getDay()) && key >= (habit.created || '0000-00-00'); }
@@ -1814,7 +1830,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
       function deleteHabit(habitId) {
         const habit=data.habits.find(h=>h.id===habitId); if(!habit)return;
-        openConfirm('删除这个习惯？', `将删除「${habit.name}」以及它的全部打卡记录，此操作无法撤销。`, ()=>{data.habits=data.habits.filter(h=>h.id!==habitId);delete data.checks[habitId];saveData();closeConfirm();closeEditor(true);renderAfterEditor();showToast('习惯已删除');}, '删除习惯');
+        openConfirm('删除这个习惯？', `将删除「${habit.name}」以及它的全部打卡记录，此操作无法撤销。`, ()=>{data.habits=data.habits.filter(h=>h.id!==habitId);delete data.checks[habitId];try{markDeleted(habitId);}catch(e){}saveData();closeConfirm();closeEditor(true);renderAfterEditor();showToast('习惯已删除');}, '删除习惯');
       }
       function flushLeave() { if(leaveTimer) { clearTimeout(leaveTimer); leaveTimer = 0; const f = leaveFn; leaveFn = null; if(f) f(); } }
       function toggleCheck(habitId, key=todayKey) {
@@ -2202,7 +2218,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'2.2.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
+        const payload={app:'Persist',version:'2.3.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2297,7 +2313,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       document.getElementById('confirmAction').addEventListener('click',()=>{const callback=confirmCallback;if(callback)callback();});
       document.getElementById('confirmBackdrop').addEventListener('click',e=>{if(e.target.id==='confirmBackdrop')closeConfirm();});
       document.addEventListener('keydown',e=>{
-        if(e.key==='Escape'){ if($('confirmBackdrop').classList.contains('open')) closeConfirm(); else if(hdId) closeHD(); else closeEditor(false); return; }
+        if(e.key==='Escape'){ if($('authSheet').classList.contains('open')) closeAuth(); else if($('confirmBackdrop').classList.contains('open')) closeConfirm(); else if(hdId) closeHD(); else closeEditor(false); return; }
         const t=e.target; if(!t || !t.matches) return;
         if(t.matches('.habit-open') && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); openEditor(t.dataset.edit); return; }
         if(t.matches('.drag-handle') && (e.key==='ArrowUp' || e.key==='ArrowDown')){ e.preventDefault(); moveHabit(t.dataset.drag,e.key==='ArrowUp'?-1:1); }
@@ -2347,6 +2363,153 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         setTimeout(() => body.classList.remove('entering'), 1900);
       }
       window.__RIHENGReveal = revealApp;
+      // ================= 账号与云同步（Supabase）=================
+      // 登录用邮箱+密码；数据整份存在云端 user_data 表里自己的那一行（行级安全保证别人读不到）。
+      // 没登录时应用完全离线可用。同步策略：只改了本机→上传；只改了云端→下载；两边都改了→合并（取并集，删除以「墓碑」为准）。
+      const SB_URL = 'https://uaivdrnneyjqrywqtqwz.supabase.co', SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhaXZkcm5uZXlqcXJ5d3F0cXd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4MDUyNzIsImV4cCI6MjEwODM4MTI3Mn0.DGO_4vv7B0RwuLnBFCywNaE9ngcR_vSUuBFZfxy3qEU';
+      const AUTH_KEY = 'riheng.v1.auth', SYNC_KEY = 'riheng.v1.sync';
+      const lsGet = k => { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } };
+      const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} };
+      let auth = lsGet(AUTH_KEY);                                            // {access, refresh, exp, uid, email}
+      let sync = Object.assign({ lastRemote: 0, rev: 0, pushedRev: 0, deleted: {}, at: 0, state: 'idle' }, lsGet(SYNC_KEY) || {});
+      const saveSync = () => lsSet(SYNC_KEY, { lastRemote: sync.lastRemote, rev: sync.rev, pushedRev: sync.pushedRev, deleted: sync.deleted, at: sync.at });
+      let syncBusy = false, syncTimer = 0, syncAgain = false;
+
+      class SBError extends Error { constructor(code, msg) { super(msg || code); this.code = code; } }
+      async function sbFetch(path, opts = {}, token) {
+        let res;
+        try {
+          res = await fetch(SB_URL + path, Object.assign({}, opts, { headers: Object.assign({ apikey: SB_KEY, 'Content-Type': 'application/json' }, token ? { Authorization: 'Bearer ' + token } : {}, opts.headers || {}) }));
+        } catch(e) { throw new SBError('network', '连不上服务器，请检查网络'); }
+        let body = null; try { body = await res.json(); } catch(e) {}
+        if(!res.ok) throw new SBError((body && (body.error_code || body.code || body.error)) || ('http_' + res.status), (body && (body.msg || body.message || body.error_description)) || '');
+        return body;
+      }
+      const authMsg = e => {
+        const c = String(e.code || '');
+        if(c === 'network') return '连不上服务器，请检查网络';
+        if(/invalid_credentials|invalid_grant/.test(c)) return '邮箱或密码不对';
+        if(/user_already_exists|already/.test(c)) return '这个邮箱已经注册了，请直接登录';
+        if(/weak_password/.test(c)) return '密码太简单，至少 6 位';
+        if(/validation_failed|email_address_invalid/.test(c)) return '邮箱格式不太对';
+        if(/over_email_send_rate_limit|over_request_rate_limit|429/.test(c)) return '操作太频繁，请稍后再试';
+        return '失败了：' + (e.message || c || '未知错误');
+      };
+      function setSession(s) {
+        const exp = Date.now() + (Number(s.expires_in) || 3600) * 1000;
+        auth = { access: s.access_token, refresh: s.refresh_token, exp, uid: s.user && s.user.id || (auth && auth.uid), email: (s.user && s.user.email) || (auth && auth.email) };
+        lsSet(AUTH_KEY, auth);
+      }
+      async function validToken() {
+        if(!auth) throw new SBError('no_auth');
+        if(auth.exp - Date.now() > 60000) return auth.access;
+        try { setSession(await sbFetch('/auth/v1/token?grant_type=refresh_token', { method: 'POST', body: JSON.stringify({ refresh_token: auth.refresh }) })); }
+        catch(e) { if(e.code !== 'network') { signOutLocal(); showToast('登录已过期，请重新登录'); throw new SBError('expired'); } throw e; }
+        return auth.access;
+      }
+      function signOutLocal() { auth = null; try { localStorage.removeItem(AUTH_KEY); } catch(e) {} sync = Object.assign(sync, { lastRemote: 0, rev: 0, pushedRev: 0, deleted: {}, at: 0, state: 'idle' }); saveSync(); renderAccount(); }
+
+      // ---- 数据 ----
+      const localDoc = () => ({ v: 1, habits: data.habits, checks: data.checks, deleted: sync.deleted });
+      function mergeDocs(local, remote) {
+        const dead = Object.assign({}, remote.deleted || {}, local.deleted || {});
+        const seen = new Set(), habits = [];
+        [...(local.habits || []), ...(remote.habits || [])].forEach(h => { if(h && !seen.has(h.id) && !dead[h.id]) { seen.add(h.id); habits.push(h); } });
+        const checks = {};
+        habits.forEach(h => { const a = (local.checks || {})[h.id] || [], b = (remote.checks || {})[h.id] || []; const u = [...new Set([...a, ...b])].sort(); if(u.length) checks[h.id] = u; });
+        return { v: 1, habits, checks, deleted: dead };
+      }
+      function applyDoc(doc) {                     // 把云端数据落到本机（不算「本机修改」）
+        const n = normalizeData({ habits: doc.habits, checks: doc.checks }); if(!n) return false;
+        data = n; sync.deleted = Object.assign({}, doc.deleted || {});
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+        try { if(window.RiHengNative && typeof window.RiHengNative.syncData === 'function') window.RiHengNative.syncData(JSON.stringify(syncPayload())); } catch(e) {}
+        render(); return true;
+      }
+      function syncDirty() { if(!auth) return; sync.rev++; saveSync(); scheduleSync(2500); }
+      function markDeleted(id) { sync.deleted[id] = Date.now(); saveSync(); }
+      function scheduleSync(ms) { clearTimeout(syncTimer); syncTimer = setTimeout(() => syncNow(), ms); }
+      const needsPush = () => sync.rev !== sync.pushedRev;
+      const DEFAULT_NAMES = ['阅读 20 分钟', '喝够 8 杯水', '出门走一走', '睡前放松 10 分钟'];
+      const isPristine = () => !Object.keys(data.checks).length && data.habits.length <= 4 && data.habits.every(h => DEFAULT_NAMES.includes(h.name));   // 新装机还没动过的示例数据，不当作用户数据去合并
+
+      async function push(doc, token, revAtStart) {
+        const at = new Date().toISOString();
+        const rows = await sbFetch('/rest/v1/user_data?on_conflict=user_id', { method: 'POST', headers: { Prefer: 'resolution=merge-duplicates,return=representation' }, body: JSON.stringify({ user_id: auth.uid, data: doc, updated_at: at }) }, token);
+        const row = Array.isArray(rows) ? rows[0] : rows;
+        sync.lastRemote = new Date(row && row.updated_at || at).getTime();
+        sync.pushedRev = revAtStart; sync.at = Date.now();
+      }
+      async function syncNow(manual) {
+        if(!auth) return;
+        if(syncBusy) { syncAgain = true; return; }
+        syncBusy = true; sync.state = 'syncing'; renderAccount();
+        try {
+          const token = await validToken();
+          const rows = await sbFetch('/rest/v1/user_data?select=data,updated_at&user_id=eq.' + encodeURIComponent(auth.uid), { method: 'GET' }, token);
+          const remote = rows && rows[0], rev0 = sync.rev;
+          if(!remote) { await push(localDoc(), token, rev0); }
+          else {
+            const rAt = new Date(remote.updated_at).getTime();
+            if(rAt === sync.lastRemote) { if(needsPush()) await push(localDoc(), token, rev0); else sync.at = Date.now(); }
+            else if((!needsPush() && sync.lastRemote) || (!sync.lastRemote && isPristine())) { if(applyDoc(remote.data || {})) { sync.lastRemote = rAt; sync.pushedRev = sync.rev; sync.at = Date.now(); } }
+            else { const merged = mergeDocs(localDoc(), remote.data || {}); applyDoc(merged); sync.rev++; await push(merged, token, sync.rev); }
+          }
+          sync.state = 'ok'; saveSync();
+          if(manual) showToast('已同步');
+        } catch(e) {
+          sync.state = e.code === 'network' ? 'offline' : 'error'; saveSync();
+          if(e.code === 'expired') sync.state = 'idle';
+          else if(manual) showToast(e.code === 'network' ? '连不上服务器，稍后会自动重试' : authMsg(e));
+          else if(e.code === 'network') scheduleSync(60000);
+        }
+        syncBusy = false; renderAccount();
+        if(syncAgain) { syncAgain = false; scheduleSync(800); }
+      }
+
+      // ---- 账号界面 ----
+      function syncStatusText() {
+        if(sync.state === 'syncing') return '正在同步…';
+        if(sync.state === 'offline') return '离线，联网后自动同步';
+        if(sync.state === 'error') return '上次同步失败，点「立即同步」重试';
+        if(needsPush()) return '有改动等待同步';
+        if(!sync.at) return '已登录';
+        const m = Math.round((Date.now() - sync.at) / 60000); return m < 1 ? '已同步 · 刚刚' : m < 60 ? `已同步 · ${m} 分钟前` : `已同步 · ${new Date(sync.at).getHours()}:${String(new Date(sync.at).getMinutes()).padStart(2, '0')}`;
+      }
+      function renderAccount() {
+        const out = $('accOut'), inn = $('accIn'); if(!out) return;
+        out.hidden = !!auth; inn.hidden = !auth;
+        if(auth) { $('accEmail').textContent = auth.email || '已登录'; $('accStatus').textContent = syncStatusText(); }
+      }
+      let authMode = 'login';
+      function openAuth() { setAuthMode('login'); $('authErr').textContent = ''; $('authSheet').classList.add('open'); setTimeout(() => $('authEmail').focus(), 120); }
+      function closeAuth() { $('authSheet').classList.remove('open'); $('authPass').value = ''; }
+      function setAuthMode(m) { authMode = m; $('authTitle').textContent = m === 'login' ? '登录' : '注册账号'; $('authGo').textContent = m === 'login' ? '登录' : '注册并登录'; $('authSwitch').textContent = m === 'login' ? '没有账号？去注册' : '已有账号？去登录'; $('authPass').autocomplete = m === 'login' ? 'current-password' : 'new-password'; $('authErr').textContent = ''; }
+      async function submitAuth() {
+        const email = $('authEmail').value.trim(), password = $('authPass').value, err = $('authErr');
+        if(!/^\S+@\S+\.\S+$/.test(email)) { err.textContent = '请输入正确的邮箱'; return; }
+        if(password.length < 6) { err.textContent = '密码至少 6 位'; return; }
+        const btn = $('authGo'); btn.disabled = true; err.textContent = '';
+        try {
+          let s;
+          if(authMode === 'signup') { s = await sbFetch('/auth/v1/signup', { method: 'POST', body: JSON.stringify({ email, password }) }); if(!s.access_token) { err.textContent = '注册成功，但需要先去邮箱点验证链接再登录'; btn.disabled = false; return; } }
+          else s = await sbFetch('/auth/v1/token?grant_type=password', { method: 'POST', body: JSON.stringify({ email, password }) });
+          sync = Object.assign(sync, { lastRemote: 0, rev: 1, pushedRev: 0, deleted: sync.deleted || {}, at: 0 });
+          setSession(s); closeAuth(); renderAccount(); showToast(authMode === 'signup' ? '注册成功' : '登录成功'); await syncNow(false);
+        } catch(e) { err.textContent = authMsg(e); }
+        btn.disabled = false;
+      }
+      $('accLogin').addEventListener('click', openAuth);
+      $('authClose').addEventListener('click', closeAuth);
+      $('authSheet').addEventListener('click', e => { if(e.target === $('authSheet')) closeAuth(); });
+      $('authSwitch').addEventListener('click', () => setAuthMode(authMode === 'login' ? 'signup' : 'login'));
+      $('authForm').addEventListener('submit', e => { e.preventDefault(); submitAuth(); });
+      $('accSync').addEventListener('click', () => syncNow(true));
+      $('accLogout').addEventListener('click', () => openConfirm('退出登录？', '退出后本机的数据会保留，但不再同步。', () => { signOutLocal(); showToast('已退出登录'); }, '退出'));
+      document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && auth) scheduleSync(600); });
+      window.addEventListener('online', () => { if(auth) scheduleSync(600); });
+      renderAccount(); if(auth) scheduleSync(1500);
+
       // ---- 每日提醒：原生负责排期和发通知，这里只是开关和时间 ----
       const remNative = () => (window.RiHengNative && typeof window.RiHengNative.getReminder === 'function' && typeof window.RiHengNative.setReminder === 'function') ? window.RiHengNative : null;
       const remFmt = m => String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
@@ -2374,6 +2537,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       // 系统返回键：先关弹窗，再关编辑页（有未保存修改会先确认），再从统计/设置页回到「今日」，都不需要才退出应用
       window.__RIHENGHandleBack = function() {
         if(document.getElementById('confirmBackdrop').classList.contains('open')) { closeConfirm(); return true; }
+        if(document.getElementById('authSheet').classList.contains('open')) { closeAuth(); return true; }
         if(hdId) { closeHD(); return true; }
         if($('editorPage').classList.contains('open')) { closeEditor(false); return true; }
         if(activePage!=='today') { setPage('today'); return true; }
@@ -2383,9 +2547,11 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         try {
           const incoming = normalizeData(typeof raw === 'string' ? JSON.parse(raw) : raw);
           if (!incoming) return;
+          const before = JSON.stringify(data.habits) + JSON.stringify(data.checks);
           data = incoming;
           try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
           render();
+          try { if(before !== JSON.stringify(data.habits) + JSON.stringify(data.checks)) syncDirty(); } catch(e) {}
         } catch(e) {}
       };
       try { localStorage.removeItem('riheng.v1.pet'); } catch(e) {}

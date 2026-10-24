@@ -39,6 +39,7 @@ class MainActivity : Activity() {
         private const val REQ_FILE_CHOOSER = 4201
         private const val REQ_EXPORT = 4202
         private const val REQ_IMPORT = 4203
+        private const val REQ_NOTIFY = 4204
         private const val MAX_IMPORT_BYTES = 8 * 1024 * 1024
         private const val SPLASH_MAX_MS = 2000L
         private const val PAGE_BG = 0xFFF5F7FB.toInt()
@@ -318,6 +319,11 @@ class MainActivity : Activity() {
         }.start()
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQ_NOTIFY) notifyPage(if (Reminder.canNotify(this)) "reminder-allowed" else "reminder-denied")
+    }
+
     override fun onResume() {
         super.onResume()
         if (::webView.isInitialized) {
@@ -326,6 +332,7 @@ class MainActivity : Activity() {
         }
         // 应用回到前台时顺便刷新小组件（日期可能已经跨天）
         HabitWidgetProvider.updateAll(this)
+        Reminder.schedule(this)
     }
 
     override fun onPause() {
@@ -361,6 +368,18 @@ class MainActivity : Activity() {
 
         @JavascriptInterface fun importBackup() {
             mainHandler.post { startImport() }
+        }
+
+        /** 每日提醒的当前设置：{enabled, minutes, allowed}（allowed = 系统是否允许本应用发通知）。 */
+        @JavascriptInterface fun getReminder(): String =
+            JSONObject().put("enabled", Reminder.enabled(this@MainActivity)).put("minutes", Reminder.minutes(this@MainActivity))
+                .put("allowed", Reminder.canNotify(this@MainActivity)).toString()
+
+        @JavascriptInterface fun setReminder(enabled: Boolean, minutes: Int) {
+            Reminder.set(this@MainActivity, enabled, minutes)
+            if (enabled && !Reminder.canNotify(this@MainActivity) && Build.VERSION.SDK_INT >= 33) {
+                mainHandler.post { requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), REQ_NOTIFY) }
+            }
         }
 
         /** 网页首屏已就绪：撤掉启动页，开始进场动画。 */

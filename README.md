@@ -1,4 +1,4 @@
-# Persist
+# 成事（Persist）
 
 [![最新版本](https://img.shields.io/github/v/release/zhbYouth/Persist?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC)](../../releases/latest)
 
@@ -18,7 +18,7 @@
 到 **[Releases](../../releases/latest)** 下载最新的 `Persist-x.y.z.apk` 安装。升级直接覆盖安装，数据不会丢（包名 `com.riheng.app` 与签名保持不变）。
 每次推送到 `main`，GitHub Actions 会自动构建并发布新的 Release。
 
-添加小组件：长按桌面空白处 → 小组件 → 搜索「Persist」。
+添加小组件：长按桌面空白处 → 小组件 → 搜索「成事」。
 
 ## 技术说明
 主界面是 WebView 加载的单页应用（`app/src/main/assets/index.html`），桌面小组件、提醒和文件导出由原生 Kotlin 实现。云同步使用 Supabase（邮箱登录 + 一张按用户隔离的表，建表 SQL 见 [docs/supabase.sql](docs/supabase.sql)）。

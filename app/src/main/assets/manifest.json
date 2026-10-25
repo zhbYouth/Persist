@@ -1,7 +1,7 @@
 {
   "id": "./index.html",
-  "name": "Persist · 把小事做成日常",
-  "short_name": "Persist",
+  "name": "成事 · 把想做的事做成",
+  "short_name": "成事",
   "description": "轻盈、专注的习惯打卡应用。",
   "lang": "zh-CN",
   "start_url": "./index.html",

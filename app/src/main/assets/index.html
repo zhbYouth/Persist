@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f5f7fb" />
-  <meta name="description" content="Persist，一款轻盈、专注的习惯打卡应用。" />
+  <meta name="description" content="成事，一款轻盈、专注的待办与习惯打卡应用。" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <title>Persist · 把小事做成日常</title>
+  <title>成事 · 把想做的事做成</title>
   <style>
     :root {
       --bg: #f5f6f1;
@@ -1365,7 +1365,7 @@
     .wheel-i.on { color: var(--ink); font-weight: 750; font-size: 16.5px; }
     .wheel-band { position: absolute; z-index: 1; left: 0; right: 0; top: 36px; height: 36px; border-radius: 11px; background: rgba(44,98,238,.10); pointer-events: none; }
     .wheel-wrap { position: relative; margin-top: 6px; } .wheel-wrap .wheel { margin-top: 0; }
-    /* 3.4.0：自绘日期/时间选择、重复一行、排序、更顺的动画 */
+    /* 3.4.1：自绘日期/时间选择、重复一行、排序、更顺的动画 */
     .tf-pick { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; height: 38px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface-soft); padding: 0 12px; font: inherit; font-size: 14px; font-weight: 650; color: #8D99B3; text-align: left; transition: scale .25s cubic-bezier(.34,1.5,.64,1); }
     .tf-pick.set { color: var(--ink); } .tf-pick:active { scale: .97; }
     #tfRepRow { margin: 8px 0 0; } #tfRepRow[hidden] { display: none; }
@@ -1470,7 +1470,7 @@
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div>
-        <div><div class="brand-name">Persist</div><div class="brand-sub">MAKE IT A ROUTINE</div></div>
+        <div><div class="brand-name">成事</div><div class="brand-sub">GET IT DONE</div></div>
       </div>
       <div class="top-actions"></div>
     </header>
@@ -1512,7 +1512,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.4.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.4.1 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -2408,7 +2408,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.4.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.4.1',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }

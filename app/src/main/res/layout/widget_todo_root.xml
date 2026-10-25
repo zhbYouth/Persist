@@ -48,7 +48,7 @@
             android:layout_height="30dp"
             android:gravity="center"
             android:text="↗"
-            android:contentDescription="打开 Persist"
+            android:contentDescription="打开成事"
             android:textColor="@color/widget_muted"
             android:textSize="16sp"
             android:textStyle="bold" />

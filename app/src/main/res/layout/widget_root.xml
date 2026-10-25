@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Persist"
+            android:text="成事"
             android:textColor="@color/widget_ink"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -61,7 +61,7 @@
         android:layout_height="20dp"
         android:gravity="center_vertical|end"
         android:maxLines="1"
-        android:text="打开 Persist ↗"
+        android:text="打开成事 ↗"
         android:textColor="@color/widget_muted"
         android:textSize="12sp"
         android:textStyle="bold" />

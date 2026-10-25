@@ -70,7 +70,7 @@ object Reminder {
         )
         val n = android.app.Notification.Builder(c, CHANNEL)
             .setSmallIcon(R.drawable.ic_stat_check)
-            .setContentTitle("Persist")
+            .setContentTitle("成事")
             .setContentText("今天还剩 $left 项没完成")
             .setContentIntent(open)
             .setAutoCancel(true)

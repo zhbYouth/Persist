@@ -1304,13 +1304,20 @@
     #page-todo .todo-quick input { flex: 1; min-width: 0; box-sizing: border-box; height: 48px; border: 1px solid var(--line); background: #fff; border-radius: 16px; padding: 0 16px; font: inherit; font-size: 16px; color: var(--ink); outline: none; }
     #page-todo .todo-quick input:focus { border-color: #9DB6FA; }
     #page-todo .todo-quick .plus-btn { width: 48px; height: 48px; }
-    #todoSeg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px; background: #E9EEFA; border-radius: 16px; margin-bottom: 12px; }
+    #todoSeg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; background: #E9EEFA; border-radius: 16px; margin-bottom: 12px; }
     #todoSeg button { position: relative; border: 0; background: transparent; height: 38px; border-radius: 12px; font: inherit; font-size: 14px; font-weight: 750; color: #5B6B8C; display: flex; align-items: center; justify-content: center; gap: 5px; transition: background-color .2s ease, color .2s ease; }
     #todoSeg button b { font-size: 11px; min-width: 17px; height: 17px; border-radius: 9px; padding: 0 5px; display: inline-grid; place-items: center; background: #D6DFF5; color: #4A5A7C; }
     #todoSeg button b:empty { display: none; }
     #todoSeg button.selected { background: #fff; color: var(--ink); box-shadow: 0 2px 8px rgba(40,70,140,.12); }
     #todoSeg button.selected b { background: #E4EBFD; color: var(--green); }
-    #todoLists { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 12px; margin: 0 -2px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    #todoSub2 { display: flex; gap: 22px; padding: 0 6px; margin: -2px 0 10px; }
+    #todoSub2[hidden] { display: none; }
+    #todoSub2 button { position: relative; border: 0; background: transparent; padding: 6px 2px 8px; font: inherit; font-size: 15px; font-weight: 750; color: #8D99B3; display: flex; align-items: center; gap: 6px; }
+    #todoSub2 button b { font-size: 11px; font-weight: 700; color: #8D99B3; }
+    #todoSub2 button b:empty { display: none; }
+    #todoSub2 button::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 3px; background: var(--green); transform: scaleX(0); transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+    #todoSub2 button.selected { color: var(--ink); } #todoSub2 button.selected::after { transform: scaleX(1); } #todoSub2 button.selected b { color: var(--green); }
+    #todoLists { gap: 8px; overflow-x: auto; padding: 2px 2px 12px; margin: 0 -2px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     #todoLists::-webkit-scrollbar { display: none; }
     .lchip { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: #51607F; font: inherit; font-size: 13.5px; font-weight: 700; white-space: nowrap; }
     .lchip.on { background: #E4EBFD; border-color: #C9D8FF; color: var(--green); }
@@ -1355,6 +1362,28 @@
     .wheel-i.on { color: var(--ink); font-weight: 750; font-size: 16.5px; }
     .wheel-band { position: absolute; z-index: 1; left: 0; right: 0; top: 36px; height: 36px; border-radius: 11px; background: rgba(44,98,238,.10); pointer-events: none; }
     .wheel-wrap { position: relative; margin-top: 6px; } .wheel-wrap .wheel { margin-top: 0; }
+    /* 3.2：待办弹窗精简 + 更顺的动画 */
+    .todo-h1 { font-size: 26px; line-height: 1.22; letter-spacing: -.5px; font-weight: 800; margin: 2px 0 0; }
+    #todoSheet, #listSheet { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(15,22,40,.38); }
+    #todoSheet .modal, #listSheet .modal { transform: translateY(18px); transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .22s ease; will-change: transform, opacity; }
+    #todoSheet.open .modal, #listSheet.open .modal { transform: none; }
+    #todoSheet .todo-modal { padding: 16px 16px 14px; border-radius: 22px; }
+    #todoSheet .modal-head { margin-bottom: 2px; } #todoSheet .modal-head h2 { font-size: 17px; }
+    #todoSheet .close-btn { width: 32px; height: 32px; font-size: 20px; }
+    #todoSheet .tf-title { font-size: 17px; padding: 6px 2px 10px; }
+    #todoSheet .tf-chips { margin: 10px 0 8px; gap: 6px; } #todoSheet .tf-chips button { height: 30px; font-size: 12.5px; border-radius: 10px; }
+    #todoSheet .tf-row label { font-size: 11.5px; }
+    #todoSheet .tf-row input, #todoSheet .tf-subadd input { height: 38px; font-size: 14px; border-radius: 11px; margin-top: 4px; }
+    #todoSheet .tf-label { font-size: 11.5px; margin: 10px 2px 5px; }
+    #todoSheet .tf-seg button { height: 32px; font-size: 13px; border-radius: 10px; }
+    #todoSheet .tf-note { font-size: 14px; padding: 8px 2px 2px; }
+    #todoSheet .tf-subadd button { width: 38px; height: 38px; border-radius: 11px; }
+    #todoSheet .tf-actions { margin-top: 12px; } #todoSheet .tf-actions .btn-primary, #todoSheet .tf-actions .btn-danger { height: 42px; font-size: 15px; border-radius: 13px; }
+    .tf-more { display: flex; align-items: center; gap: 4px; margin: 10px 0 0; padding: 4px 2px; border: 0; background: transparent; font: inherit; font-size: 13px; font-weight: 700; color: #6B7A99; }
+    .tf-more svg { width: 15px; height: 15px; transition: transform .25s cubic-bezier(.22,1,.36,1); } .tf-more[aria-expanded="true"] svg { transform: rotate(180deg); }
+    #tfMore:not([hidden]) { animation: tfIn .22s ease both; } @keyframes tfIn { from { opacity: 0; transform: translateY(-4px); } }
+    .wheel { height: 90px; padding: 30px 0; } .wheel-i { height: 30px; line-height: 30px; font-size: 14px; } .wheel-i.on { font-size: 15px; } .wheel-band { top: 30px; height: 30px; }
+    #todoList.sw { animation: todoSw .2s ease both; } @keyframes todoSw { from { opacity: 0; transform: translateY(6px); } }
     .tf-label { font-size: 12px; font-weight: 750; color: var(--muted); margin: 14px 2px 7px; }
     .tf-chips { display: flex; gap: 8px; margin: 12px 0 8px; }
     .tf-chips button { flex: 1; height: 34px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); font: inherit; font-size: 13.5px; font-weight: 700; color: #51607F; }
@@ -1406,10 +1435,10 @@
       </aside>
       <main>
         <section class="page active" id="page-todo">
-          <div class="page-header"><div><div class="eyebrow" id="todoEyebrow"></div><h1>待办</h1><p class="subheading" id="todoSub"></p></div></div>
+          <div class="page-header"><div><div class="eyebrow" id="todoEyebrow"></div><h1 class="todo-h1">做想做的事，<br>也把重要的事做完</h1><p class="subheading" id="todoSub"></p></div></div>
           <form class="todo-quick" id="todoQuick" autocomplete="off"><input id="todoQuickInput" type="text" maxlength="120" enterkeyhint="done" placeholder="添加待办，回车保存" aria-label="添加待办" /><button type="button" class="plus-btn" id="todoAddBtn" aria-label="详细添加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></form>
-          <div id="todoSeg" role="tablist" aria-label="待办视图"><button type="button" role="tab" data-tview="today" class="selected">今天<b></b></button><button type="button" role="tab" data-tview="plan">计划<b></b></button><button type="button" role="tab" data-tview="all">全部<b></b></button><button type="button" role="tab" data-tview="done">已完成<b></b></button></div>
-          <div id="todoLists" aria-label="清单"></div>
+          <div id="todoSeg" role="tablist" aria-label="待办分组"><button type="button" role="tab" data-tview="pending">待确定<b></b></button><button type="button" role="tab" data-tview="ok" class="selected">已确定<b></b></button><button type="button" role="tab" data-tview="done">已完成<b></b></button></div>
+          <div id="todoSub2" role="tablist" aria-label="已确定"><button type="button" role="tab" data-tsub="today" class="selected">今天<b></b></button><button type="button" role="tab" data-tsub="future">未来<b></b></button></div>
           <div id="todoList"></div>
         </section>
         <section class="page" id="page-today">
@@ -1433,7 +1462,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.1.1 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.2.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1487,12 +1516,16 @@
     <footer class="editor-footer" id="editorFooter"><div class="editor-footer-inner"><button type="button" class="btn-primary" id="editorSave">保存</button></div></footer>
   </div>
   <div class="modal-backdrop" id="todoSheet" role="dialog" aria-modal="true" aria-labelledby="todoSheetTitle"><div class="modal todo-modal"><div class="modal-head"><h2 id="todoSheetTitle">新待办</h2><button type="button" class="close-btn" id="todoClose" aria-label="关闭">×</button></div>
-    <form id="todoForm" novalidate autocomplete="off"><input id="tfTitle" class="tf-title" type="text" maxlength="120" placeholder="要做什么？" /><textarea id="tfNote" class="tf-note" rows="2" maxlength="2000" placeholder="备注（可选）"></textarea>
-      <div class="tf-chips" id="tfDates"><button type="button" data-qd="today">今天</button><button type="button" data-qd="tomorrow">明天</button><button type="button" data-qd="week">下周</button><button type="button" data-qd="none">不限</button></div>
+    <form id="todoForm" novalidate autocomplete="off"><input id="tfTitle" class="tf-title" type="text" maxlength="120" placeholder="要做什么？" />
+      <div class="tf-chips" id="tfDates"><button type="button" data-qd="today">今天</button><button type="button" data-qd="tomorrow">明天</button><button type="button" data-qd="week">下周</button><button type="button" data-qd="none">待确定</button></div>
       <div class="tf-row"><label>日期<input type="date" id="tfDue" /></label><label>提醒时间<input type="time" id="tfTime" /></label></div>
-      <div class="tf-label">优先级</div><div class="tf-seg" id="tfPrio"><button type="button" data-p="0">无</button><button type="button" data-p="1">低</button><button type="button" data-p="2">中</button><button type="button" data-p="3">高</button></div>
-      <div class="tf-row" style="margin-top:14px"><label>清单<select id="tfList" hidden></select><div class="wheel" data-for="tfList"></div></label><label>重复<div class="wheel" data-for="tfRepeat"></div><select id="tfRepeat" hidden><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select></label></div>
-      <div class="tf-label">子任务</div><div id="tfSubs"></div><div class="tf-subadd"><input id="tfSubInput" type="text" maxlength="80" enterkeyhint="done" placeholder="添加子任务，回车" /><button type="button" id="tfSubAdd" aria-label="添加子任务">＋</button></div>
+      <button type="button" class="tf-more" id="tfMoreBtn" aria-expanded="false">更多选项<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div id="tfMore" hidden>
+        <textarea id="tfNote" class="tf-note" rows="2" maxlength="2000" placeholder="备注"></textarea>
+        <div class="tf-label">优先级</div><div class="tf-seg" id="tfPrio"><button type="button" data-p="0">无</button><button type="button" data-p="1">低</button><button type="button" data-p="2">中</button><button type="button" data-p="3">高</button></div>
+        <div class="tf-row" style="margin-top:12px"><select id="tfList" hidden></select><label>重复<div class="wheel" data-for="tfRepeat"></div><select id="tfRepeat" hidden><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select></label></div>
+        <div class="tf-label">子任务</div><div id="tfSubs"></div><div class="tf-subadd"><input id="tfSubInput" type="text" maxlength="80" enterkeyhint="done" placeholder="添加子任务，回车" /><button type="button" id="tfSubAdd" aria-label="添加子任务">＋</button></div>
+      </div>
       <div class="tf-actions"><button type="button" class="btn-danger" id="tfDelete" hidden>删除</button><button type="submit" class="btn-primary">保存</button></div></form></div></div>
   <div class="modal-backdrop" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listSheetTitle"><div class="modal todo-modal"><div class="modal-head"><h2 id="listSheetTitle">新建清单</h2><button type="button" class="close-btn" id="listClose" aria-label="关闭">×</button></div>
     <form id="listForm" novalidate autocomplete="off"><input id="lfName" type="text" maxlength="20" placeholder="清单名称，比如 工作、生活" /><div id="lfColors"></div>
@@ -2321,7 +2354,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.1.1',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.2.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2479,7 +2512,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       const todos = () => data.todos || (data.todos = []);
       const lists = () => data.lists || (data.lists = []);
       const newId = p => p + '_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
-      let todoView = 'today', todoList = '*';           // todoList：'*' 全部清单 / '_' 收集箱（没有清单）/ 清单 id
+      let todoView = 'ok', todoSub = 'today', todoList = '*';           // todoList：'*' 全部清单 / '_' 收集箱（没有清单）/ 清单 id
       let todoEdit = null;                              // 正在编辑的待办：{id|null, subs, prio}
       let listEdit = null;                              // 正在编辑的清单：{id|null, color}
 
@@ -2499,49 +2532,50 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         do { k = step(k); } while(k <= todayKey && ++guard < 800);
         return k;
       }
-      const todoCmp = (a, b) => ((a.due || '9999') < (b.due || '9999') ? -1 : (a.due || '9999') > (b.due || '9999') ? 1 : 0) || (b.prio - a.prio) || ((a.created > b.created) - (a.created < b.created)) || ((a.u || 0) - (b.u || 0));
+      const todoCmp = (a, b) => ((a.due || '9999') < (b.due || '9999') ? -1 : (a.due || '9999') > (b.due || '9999') ? 1 : 0) || ((a.time || '99:99') < (b.time || '99:99') ? -1 : (a.time || '99:99') > (b.time || '99:99') ? 1 : 0) || (b.prio - a.prio) || ((a.created > b.created) - (a.created < b.created)) || ((a.u || 0) - (b.u || 0));
+      // 三个分组全部由数据实时算出（不新增字段）：待确定 = 未完成且没日期；已确定 = 未完成且有日期（≤今天 → 今天，含逾期；> 今天 → 未来）；已完成 = done
       function todoBuckets() {
         const open = todos().filter(t => !t.done);
         const inList = t => todoList === '*' || (todoList === '_' ? !t.list : t.list === todoList);
+        const o = open.filter(inList);
         return {
-          today: open.filter(t => inList(t) && t.due && t.due <= todayKey).sort(todoCmp),
-          plan: open.filter(t => inList(t) && t.due && t.due > todayKey).sort(todoCmp),
-          all: open.filter(inList).sort(todoCmp),
+          pending: o.filter(t => !t.due).sort((a, b) => ((b.created > a.created) - (b.created < a.created)) || ((b.u || 0) - (a.u || 0))),
+          today: o.filter(t => t.due && t.due <= todayKey).sort(todoCmp),
+          future: o.filter(t => t.due && t.due > todayKey).sort(todoCmp),
           done: todos().filter(t => t.done && inList(t)).sort((a, b) => (b.doneAt || 0) - (a.doneAt || 0))
         };
       }
+      const todoKey = () => todoView === 'ok' ? todoSub : todoView;
       const SVG_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>';
       const SVG_REPEAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3l3 3-3 3M4 11V9a3 3 0 0 1 3-3h13M7 21l-3-3 3-3M20 13v2a3 3 0 0 1-3 3H4"/></svg>';
       function todoRowHTML(t) {
         const l = t.list ? lists().find(x => x.id === t.list) : null, subsDone = t.subs.filter(s => s.done).length;
         const chips = [];
-        const skipDate = !t.done && ((todoView === 'today' && t.due === todayKey) || (todoView === 'plan' && t.due > todayKey));   // 分组标题已经说明了日期
+        const skipDate = !t.done && ((todoKey() === 'today' && t.due === todayKey) || (todoKey() === 'future'));   // 分组标题已经说明了日期
         const dueLabel = (t.due && !skipDate ? dueText(t.due) : '') + (t.time ? (t.due && !skipDate ? ' ' : '') + t.time : '');
         if(dueLabel) chips.push(`<span class="tm ${!t.done && t.due && t.due < todayKey ? 'over' : t.due === todayKey ? 'now' : ''}">${dueLabel}</span>`);
+        if(t.done && t.doneAt) { const d = new Date(t.doneAt), z = n => String(n).padStart(2, '0'); chips.push(`<span class="tm">完成于 ${d.getMonth() + 1}/${d.getDate()} ${z(d.getHours())}:${z(d.getMinutes())}</span>`); }
         if(t.subs.length) chips.push(`<span class="tm">${subsDone}/${t.subs.length}</span>`);
         if(t.repeat) chips.push(`<span class="tm ico">${SVG_REPEAT}</span>`);
-        if(l && todoList !== l.id) chips.push(`<span class="tm"><i class="ldot" style="background:${l.color}"></i>${escapeHTML(l.name)}</span>`);
         return `<div class="todo-row ${t.done ? 'done' : ''}" data-tid="${t.id}"><button type="button" class="todo-check p${t.prio}" style="--pc:${PRIO_COLORS[t.prio]}" data-tcheck="${t.id}" aria-label="${t.done ? '标为未完成' : '完成'}：${escapeHTML(t.title)}">${SVG_CHECK}</button><div class="todo-main" data-topen="${t.id}" tabindex="0" role="button"><div class="todo-title">${escapeHTML(t.title)}</div>${chips.length ? `<div class="todo-meta">${chips.join('')}</div>` : ''}</div></div>`;
       }
       function renderTodo() {
-        const b = todoBuckets(), cur = b[todoView];
+        const b = todoBuckets(), key = todoKey(), cur = b[key];
         $('todoEyebrow').textContent = `星期${WK[fromKey(todayKey).getDay()]} · ${fromKey(todayKey).getMonth() + 1} 月 ${fromKey(todayKey).getDate()} 日`;
         const over = b.today.filter(t => t.due < todayKey).length;
         $('todoSub').textContent = b.today.length ? `今天 ${b.today.length - over} 项${over ? ` · 逾期 ${over} 项` : ''}` : (todos().length ? '今天没有待办' : '写下要做的事');
-        document.querySelectorAll('#todoSeg [data-tview]').forEach(el => { const on = el.dataset.tview === todoView; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) n.textContent = el.dataset.tview === 'done' ? '' : (b[el.dataset.tview].length || ''); });
-        // 清单标签行
-        const chipsHTML = [['*', '所有清单'], ['_', '收集箱'], ...lists().map(l => [l.id, l.name])].map(([id, name]) => {
-          const l = lists().find(x => x.id === id);
-          return `<button type="button" class="lchip ${todoList === id ? 'on' : ''}" data-tlist="${id}">${l ? `<i class="ldot" style="background:${l.color}"></i>` : ''}${escapeHTML(name)}</button>`;
-        }).join('') + (lists().some(l => l.id === todoList) ? '<button type="button" class="lchip edit" data-tlistedit="1" aria-label="编辑当前清单">编辑</button>' : '') + '<button type="button" class="lchip add" data-tlistadd="1" aria-label="新建清单">＋ 清单</button>';
-        $('todoLists').innerHTML = chipsHTML;
+        const cnt = { pending: b.pending.length, ok: b.today.length + b.future.length, done: 0 };
+        document.querySelectorAll('#todoSeg [data-tview]').forEach(el => { const on = el.dataset.tview === todoView; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) n.textContent = cnt[el.dataset.tview] || ''; });
+        $('todoSub2').hidden = todoView !== 'ok';
+        document.querySelectorAll('#todoSub2 [data-tsub]').forEach(el => { const on = el.dataset.tsub === todoSub; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) n.textContent = b[el.dataset.tsub].length || ''; });
+        $('todoQuickInput').placeholder = { pending: '先记下来，还没想好也行', today: '添加今天要做的事，回车保存', future: '添加未来的事，下一步选日期', done: '添加待办，会放进待确定' }[key];
         let html = '';
         if(!cur.length) {
-          const msg = { today: ['今天没有待办', '在上面的输入框写一条，回车就添加了'], plan: ['最近没有安排', '给待办设一个日期，会出现在这里'], all: ['还没有待办', '在上面的输入框写一条，回车就添加了'], done: ['还没有完成的待办', '完成的待办会收在这里'] }[todoView];
-          html = `<div class="empty-state">${eart(todoView === 'done' ? 'chart' : 'sun')}<strong>${msg[0]}</strong><p>${msg[1]}</p></div>`;
-        } else if(todoView === 'today' && over && over < cur.length) {
+          const msg = { pending: ['还没有待确定的想法', '想到什么先记下来，决定做了再给它定个日期'], today: ['今天没有待办', '在上面写一条，回车就添加到今天'], future: ['未来还没有安排', '添加时选个日期，会出现在这里'], done: ['还没有完成的待办', '完成的待办会收在这里'] }[key];
+          html = `<div class="empty-state">${eart(key === 'done' ? 'chart' : 'sun')}<strong>${msg[0]}</strong><p>${msg[1]}</p></div>`;
+        } else if(key === 'today' && over && over < cur.length) {
           html = `<div class="todo-group over">逾期</div>${cur.filter(t => t.due < todayKey).map(todoRowHTML).join('')}<div class="todo-group">今天</div>${cur.filter(t => t.due >= todayKey).map(todoRowHTML).join('')}`;
-        } else if(todoView === 'plan') {
+        } else if(key === 'future') {
           let last = '';
           cur.forEach(t => { if(t.due !== last) { last = t.due; html += `<div class="todo-group">${dueText(t.due)} · 星期${WK[fromKey(t.due).getDay()]}</div>`; } html += todoRowHTML(t); });
         } else html = cur.map(todoRowHTML).join('');
@@ -2549,9 +2583,11 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
       function addQuickTodo(title) {
         title = title.trim().slice(0, 120); if(!title) return false;
-        const due = todoView === 'today' ? todayKey : todoView === 'plan' ? shiftDate(todayKey, 1) : '';
+        const key = todoKey();
+        if(key === 'future') { openTodoSheet(null, { title, needDate: true }); return true; }   // 未来：必须自己选日期，不静默建一条没日期的已确定任务
+        const due = key === 'today' ? todayKey : '';
         todos().push({ id: newId('t'), title, note: '', due, time: '', prio: 0, list: lists().some(l => l.id === todoList) ? todoList : '', done: false, doneAt: 0, subs: [], repeat: '', created: todayKey, u: Date.now() });
-        if(todoView === 'done') todoView = 'today';
+        if(key === 'done') { todoView = 'pending'; showToast('已放进「待确定」'); }
         saveData(); renderTodo(); return true;
       }
       function toggleTodo(id) {
@@ -2570,7 +2606,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       function fillListSelect(sel) { $('tfList').innerHTML = '<option value="">收集箱</option>' + lists().map(l => `<option value="${l.id}" ${l.id === sel ? 'selected' : ''}>${escapeHTML(l.name)}</option>`).join(''); syncWheel('tfList'); }
       function setPrio(p) { todoEdit.prio = p; document.querySelectorAll('#tfPrio [data-p]').forEach(b => { const on = +b.dataset.p === p; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); }); }
       // ---- 滚轮选择器：以隐藏的 <select> 为数据源，滑动停下后写回它的值 ----
-      const WH = 36;
+      const WH = 30;
       function syncWheel(selId) {
         const sel = $(selId), w = document.querySelector('.wheel[data-for="' + selId + '"]'); if(!sel || !w) return;
         w.innerHTML = [...sel.options].map((o, i) => `<div class="wheel-i" data-i="${i}">${o.textContent}</div>`).join('');
@@ -2588,16 +2624,19 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         }, { passive: true });
         w.addEventListener('click', e => { const it = e.target.closest('.wheel-i'); if(it) w.scrollTo({ top: Number(it.dataset.i) * WH, behavior: 'smooth' }); });
       });
-      function openTodoSheet(id) {
+      function setMore(on) { $('tfMore').hidden = !on; $('tfMoreBtn').setAttribute('aria-expanded', String(on)); if(on) { syncWheel('tfList'); syncWheel('tfRepeat'); } }
+      $('tfMoreBtn').addEventListener('click', () => setMore($('tfMore').hidden));
+      function swAnim() { const l = $('todoList'); l.classList.remove('sw'); void l.offsetWidth; l.classList.add('sw'); }
+      function openTodoSheet(id, pre) {
         const t = id ? todos().find(x => x.id === id) : null; if(id && !t) return;
-        todoEdit = { id: id || null, subs: t ? t.subs.map(s => Object.assign({}, s)) : [], prio: t ? t.prio : 0 };
+        todoEdit = { id: id || null, subs: t ? t.subs.map(s => Object.assign({}, s)) : [], prio: t ? t.prio : 0, needDate: !!(pre && pre.needDate) };
         $('todoSheetTitle').textContent = t ? '编辑待办' : '新待办';
-        $('tfTitle').value = t ? t.title : ''; $('tfNote').value = t ? t.note : '';
-        $('tfDue').value = t ? t.due : (todoView === 'today' ? todayKey : todoView === 'plan' ? shiftDate(todayKey, 1) : ''); $('tfTime').value = t ? t.time : '';
+        $('tfTitle').value = t ? t.title : (pre && pre.title) || ''; $('tfNote').value = t ? t.note : '';
+        $('tfDue').value = t ? t.due : (todoKey() === 'today' ? todayKey : ''); $('tfTime').value = t ? t.time : '';
         fillListSelect(t ? t.list : (lists().some(l => l.id === todoList) ? todoList : '')); $('tfRepeat').value = t ? t.repeat : ''; syncWheel('tfRepeat');
         $('tfDelete').hidden = !t; setPrio(todoEdit.prio); renderSubs(); $('tfSubInput').value = '';
-        $('todoSheet').classList.add('open'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
-        if(!t) setTimeout(() => $('tfTitle').focus(), 160);
+        setMore(!!(t && (t.note || t.prio || t.list || t.repeat || t.subs.length))); $('todoSheet').classList.add('open'); syncWheel('tfList'); syncWheel('tfRepeat'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
+        if(!t && todoEdit.needDate) setTimeout(() => showToast('请选一个日期'), 200);
       }
       function closeTodoSheet() { $('todoSheet').classList.remove('open'); todoEdit = null; if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
       function addSub() { const v = $('tfSubInput').value.trim().slice(0, 80); if(!v || !todoEdit || todoEdit.subs.length >= 50) return; todoEdit.subs.push({ id: newId('s'), t: v, done: false }); $('tfSubInput').value = ''; renderSubs(); }
@@ -2606,11 +2645,16 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const title = $('tfTitle').value.trim().slice(0, 120); if(!title) { showToast('先写下要做什么'); $('tfTitle').focus(); return; }
         if($('tfSubInput').value.trim()) addSub();
         let due = $('tfDue').value; if(!validDateKey(due)) due = '';
+        if(todoEdit.needDate && !due) { showToast('未来的待办要选一个日期'); return; }
         const time = /^\d{2}:\d{2}$/.test($('tfTime').value) ? $('tfTime').value : '', repeat = $('tfRepeat').value;
         if((repeat || time) && !due) due = todayKey;
         const fields = { title, note: $('tfNote').value.trim().slice(0, 2000), due, time, prio: todoEdit.prio, list: $('tfList').value, repeat, subs: todoEdit.subs, u: Date.now() };
         if(todoEdit.id) { const t = todos().find(x => x.id === todoEdit.id); if(!t) { closeTodoSheet(); return; } Object.assign(t, fields); if(t.done && !fields.subs.every(s => s.done)) { /* 已完成的保持完成 */ } }
         else todos().push(Object.assign({ id: newId('t'), done: false, doneAt: 0, created: todayKey }, fields));
+        const kk = due ? (due <= todayKey ? '已确定 · 今天' : '已确定 · 未来') : '待确定';
+        const wasDone = !!(todoEdit.id && (todos().find(x => x.id === todoEdit.id) || {}).done);
+        const moved = !wasDone && (!todoEdit.id || (due ? (todoView !== 'ok' || (todoSub === 'today') !== (due <= todayKey)) : todoView !== 'pending'));
+        if(moved) { if(!due) todoView = 'pending'; else { todoView = 'ok'; todoSub = due <= todayKey ? 'today' : 'future'; } showToast('已放进「' + kk + '」'); }
         saveData(); closeTodoSheet(); renderTodo();
         if(time && window.RiHengNative && typeof window.RiHengNative.getReminder === 'function') { try { if(!JSON.parse(window.RiHengNative.getReminder()).allowed && typeof window.RiHengNative.requestNotifications === 'function') window.RiHengNative.requestNotifications(); } catch(e) {} }
       }
@@ -2660,13 +2704,9 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
       function scheduleTodoPush() { clearTimeout(todoPushTimer); todoPushTimer = setTimeout(pushTodoReminders, 400); }
       // ---- 事件 ----
-      $('todoSeg').addEventListener('click', e => { const b = e.target.closest('[data-tview]'); if(!b) return; todoView = b.dataset.tview; renderTodo(); });
-      $('todoLists').addEventListener('click', e => {
-        const c = e.target.closest('button'); if(!c) return;
-        if(c.dataset.tlistadd) return openListSheet(null);
-        if(c.dataset.tlistedit) return openListSheet(todoList);
-        if(c.dataset.tlist) { todoList = c.dataset.tlist; renderTodo(); }
-      });
+      $('todoSeg').addEventListener('click', e => { const b = e.target.closest('[data-tview]'); if(!b) return; todoView = b.dataset.tview; renderTodo(); swAnim(); });
+      $('todoSub2').addEventListener('click', e => { const b = e.target.closest('[data-tsub]'); if(!b) return; todoSub = b.dataset.tsub; renderTodo(); swAnim(); });
+
       $('todoList').addEventListener('click', e => {
         const c = e.target.closest('[data-tcheck]'); if(c) return toggleTodo(c.dataset.tcheck);
         const o = e.target.closest('[data-topen]'); if(o) openTodoSheet(o.dataset.topen);

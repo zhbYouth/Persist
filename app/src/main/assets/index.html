@@ -1365,7 +1365,7 @@
     .wheel-i.on { color: var(--ink); font-weight: 750; font-size: 16.5px; }
     .wheel-band { position: absolute; z-index: 1; left: 0; right: 0; top: 36px; height: 36px; border-radius: 11px; background: rgba(44,98,238,.10); pointer-events: none; }
     .wheel-wrap { position: relative; margin-top: 6px; } .wheel-wrap .wheel { margin-top: 0; }
-    /* 3.4.2：自绘日期/时间选择、重复一行、排序、更顺的动画 */
+    /* 3.4.3：自绘日期/时间选择、重复一行、排序、更顺的动画 */
     .tf-pick { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; height: 38px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface-soft); padding: 0 12px; font: inherit; font-size: 14px; font-weight: 650; color: #8D99B3; text-align: left; transition: scale .25s cubic-bezier(.34,1.5,.64,1); }
     .tf-pick.set { color: var(--ink); } .tf-pick:active { scale: .97; }
     #tfRepRow { margin: 8px 0 0; } #tfRepRow[hidden] { display: none; }
@@ -1406,10 +1406,16 @@
     @keyframes chkPop { 0% { transform: scale(.7); } 55% { transform: scale(1.22); } 100% { transform: scale(1); } }
     .stat-btn { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: #51607F; padding: 0; transition: scale .3s cubic-bezier(.34,1.6,.64,1); } .stat-btn:active { scale: .88; } .stat-btn svg { width: 20px; height: 20px; }
     .hs-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 16px calc(28px + env(safe-area-inset-bottom)); }
-    .hs-card { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 14px; margin-bottom: 10px; animation: rowIn .4s cubic-bezier(.22,1,.36,1) both; }
-    .hs-card .hist-icon { width: 42px; height: 42px; flex: none; display: grid; place-items: center; } .hs-card .hist-icon svg { width: 22px; height: 22px; }
+    .hs-nav { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 18px; padding: 2px 16px 10px; }
+    .hs-nav strong { min-width: 120px; text-align: center; font-size: 16px; font-weight: 800; }
+    .hs-nav button { width: 36px; height: 36px; border: 0; border-radius: 50%; background: #fff; border: 1px solid var(--line); font-size: 20px; line-height: 1; color: #51607F; transition: scale .3s cubic-bezier(.34,1.6,.64,1), opacity .2s; } .hs-nav button:active { scale: .86; } .hs-nav button:disabled { opacity: .3; }
+    .hs-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 14px; margin-bottom: 10px; animation: rowIn .4s cubic-bezier(.22,1,.36,1) both; }
+    .hs-top { display: flex; align-items: center; gap: 12px; }
+    .hs-card .hist-icon { width: 38px; height: 38px; flex: none; display: grid; place-items: center; } .hs-card .hist-icon svg { width: 20px; height: 20px; }
     .hs-name { flex: 1; min-width: 0; font-size: 16px; font-weight: 750; overflow-wrap: anywhere; }
-    .hs-num { flex: none; min-width: 58px; text-align: center; } .hs-num strong { display: block; font-size: 24px; line-height: 1.1; font-weight: 800; letter-spacing: -.5px; } .hs-num strong i { font-style: normal; font-size: 12px; font-weight: 700; color: #8D99B3; margin-left: 2px; letter-spacing: 0; } .hs-num span { display: block; margin-top: 3px; font-size: 11.5px; font-weight: 700; color: #8D99B3; }
+    .hs-nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+    .hs-num { text-align: center; background: var(--bg); border-radius: 14px; padding: 10px 4px; } .hs-num strong { display: block; font-size: 24px; line-height: 1.1; font-weight: 800; letter-spacing: -.5px; } .hs-num strong i { font-style: normal; font-size: 12px; font-weight: 700; color: #8D99B3; margin-left: 2px; letter-spacing: 0; } .hs-num span { display: block; margin-top: 4px; font-size: 11px; font-weight: 700; color: #8D99B3; white-space: nowrap; }
+    .todo-row.hl { animation: rowHl 1.5s ease; } @keyframes rowHl { 0%, 60% { background: #E4EBFD; } 100% { background: transparent; } }
     .gone { display: none !important; }
     /* 3.2：待办弹窗精简 + 更顺的动画 */
     .todo-h1 { font-size: 26px; line-height: 1.22; letter-spacing: -.5px; font-weight: 800; margin: 2px 0 0; }
@@ -1512,7 +1518,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.4.2 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.4.3 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1530,6 +1536,7 @@
       <h2>打卡统计</h2>
       <span class="editor-bar-space" aria-hidden="true"></span>
     </header>
+    <div class="hs-nav"><button type="button" id="hsPrev" aria-label="上个月">‹</button><strong id="hsMonth"></strong><button type="button" id="hsNext" aria-label="下个月">›</button></div>
     <div class="hs-scroll" id="hsList"></div>
   </div>
   <div class="editor-page" id="editorPage" role="dialog" aria-modal="true" aria-labelledby="editorTitle" aria-hidden="true">
@@ -2408,7 +2415,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.4.2',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.4.3',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2732,22 +2739,27 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       });
       function shake(el) { if(!el) return; el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
       // ---- 打卡统计（二层界面）：每个习惯的累计打卡天数、最长连续天数 ----
-      function habitNumbers(h) {
-        const days = [...new Set((data.checks[h.id] || []).filter(validDateKey))].sort();
+      let hsOff = 0;   // 0 = 本月，-1 = 上个月 …
+      function hsMonthInfo() { const t = fromKey(todayKey), d = new Date(t.getFullYear(), t.getMonth() + hsOff, 1); const y = d.getFullYear(), m = d.getMonth(); return { y, m, prefix: y + '-' + pad2(m + 1) + '-' }; }
+      function habitNumbers(h, prefix) {
+        const all = [...new Set((data.checks[h.id] || []).filter(validDateKey))].sort(), inM = all.filter(k => k.startsWith(prefix));
         let best = 0, run = 0, prev = '';
-        days.forEach(k => {
+        inM.forEach(k => {
           if(prev) { let broken = false; for(let d = shiftDate(prev, 1); d < k; d = shiftDate(d, 1)) { if(isScheduled(h, d)) { broken = true; break; } } run = broken ? 1 : run + 1; } else run = 1;
           if(run > best) best = run; prev = k;
         });
-        return { total: days.length, best };
+        return { month: inM.length, best, total: all.length };
       }
       function renderHabitStats() {
-        $('hsList').innerHTML = data.habits.length ? data.habits.map((h, i) => { const n = habitNumbers(h); return `<div class="hs-card" style="animation-delay:${Math.min(i, 8) * 40}ms"><div class="hist-icon" style="${toneStyle(h)}">${habitIconMarkup(h.emoji || '🌿')}</div><div class="hs-name">${escapeHTML(h.name)}</div><div class="hs-num"><strong>${n.total}<i>天</i></strong><span>累计打卡</span></div><div class="hs-num"><strong>${n.best}<i>天</i></strong><span>最长连续</span></div></div>`; }).join('') : `<div class="empty-state">${eart('sun')}<strong>还没有习惯</strong><p>添加习惯并打卡后，这里会显示统计</p></div>`;
+        const mi = hsMonthInfo(); $('hsMonth').textContent = mi.y + ' 年 ' + (mi.m + 1) + ' 月'; $('hsNext').disabled = hsOff >= 0; $('hsPrev').disabled = hsOff <= -36;
+        $('hsList').innerHTML = data.habits.length ? data.habits.map((h, i) => { const n = habitNumbers(h, mi.prefix); return `<div class="hs-card" style="animation-delay:${Math.min(i, 8) * 40}ms"><div class="hs-top"><div class="hist-icon" style="${toneStyle(h)}">${habitIconMarkup(h.emoji || '🌿')}</div><div class="hs-name">${escapeHTML(h.name)}</div></div><div class="hs-nums"><div class="hs-num"><strong>${n.month}<i>次</i></strong><span>本月打卡</span></div><div class="hs-num"><strong>${n.best}<i>天</i></strong><span>本月连续最久</span></div><div class="hs-num"><strong>${n.total}<i>天</i></strong><span>累计打卡</span></div></div></div>`; }).join('') : `<div class="empty-state">${eart('sun')}<strong>还没有习惯</strong><p>添加习惯并打卡后，这里会显示统计</p></div>`;
       }
-      function openHabitStats() { renderHabitStats(); const p = $('habitStats'); p.classList.add('open'); p.setAttribute('aria-hidden', 'false'); }
+      function openHabitStats() { hsOff = 0; renderHabitStats(); const p = $('habitStats'); p.classList.add('open'); p.setAttribute('aria-hidden', 'false'); }
       function closeHabitStats() { const p = $('habitStats'); p.classList.remove('open'); p.setAttribute('aria-hidden', 'true'); }
       $('habitStatsBtn').addEventListener('click', openHabitStats);
       $('hsBack').addEventListener('click', closeHabitStats);
+      $('hsPrev').addEventListener('click', () => { if(hsOff > -36) { hsOff--; renderHabitStats(); } });
+      $('hsNext').addEventListener('click', () => { if(hsOff < 0) { hsOff++; renderHabitStats(); } });
       function swAnim() { const l = $('todoList'); l.classList.remove('sw'); void l.offsetWidth; l.classList.add('sw'); }
       function openTodoSheet(id, pre) {
         const t = id ? todos().find(x => x.id === id) : null; if(id && !t) return;
@@ -3048,6 +3060,18 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if($('editorPage').classList.contains('open')) { closeEditor(false); return true; }
         if(activePage!=='today') { setPage('today'); return true; }
         return false;
+      };
+      // 小组件点击后：回到应用并打开对应页面 / 分组，并让那条待办闪一下
+      window.__RIHENGOpen = function(pageName, view, id) {
+        try {
+          if($('habitStats').classList.contains('open')) closeHabitStats();
+          if($('todoSheet').classList.contains('open')) closeTodoSheet();
+          if(pageName !== 'todo') return;
+          if(activePage !== 'todo') setPage('todo');
+          if(view === 'pending') todoView = 'pending'; else if(view === 'today' || view === 'future') { todoView = 'ok'; todoSub = view; }
+          renderTodo(); swAnim();
+          if(id) setTimeout(() => { const row = document.querySelector('.todo-row[data-tid="' + id + '"]'); if(row) { row.scrollIntoView({ block: 'center', behavior: 'smooth' }); row.classList.add('hl'); setTimeout(() => row.classList.remove('hl'), 1600); } }, 180);
+        } catch(e) {}
       };
       window.__RIHENGNativeSync = function(raw) {
         try {

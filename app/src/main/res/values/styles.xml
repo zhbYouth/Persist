@@ -23,6 +23,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
         <item name="android:colorAccent">#2C62EE</item>
         <item name="android:fontFamily">sans</item>
     </style>

@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 /** 待办小组件里的列表：每行 = 完成圈 + 标题 + 日期/时间。 */
 class TodoWidgetService : RemoteViewsService() {
@@ -30,15 +31,25 @@ class TodoWidgetService : RemoteViewsService() {
         override fun getItemId(position: Int): Long = rows.getOrNull(position)?.id?.hashCode()?.toLong() ?: -1L
         override fun hasStableIds(): Boolean = true
 
+        /** 第一行：今天 / 明天 / M月d日 · N天后 / 逾期N天；有提醒时间的话第二行显示时间。 */
         private fun meta(t: TodoData.Item): String {
             if (t.due.isEmpty()) return ""
             val today = LocalDate.now()
             val d = try { LocalDate.parse(t.due) } catch (e: Exception) { return t.time }
-            return when {
-                d.isBefore(today) -> "逾期 ${d.monthValue}/${d.dayOfMonth}" + if (t.time.isNotEmpty()) " ${t.time}" else ""
-                d == today -> t.time
-                else -> "${d.monthValue}月${d.dayOfMonth}日" + if (t.time.isNotEmpty()) " ${t.time}" else ""
+            val days = ChronoUnit.DAYS.between(today, d)
+            val day = when {
+                days < 0 -> "逾期${-days}天"
+                days == 0L -> "今天"
+                days == 1L -> "明天"
+                else -> "${d.monthValue}月${d.dayOfMonth}日 · ${days}天后"
             }
+            return if (t.time.isNotEmpty()) day + "\n" + t.time else day
+        }
+
+        private fun viewOf(t: TodoData.Item): String = when {
+            t.due.isEmpty() -> "pending"
+            t.due <= TodoData.todayKey() -> "today"
+            else -> "future"
         }
 
         override fun getViewAt(position: Int): RemoteViews {
@@ -61,7 +72,8 @@ class TodoWidgetService : RemoteViewsService() {
             v.setTextColor(R.id.rowMeta, if (!t.done && m.startsWith("逾期")) 0xFFE8506B.toInt() else c.getColor(R.color.widget_muted))
             if (!t.done) {
                 v.setContentDescription(R.id.rowCheckArea, "完成：" + t.title)
-                v.setOnClickFillInIntent(R.id.rowCheckArea, Intent().putExtra(TodoWidgetProvider.EXTRA_ID, t.id))
+                v.setOnClickFillInIntent(R.id.rowCheckArea, Intent().putExtra(TodoWidgetProvider.EXTRA_ACTION, "done").putExtra(TodoWidgetProvider.EXTRA_ID, t.id))
+                v.setOnClickFillInIntent(R.id.rowBody, Intent().putExtra(TodoWidgetProvider.EXTRA_ACTION, "open").putExtra(TodoWidgetProvider.EXTRA_ID, t.id).putExtra(TodoWidgetProvider.EXTRA_VIEW, viewOf(t)))
             }
             return v
         }

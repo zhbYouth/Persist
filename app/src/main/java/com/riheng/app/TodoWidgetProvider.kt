@@ -18,6 +18,8 @@ class TodoWidgetProvider : AppWidgetProvider() {
         const val ACTION_DONE = "com.riheng.app.ACTION_TODO_DONE"
         const val EXTRA_TAB = "tab"
         const val EXTRA_ID = "todo_id"
+        const val EXTRA_ACTION = "todo_action"
+        const val EXTRA_VIEW = "todo_view"
 
         private fun ids(c: Context): IntArray =
             AppWidgetManager.getInstance(c).getAppWidgetIds(ComponentName(c, TodoWidgetProvider::class.java))
@@ -57,6 +59,7 @@ class TodoWidgetProvider : AppWidgetProvider() {
                 .setData(Uri.parse("riheng://widget/todo/add/$widgetId"))
             v.setOnClickPendingIntent(R.id.todoAdd, PendingIntent.getActivity(c, 11, add, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
             val open = Intent(c, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .putExtra(MainActivity.EXTRA_OPEN_PAGE, "todo").setData(Uri.parse("riheng://widget/todo/open"))
             v.setOnClickPendingIntent(R.id.todoOpen, PendingIntent.getActivity(c, 12, open, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
             val adapter = Intent(c, TodoWidgetService::class.java).apply {
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
@@ -64,14 +67,22 @@ class TodoWidgetProvider : AppWidgetProvider() {
             }
             @Suppress("DEPRECATION")
             v.setRemoteAdapter(R.id.todoList, adapter)
-            val template = Intent(c, TodoWidgetProvider::class.java).setAction(ACTION_DONE)
-                .setData(Uri.parse("riheng://widget/todo/list/$widgetId"))
-            v.setPendingIntentTemplate(R.id.todoList, PendingIntent.getBroadcast(c, widgetId, template, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE))
+            // 点圈 = 完成；点任务本身 = 打开应用里对应的分组。都交给一个不显示界面的中转 Activity 处理（广播里不能直接打开应用）
+            val template = Intent(c, TodoActionActivity::class.java).setData(Uri.parse("riheng://widget/todo/list/$widgetId"))
+            v.setPendingIntentTemplate(R.id.todoList, PendingIntent.getActivity(c, widgetId, template, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE))
             return v
         }
 
         /** 只更新分组标签和列表数据：列表滑动位置不动，不闪。 */
-        private fun refreshLight(c: Context) {
+        /** 点圈完成：先让这一行变成「已勾选」，稍后再让它从列表里消失，比直接消失更顺。 */
+        fun completeAndRefresh(c: Context, id: String) {
+            if (!TodoData.complete(c, id)) return
+            val app = c.applicationContext
+            refreshLight(app)
+            Handler(Looper.getMainLooper()).postDelayed({ refreshLight(app) }, 650)
+        }
+
+        fun refreshLight(c: Context) {
             val m = AppWidgetManager.getInstance(c)
             val all = ids(c)
             if (all.isEmpty()) return

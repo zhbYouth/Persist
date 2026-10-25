@@ -28,6 +28,7 @@ class MainActivity : Activity() {
     private lateinit var root: FrameLayout
     private val prefs by lazy { getSharedPreferences(HabitWidgetProvider.PREFS, MODE_PRIVATE) }
     private val mainHandler = Handler(Looper.getMainLooper())
+    private var pendingOpen: Triple<String, String, String>? = null   // 小组件带来的「打开哪个页面 / 分组 / 哪条待办」
     private var fileChooserCallback: ValueCallback<Array<Uri>>? = null
     private var pendingExportJson: String? = null
 
@@ -36,6 +37,9 @@ class MainActivity : Activity() {
     private var revealed = false
 
     companion object {
+        const val EXTRA_OPEN_PAGE = "open_page"
+        const val EXTRA_OPEN_VIEW = "open_view"
+        const val EXTRA_OPEN_ID = "open_id"
         private const val REQ_FILE_CHOOSER = 4201
         private const val REQ_EXPORT = 4202
         private const val REQ_IMPORT = 4203
@@ -324,12 +328,38 @@ class MainActivity : Activity() {
         if (requestCode == REQ_NOTIFY) notifyPage(if (Reminder.canNotify(this)) "reminder-allowed" else "reminder-denied")
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        captureOpen(intent)
+    }
+
+    private fun captureOpen(i: Intent?) {
+        val page = i?.getStringExtra(EXTRA_OPEN_PAGE) ?: return
+        pendingOpen = Triple(page, i.getStringExtra(EXTRA_OPEN_VIEW) ?: "", i.getStringExtra(EXTRA_OPEN_ID) ?: "")
+        i.removeExtra(EXTRA_OPEN_PAGE)
+    }
+
+    /** 页面可能还没加载完：函数还不存在就隔一会儿再试。 */
+    private fun dispatchOpen(tries: Int = 0) {
+        val o = pendingOpen ?: return
+        if (!::webView.isInitialized) return
+        val js = "(function(){if(typeof window.__RIHENGOpen==='function'){window.__RIHENGOpen(" +
+            JSONObject.quote(o.first) + "," + JSONObject.quote(o.second) + "," + JSONObject.quote(o.third) + ");return 1;}return 0;})()"
+        webView.evaluateJavascript(js) { r ->
+            if (r == "1") pendingOpen = null
+            else if (tries < 40) mainHandler.postDelayed({ dispatchOpen(tries + 1) }, 150)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         if (::webView.isInitialized) {
             webView.onResume()
             pushNativeDataToPage()
         }
+        captureOpen(intent)
+        dispatchOpen()
         // 应用回到前台时顺便刷新小组件（日期可能已经跨天）
         HabitWidgetProvider.updateAll(this)
         TodoWidgetProvider.updateAll(this)

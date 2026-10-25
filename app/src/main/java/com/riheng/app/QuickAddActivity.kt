@@ -10,7 +10,6 @@ import android.view.inputmethod.InputMethodManager
 import android.view.animation.OvershootInterpolator
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import java.time.LocalDate
 
 /**
@@ -109,17 +108,23 @@ class QuickAddActivity : Activity() {
 
     private fun save() {
         val text = titleV.text.toString().trim()
-        if (text.isEmpty()) { Toast.makeText(this, "先写下要做什么", Toast.LENGTH_SHORT).show(); return }
+        if (text.isEmpty()) { shake(titleV); return }
         val due = when (mode) {
             0 -> ""
             1 -> TodoData.todayKey()
-            else -> futureDate?.toString() ?: run { Toast.makeText(this, "未来的待办要选一个日期", Toast.LENGTH_SHORT).show(); pickDate(); return }
+            else -> futureDate?.toString() ?: run { pickDate(); return }
         }
         TodoData.add(this, text, due, if (mode == 0) "" else time, if (mode == 0) "" else repeats[repeatIdx].first)
         TodoData.setTab(this, if (mode == 0) TodoData.TAB_PENDING else TodoData.TAB_OK)
         TodoWidgetProvider.updateAll(this)
-        Toast.makeText(this, if (mode == 0) "已放进「待确定」" else if (mode == 1) "已放进「已确定 · 今天」" else "已放进「已确定 · 未来」", Toast.LENGTH_SHORT).show()
         finishQuiet()
+    }
+
+    private fun shake(v: View) {
+        v.animate().cancel()
+        v.animate().translationX(-14f).setDuration(60).withEndAction {
+            v.animate().translationX(14f).setDuration(90).withEndAction { v.animate().translationX(0f).setDuration(70).start() }.start()
+        }.start()
     }
 
     private fun finishQuiet() {

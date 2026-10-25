@@ -1312,6 +1312,9 @@
     #todoSeg button.selected b { background: #E4EBFD; color: var(--green); }
     #todoSub2 { display: flex; gap: 22px; padding: 0 6px; margin: -2px 0 10px; }
     #todoSub2[hidden] { display: none; }
+    #todoSub2 .plus-btn.sm { margin-left: auto; width: 36px; height: 36px; padding: 0; align-self: center; }
+    #todoSub2 .plus-btn.sm svg { width: 18px; height: 18px; }
+    #todoQuick[hidden] { display: none; }
     #todoSub2 button { position: relative; border: 0; background: transparent; padding: 6px 2px 8px; font: inherit; font-size: 15px; font-weight: 750; color: #8D99B3; display: flex; align-items: center; gap: 6px; }
     #todoSub2 button b { font-size: 11px; font-weight: 700; color: #8D99B3; }
     #todoSub2 button b:empty { display: none; }
@@ -1327,10 +1330,10 @@
     #todoList:has(> .empty-state) { background: transparent; border: 0; padding: 0; }
     .todo-group { font-size: 12px; font-weight: 800; letter-spacing: .4px; color: #8392AF; padding: 14px 2px 4px; }
     .todo-group.over { color: #E8506B; }
-    .todo-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); transition: opacity .25s ease, transform .25s ease; }
+    .todo-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); transition: opacity .25s ease, transform .25s ease; }
     .todo-row:last-child { border-bottom: 0; }
     .todo-row.leaving { opacity: 0; transform: translateX(14px); }
-    .todo-check { flex: none; width: 26px; height: 26px; margin-top: 1px; border-radius: 50%; border: 2px solid var(--pc, #9AA6BD); background: transparent; color: transparent; display: grid; place-items: center; padding: 0; position: relative; transition: background-color .2s ease, color .2s ease; }
+    .todo-check { flex: none; width: 26px; height: 26px; margin-top: 0; border-radius: 50%; border: 2px solid var(--pc, #9AA6BD); background: transparent; color: transparent; display: grid; place-items: center; padding: 0; position: relative; transition: background-color .2s ease, color .2s ease; }
     .todo-check::after { content: ""; position: absolute; inset: -9px; }
     .todo-check svg { width: 15px; height: 15px; }
     .todo-row.done .todo-check { background: var(--pc, #9AA6BD); color: #fff; }
@@ -1341,11 +1344,11 @@
     .tm { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: #8392AF; font-weight: 600; }
     .tm.now { color: var(--green); } .tm.over { color: #E8506B; }
     .tm.ico svg { width: 13px; height: 13px; }
-    #todoSheet, #listSheet { align-items: flex-start; padding: 7vh 14px 0; }
+    #todoSheet, #listSheet { align-items: center; padding: 14px; }
     #todoSheet .todo-modal, #listSheet .todo-modal { width: min(100%, 420px); margin: 0 auto; max-height: 86dvh; padding: 20px 20px 18px; border-radius: 26px; border: 1px solid var(--line); }
     #todoSheet .modal-head, #listSheet .modal-head { margin-bottom: 10px; }
     #todoSheet, #listSheet { --kb: 0px; }
-    #todoSheet.kb, #listSheet.kb { padding-top: 12px; }
+    #todoSheet.kb, #listSheet.kb { padding: 12px 14px calc(var(--kb) + 12px); }
     #todoSheet.kb .todo-modal, #listSheet.kb .todo-modal { max-height: calc(100dvh - var(--kb) - 24px); overflow-y: auto; overscroll-behavior: contain; }
     #authSheet.kb { padding-bottom: var(--kb); }
     #authSheet.kb .modal { max-height: calc(100dvh - var(--kb) - 24px); }
@@ -1377,7 +1380,7 @@
     #todoSheet .tf-row input, #todoSheet .tf-subadd input { height: 38px; font-size: 14px; border-radius: 11px; margin-top: 4px; }
     #todoSheet .tf-label { font-size: 11.5px; margin: 10px 2px 5px; }
     #todoSheet .tf-seg button { height: 32px; font-size: 13px; border-radius: 10px; }
-    #todoSheet .tf-note { font-size: 14px; padding: 8px 2px 2px; }
+    #todoSheet .tf-note { font-size: 14px; padding: 8px 2px 4px; min-height: 22px; max-height: 76px; overflow-y: auto; }
     #todoSheet .tf-subadd button { width: 38px; height: 38px; border-radius: 11px; }
     #todoSheet .tf-actions { margin-top: 12px; } #todoSheet .tf-actions .btn-primary, #todoSheet .tf-actions .btn-danger { height: 42px; font-size: 15px; border-radius: 13px; }
     .tf-more { display: flex; align-items: center; gap: 4px; margin: 10px 0 0; padding: 4px 2px; border: 0; background: transparent; font: inherit; font-size: 13px; font-weight: 700; color: #6B7A99; }
@@ -1439,7 +1442,7 @@
           <div class="page-header"><div><div class="eyebrow" id="todoEyebrow"></div><h1 class="todo-h1">做想做的事，<br>也把重要的事做完</h1><p class="subheading" id="todoSub"></p></div></div>
           <form class="todo-quick" id="todoQuick" autocomplete="off"><input id="todoQuickInput" type="text" maxlength="120" enterkeyhint="done" placeholder="添加待办，回车保存" aria-label="添加待办" /><button type="button" class="plus-btn" id="todoAddBtn" aria-label="详细添加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></form>
           <div id="todoSeg" role="tablist" aria-label="待办分组"><button type="button" role="tab" data-tview="pending">待确定<b></b></button><button type="button" role="tab" data-tview="ok" class="selected">已确定<b></b></button><button type="button" role="tab" data-tview="done">已完成<b></b></button></div>
-          <div id="todoSub2" role="tablist" aria-label="已确定"><button type="button" role="tab" data-tsub="today" class="selected">今天<b></b></button><button type="button" role="tab" data-tsub="future">未来<b></b></button></div>
+          <div id="todoSub2" role="tablist" aria-label="已确定"><button type="button" role="tab" data-tsub="today" class="selected">今天<b></b></button><button type="button" role="tab" data-tsub="future">未来<b></b></button><button type="button" class="plus-btn sm" id="todoAdd2" aria-label="添加已确定的待办"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
           <div id="todoList"></div>
         </section>
         <section class="page" id="page-today">
@@ -1463,7 +1466,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.3.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.3.1 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1517,12 +1520,11 @@
     <footer class="editor-footer" id="editorFooter"><div class="editor-footer-inner"><button type="button" class="btn-primary" id="editorSave">保存</button></div></footer>
   </div>
   <div class="modal-backdrop" id="todoSheet" role="dialog" aria-modal="true" aria-labelledby="todoSheetTitle"><div class="modal todo-modal"><div class="modal-head"><h2 id="todoSheetTitle">新待办</h2><button type="button" class="close-btn" id="todoClose" aria-label="关闭">×</button></div>
-    <form id="todoForm" novalidate autocomplete="off"><input id="tfTitle" class="tf-title" type="text" maxlength="120" placeholder="要做什么？" />
+    <form id="todoForm" novalidate autocomplete="off"><input id="tfTitle" class="tf-title" type="text" maxlength="120" placeholder="要做什么？" /><textarea id="tfNote" class="tf-note" rows="1" maxlength="2000" placeholder="备注（可选）"></textarea>
       <div class="tf-chips" id="tfDates"><button type="button" data-qd="today">今天</button><button type="button" data-qd="tomorrow">明天</button><button type="button" data-qd="week">下周</button><button type="button" data-qd="none">待确定</button></div>
       <div class="tf-row"><label>日期<input type="date" id="tfDue" /></label><label>提醒时间<input type="time" id="tfTime" /></label></div>
       <button type="button" class="tf-more" id="tfMoreBtn" aria-expanded="false">更多选项<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       <div id="tfMore" hidden>
-        <textarea id="tfNote" class="tf-note" rows="2" maxlength="2000" placeholder="备注"></textarea>
         <div class="gone"><div class="tf-label">优先级</div><div class="tf-seg" id="tfPrio"><button type="button" data-p="0">无</button><button type="button" data-p="1">低</button><button type="button" data-p="2">中</button><button type="button" data-p="3">高</button></div></div>
         <div class="tf-row" style="margin-top:12px"><select id="tfList" hidden></select><label>重复<div class="wheel" data-for="tfRepeat"></div><select id="tfRepeat" hidden><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select></label></div>
         <div class="gone"><div class="tf-label">子任务</div><div id="tfSubs"></div><div class="tf-subadd"><input id="tfSubInput" type="text" maxlength="80" enterkeyhint="done" placeholder="添加子任务，回车" /><button type="button" id="tfSubAdd" aria-label="添加子任务">＋</button></div></div>
@@ -2355,7 +2357,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.3.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.3.1',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2566,12 +2568,12 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('todoSub').textContent = b.today.length ? `今天 ${b.today.length - over} 项${over ? ` · 逾期 ${over} 项` : ''}` : (todos().length ? '今天没有待办' : '写下要做的事');
         const cnt = { pending: b.pending.length, ok: b.today.length + b.future.length, done: 0 };
         document.querySelectorAll('#todoSeg [data-tview]').forEach(el => { const on = el.dataset.tview === todoView; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) n.textContent = cnt[el.dataset.tview] || ''; });
-        $('todoSub2').hidden = todoView !== 'ok';
+        $('todoSub2').hidden = todoView !== 'ok'; $('todoQuick').hidden = key !== 'pending';
         document.querySelectorAll('#todoSub2 [data-tsub]').forEach(el => { const on = el.dataset.tsub === todoSub; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) n.textContent = b[el.dataset.tsub].length || ''; });
         $('todoQuickInput').placeholder = { pending: '先记下来，还没想好也行', today: '添加今天要做的事，回车保存', future: '添加未来的事，下一步选日期', done: '添加待办，会放进待确定' }[key];
         let html = '';
         if(!cur.length) {
-          const msg = { pending: ['还没有待确定的想法', '想到什么先记下来，决定做了再给它定个日期'], today: ['今天没有待办', '在上面写一条，回车就添加到今天'], future: ['未来还没有安排', '添加时选个日期，会出现在这里'], done: ['还没有完成的待办', '完成的待办会收在这里'] }[key];
+          const msg = { pending: ['还没有待确定的想法', '想到什么先记下来，决定做了再给它定个日期'], today: ['今天没有待办', '点右边的＋，添加到今天'], future: ['未来还没有安排', '点右边的＋，选个日期添加'], done: ['还没有完成的待办', '完成的待办会收在这里'] }[key];
           html = `<div class="empty-state">${eart(key === 'done' ? 'chart' : 'sun')}<strong>${msg[0]}</strong><p>${msg[1]}</p></div>`;
         } else if(key === 'today' && over && over < cur.length) {
           html = `<div class="todo-group over">逾期</div>${cur.filter(t => t.due < todayKey).map(todoRowHTML).join('')}<div class="todo-group">今天</div>${cur.filter(t => t.due >= todayKey).map(todoRowHTML).join('')}`;
@@ -2635,7 +2637,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('tfDue').value = t ? t.due : (todoKey() === 'today' ? todayKey : ''); $('tfTime').value = t ? t.time : '';
         fillListSelect(t ? t.list : (lists().some(l => l.id === todoList) ? todoList : '')); $('tfRepeat').value = t ? t.repeat : ''; syncWheel('tfRepeat');
         $('tfDelete').hidden = !t; setPrio(todoEdit.prio); renderSubs(); $('tfSubInput').value = '';
-        setMore(!!(t && (t.note || t.repeat))); $('todoSheet').classList.add('open'); syncWheel('tfList'); syncWheel('tfRepeat'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
+        setMore(!!(t && t.repeat)); $('todoSheet').classList.add('open'); syncWheel('tfList'); syncWheel('tfRepeat'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
         if(!t && todoEdit.needDate) setTimeout(() => showToast('请选一个日期'), 200);
       }
       function closeTodoSheet() { $('todoSheet').classList.remove('open'); todoEdit = null; if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
@@ -2714,6 +2716,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       $('todoList').addEventListener('keydown', e => { if((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-topen]')) { e.preventDefault(); openTodoSheet(e.target.dataset.topen); } });
       $('todoQuick').addEventListener('submit', e => { e.preventDefault(); const i = $('todoQuickInput'); if(addQuickTodo(i.value)) i.value = ''; });
       $('todoAddBtn').addEventListener('click', () => openTodoSheet(null));
+      $('todoAdd2').addEventListener('click', () => openTodoSheet(null, todoKey() === 'future' ? { needDate: true } : null));
       $('todoClose').addEventListener('click', closeTodoSheet);
       $('todoSheet').addEventListener('click', e => { if(e.target === $('todoSheet')) closeTodoSheet(); });
       $('todoForm').addEventListener('submit', e => { e.preventDefault(); saveTodoSheet(); });

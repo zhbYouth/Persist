@@ -3,4 +3,6 @@
     <string name="app_name">Persist</string>
     <string name="widget_label">Persist 打卡小组件</string>
     <string name="widget_description">查看今日习惯并直接打卡</string>
+    <string name="todo_widget_label">Persist 待办小组件</string>
+    <string name="todo_widget_description">看已确定和待确定的待办，点圈完成，点＋添加</string>
 </resources>

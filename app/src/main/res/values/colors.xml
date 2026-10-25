@@ -7,6 +7,8 @@
     <color name="widget_line">#E2E7F0</color>
     <color name="widget_ink">#151B2B</color>
     <color name="widget_muted">#66728A</color>
+    <color name="widget_soft">#E9EEFB</color>
+    <color name="widget_chip">#EEF1F7</color>
     <color name="widget_accent">#2C62EE</color>
     <color name="widget_ring">#C3CBDB</color>
     <!-- 打卡后的对勾画在蓝底上，深浅色模式下都保持白色 -->

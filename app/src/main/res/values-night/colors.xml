@@ -5,6 +5,8 @@
     <color name="widget_line">#2C3550</color>
     <color name="widget_ink">#EEF2FB</color>
     <color name="widget_muted">#9AA6C0</color>
+    <color name="widget_soft">#2A3558</color>
+    <color name="widget_chip">#262E45</color>
     <color name="widget_accent">#4F80FF</color>
     <color name="widget_ring">#4A5573</color>
 </resources>

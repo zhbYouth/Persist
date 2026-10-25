@@ -47,5 +47,24 @@
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/habit_widget_info" />
         </receiver>
+        <service android:name=".TodoWidgetService" android:exported="false" android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <receiver android:name=".TodoWidgetProvider" android:exported="false" android:label="@string/todo_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/todo_widget_info" />
+        </receiver>
+        <!-- 小组件的「＋」：只弹一个小窗，不打开整个应用 -->
+        <activity
+            android:name=".QuickAddActivity"
+            android:exported="false"
+            android:theme="@style/QuickAddTheme"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 </manifest>

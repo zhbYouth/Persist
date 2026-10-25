@@ -55,6 +55,12 @@ object TodoReminders {
         scheduleNext(c)
     }
 
+    /** 小组件里新加的、带提醒时间的待办：并入现有提醒列表。 */
+    fun add(c: Context, id: String, title: String, at: Long) {
+        save(c, (load(c).filter { it.first != id } + Triple(id, title, at)).sortedBy { it.third }.take(300))
+        scheduleNext(c)
+    }
+
     fun scheduleNext(c: Context) {
         val am = c.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         am.cancel(pending(c))

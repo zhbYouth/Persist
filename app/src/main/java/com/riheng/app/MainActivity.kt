@@ -332,6 +332,7 @@ class MainActivity : Activity() {
         }
         // 应用回到前台时顺便刷新小组件（日期可能已经跨天）
         HabitWidgetProvider.updateAll(this)
+        TodoWidgetProvider.updateAll(this)
         Reminder.schedule(this)
         TodoReminders.scheduleNext(this)
     }
@@ -357,6 +358,7 @@ class MainActivity : Activity() {
                 val manager = AppWidgetManager.getInstance(this@MainActivity)
                 val ids = manager.getAppWidgetIds(ComponentName(this@MainActivity, HabitWidgetProvider::class.java))
                 if (ids.isNotEmpty()) HabitWidgetProvider.updateAll(this@MainActivity)
+                TodoWidgetProvider.updateAll(this@MainActivity)
             }
         }
 

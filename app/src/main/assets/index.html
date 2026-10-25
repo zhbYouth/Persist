@@ -1315,11 +1315,11 @@
     #todoSub2 .plus-btn.sm { margin-left: auto; width: 36px; height: 36px; padding: 0; align-self: center; }
     #todoSub2 .plus-btn.sm svg { width: 18px; height: 18px; }
     #todoQuick[hidden] { display: none; }
-    #todoSub2 button { position: relative; border: 0; background: transparent; padding: 6px 2px 8px; font: inherit; font-size: 15px; font-weight: 750; color: #8D99B3; display: flex; align-items: center; gap: 6px; }
-    #todoSub2 button b { font-size: 11px; font-weight: 700; color: #8D99B3; }
-    #todoSub2 button b:empty { display: none; }
-    #todoSub2 button::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 3px; background: var(--green); transform: scaleX(0); transition: transform .25s cubic-bezier(.2,.8,.2,1); }
-    #todoSub2 button.selected { color: var(--ink); } #todoSub2 button.selected::after { transform: scaleX(1); } #todoSub2 button.selected b { color: var(--green); }
+    #todoSub2 [data-tsub] { position: relative; border: 0; background: transparent; padding: 6px 2px 8px; font: inherit; font-size: 15px; font-weight: 750; color: #8D99B3; display: flex; align-items: center; gap: 6px; }
+    #todoSub2 [data-tsub] b { font-size: 11px; font-weight: 700; color: #8D99B3; }
+    #todoSub2 [data-tsub] b:empty { display: none; }
+    #todoSub2 [data-tsub]::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 3px; background: var(--green); transform: scaleX(0); transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+    #todoSub2 [data-tsub].selected { color: var(--ink); } #todoSub2 [data-tsub].selected::after { transform: scaleX(1); } #todoSub2 [data-tsub].selected b { color: var(--green); }
     #todoLists { gap: 8px; overflow-x: auto; padding: 2px 2px 12px; margin: 0 -2px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     #todoLists::-webkit-scrollbar { display: none; }
     .lchip { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: #51607F; font: inherit; font-size: 13.5px; font-weight: 700; white-space: nowrap; }
@@ -1365,6 +1365,39 @@
     .wheel-i.on { color: var(--ink); font-weight: 750; font-size: 16.5px; }
     .wheel-band { position: absolute; z-index: 1; left: 0; right: 0; top: 36px; height: 36px; border-radius: 11px; background: rgba(44,98,238,.10); pointer-events: none; }
     .wheel-wrap { position: relative; margin-top: 6px; } .wheel-wrap .wheel { margin-top: 0; }
+    /* 3.3.2：自绘日期/时间选择、重复一行、排序、更顺的动画 */
+    .tf-pick { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; height: 38px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface-soft); padding: 0 12px; font: inherit; font-size: 14px; font-weight: 650; color: #8D99B3; text-align: left; transition: scale .25s cubic-bezier(.34,1.5,.64,1); }
+    .tf-pick.set { color: var(--ink); } .tf-pick:active { scale: .97; }
+    #tfRepRow { margin: 8px 0 0; } #tfRepRow[hidden] { display: none; }
+    #tfRepRow button { height: 30px; font-size: 12.5px; border-radius: 10px; padding: 0; transition: background .2s, color .2s, scale .25s cubic-bezier(.34,1.5,.64,1); }
+    #tfRepRow button.on { background: #E4EBFD; border-color: #9DB6FA; color: #3F6FF0; } #tfRepRow button:active { scale: .94; }
+    #pickSheet { z-index: 120; align-items: center; padding: 14px; background: rgba(15,22,40,.38); backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .pick-modal { width: min(100%, 340px); margin: 0 auto; padding: 14px 14px 10px; border-radius: 22px; border: 1px solid var(--line); }
+    .pk-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .pk-head strong { font-size: 16px; } .pk-head button { width: 34px; height: 34px; border: 0; border-radius: 50%; background: var(--surface-soft); font-size: 20px; color: #51607F; line-height: 1; }
+    .pk-wk, .pk-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; }
+    .pk-wk span { font-size: 12px; font-weight: 700; color: #8D99B3; padding: 4px 0 6px; }
+    .pk-grid button, .pk-grid i { height: 40px; }
+    .pk-grid button { border: 0; background: transparent; border-radius: 50%; font: inherit; font-size: 15px; font-weight: 650; color: var(--ink); transition: background .2s, scale .25s cubic-bezier(.34,1.5,.64,1); }
+    .pk-grid button:active { scale: .86; } .pk-grid button.today { color: var(--green); font-weight: 800; } .pk-grid button.on { background: var(--green); color: #fff; }
+    .pk-foot { display: flex; justify-content: space-between; margin-top: 8px; } .pk-foot button { border: 0; background: transparent; font: inherit; font-size: 14px; font-weight: 750; color: var(--green); padding: 8px 10px; }
+    .pk-foot .pri { background: var(--green); color: #fff; border-radius: 12px; padding: 8px 22px; }
+    .pk-time { display: flex; align-items: center; justify-content: center; gap: 6px; } .pk-time b { font-size: 20px; color: var(--ink); }
+    .pk-time .wheel-wrap { width: 84px; margin-top: 0; }
+    #todoTools { display: flex; justify-content: flex-end; margin: -4px 2px 8px; } #todoTools[hidden] { display: none; }
+    #todoSortBtn { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; font: inherit; font-size: 12.5px; font-weight: 700; color: #6B7A99; padding: 6px 4px; transition: scale .25s cubic-bezier(.34,1.5,.64,1); } #todoSortBtn:active { scale: .94; }
+    #todoSortBtn svg { width: 15px; height: 15px; }
+    #todoSeg { position: relative; }
+    #todoSeg::before { content: ''; position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 16px) / 3); border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(40,70,140,.12); transform: translateX(calc(var(--i, 1) * (100% + 4px))); transition: transform .5s cubic-bezier(.34,1.35,.64,1); }
+    #todoSeg button { z-index: 1; transition: color .25s ease; } #todoSeg button.selected { background: transparent; box-shadow: none; }
+    #todoSub2 [data-tsub]::after { transition: transform .4s cubic-bezier(.34,1.5,.64,1); }
+    #todoSheet .modal, #pickSheet .modal { transform: translateY(22px) scale(.96); opacity: 0; transition: transform .2s ease, opacity .16s ease; }
+    #todoSheet.open .modal, #pickSheet.open .modal { transform: none; opacity: 1; transition: transform .46s cubic-bezier(.34,1.4,.64,1), opacity .2s ease; }
+    #todoList.sw .todo-row { animation: rowIn .38s cubic-bezier(.22,1,.36,1) both; }
+    #todoList.sw .todo-row:nth-child(2) { animation-delay: 30ms; } #todoList.sw .todo-row:nth-child(3) { animation-delay: 60ms; } #todoList.sw .todo-row:nth-child(4) { animation-delay: 90ms; } #todoList.sw .todo-row:nth-child(n+5) { animation-delay: 120ms; }
+    @keyframes rowIn { from { opacity: 0; transform: translateY(10px); } }
+    .todo-check { transition: scale .3s cubic-bezier(.34,1.6,.64,1), background .2s, color .2s; } .todo-check:active { scale: .8; }
+    .lchip:active, .plus-btn:active { scale: .9; }
     .gone { display: none !important; }
     /* 3.2：待办弹窗精简 + 更顺的动画 */
     .todo-h1 { font-size: 26px; line-height: 1.22; letter-spacing: -.5px; font-weight: 800; margin: 2px 0 0; }
@@ -1387,7 +1420,7 @@
     .tf-more svg { width: 15px; height: 15px; transition: transform .25s cubic-bezier(.22,1,.36,1); } .tf-more[aria-expanded="true"] svg { transform: rotate(180deg); }
     #tfMore:not([hidden]) { animation: tfIn .22s ease both; } @keyframes tfIn { from { opacity: 0; transform: translateY(-4px); } }
     .wheel { height: 90px; padding: 30px 0; } .wheel-i { height: 30px; line-height: 30px; font-size: 14px; } .wheel-i.on { font-size: 15px; } .wheel-band { top: 30px; height: 30px; }
-    #todoList.sw { animation: todoSw .2s ease both; } @keyframes todoSw { from { opacity: 0; transform: translateY(6px); } }
+
     .tf-label { font-size: 12px; font-weight: 750; color: var(--muted); margin: 14px 2px 7px; }
     .tf-chips { display: flex; gap: 8px; margin: 12px 0 8px; }
     .tf-chips button { flex: 1; height: 34px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); font: inherit; font-size: 13.5px; font-weight: 700; color: #51607F; }
@@ -1443,6 +1476,7 @@
           <form class="todo-quick" id="todoQuick" autocomplete="off"><input id="todoQuickInput" type="text" maxlength="120" enterkeyhint="done" placeholder="添加待办，回车保存" aria-label="添加待办" /><button type="button" class="plus-btn" id="todoAddBtn" aria-label="详细添加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></form>
           <div id="todoSeg" role="tablist" aria-label="待办分组"><button type="button" role="tab" data-tview="pending">待确定<b></b></button><button type="button" role="tab" data-tview="ok" class="selected">已确定<b></b></button><button type="button" role="tab" data-tview="done">已完成<b></b></button></div>
           <div id="todoSub2" role="tablist" aria-label="已确定"><button type="button" role="tab" data-tsub="today" class="selected">今天<b></b></button><button type="button" role="tab" data-tsub="future">未来<b></b></button><button type="button" class="plus-btn sm" id="todoAdd2" aria-label="添加已确定的待办"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+          <div id="todoTools" hidden><button type="button" id="todoSortBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg><span></span></button></div>
           <div id="todoList"></div>
         </section>
         <section class="page" id="page-today">
@@ -1466,7 +1500,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.3.1 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.3.2 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1522,14 +1556,11 @@
   <div class="modal-backdrop" id="todoSheet" role="dialog" aria-modal="true" aria-labelledby="todoSheetTitle"><div class="modal todo-modal"><div class="modal-head"><h2 id="todoSheetTitle">新待办</h2><button type="button" class="close-btn" id="todoClose" aria-label="关闭">×</button></div>
     <form id="todoForm" novalidate autocomplete="off"><input id="tfTitle" class="tf-title" type="text" maxlength="120" placeholder="要做什么？" /><textarea id="tfNote" class="tf-note" rows="1" maxlength="2000" placeholder="备注（可选）"></textarea>
       <div class="tf-chips" id="tfDates"><button type="button" data-qd="today">今天</button><button type="button" data-qd="tomorrow">明天</button><button type="button" data-qd="week">下周</button><button type="button" data-qd="none">待确定</button></div>
-      <div class="tf-row"><label>日期<input type="date" id="tfDue" /></label><label>提醒时间<input type="time" id="tfTime" /></label></div>
-      <button type="button" class="tf-more" id="tfMoreBtn" aria-expanded="false">更多选项<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-      <div id="tfMore" hidden>
-        <div class="gone"><div class="tf-label">优先级</div><div class="tf-seg" id="tfPrio"><button type="button" data-p="0">无</button><button type="button" data-p="1">低</button><button type="button" data-p="2">中</button><button type="button" data-p="3">高</button></div></div>
-        <div class="tf-row" style="margin-top:12px"><select id="tfList" hidden></select><label>重复<div class="wheel" data-for="tfRepeat"></div><select id="tfRepeat" hidden><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select></label></div>
-        <div class="gone"><div class="tf-label">子任务</div><div id="tfSubs"></div><div class="tf-subadd"><input id="tfSubInput" type="text" maxlength="80" enterkeyhint="done" placeholder="添加子任务，回车" /><button type="button" id="tfSubAdd" aria-label="添加子任务">＋</button></div></div>
-      </div>
+      <div class="tf-row"><label>日期<input type="hidden" id="tfDue" /><button type="button" class="tf-pick" id="tfDueBtn">选择日期</button></label><label>提醒时间<input type="hidden" id="tfTime" /><button type="button" class="tf-pick" id="tfTimeBtn">不提醒</button></label></div>
+      <div class="tf-chips tf-rep" id="tfRepRow" hidden><button type="button" data-rp="">不重复</button><button type="button" data-rp="daily">每天</button><button type="button" data-rp="weekdays">工作日</button><button type="button" data-rp="weekly">每周</button><button type="button" data-rp="monthly">每月</button></div>
+      <div class="gone"><div class="gone"><div class="tf-label">优先级</div><div class="tf-seg" id="tfPrio"><button type="button" data-p="0">无</button><button type="button" data-p="1">低</button><button type="button" data-p="2">中</button><button type="button" data-p="3">高</button></div></div><div class="gone"><div class="tf-label">子任务</div><div id="tfSubs"></div><div class="tf-subadd"><input id="tfSubInput" type="text" maxlength="80" enterkeyhint="done" placeholder="添加子任务，回车" /><button type="button" id="tfSubAdd" aria-label="添加子任务">＋</button></div></div><select id="tfList" hidden></select><select id="tfRepeat" hidden><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select></div>
       <div class="tf-actions"><button type="button" class="btn-danger" id="tfDelete" hidden>删除</button><button type="submit" class="btn-primary">保存</button></div></form></div></div>
+  <div class="modal-backdrop" id="pickSheet" role="dialog" aria-modal="true"><div class="modal pick-modal"><div id="pickBody"></div></div></div>
   <div class="modal-backdrop" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listSheetTitle"><div class="modal todo-modal"><div class="modal-head"><h2 id="listSheetTitle">新建清单</h2><button type="button" class="close-btn" id="listClose" aria-label="关闭">×</button></div>
     <form id="listForm" novalidate autocomplete="off"><input id="lfName" type="text" maxlength="20" placeholder="清单名称，比如 工作、生活" /><div id="lfColors"></div>
       <div class="tf-actions"><button type="button" class="btn-danger" id="lfDelete" hidden>删除</button><button type="submit" class="btn-primary">保存</button></div></form></div></div>
@@ -2357,7 +2388,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.3.1',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.3.2',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2452,7 +2483,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       document.getElementById('confirmAction').addEventListener('click',()=>{const callback=confirmCallback;if(callback)callback();});
       document.getElementById('confirmBackdrop').addEventListener('click',e=>{if(e.target.id==='confirmBackdrop')closeConfirm();});
       document.addEventListener('keydown',e=>{
-        if(e.key==='Escape'){ if($('todoSheet').classList.contains('open')) closeTodoSheet(); else if($('listSheet').classList.contains('open')) closeListSheet(); else if($('authSheet').classList.contains('open')) closeAuth(); else if($('confirmBackdrop').classList.contains('open')) closeConfirm(); else if(hdId) closeHD(); else closeEditor(false); return; }
+        if(e.key==='Escape'){ if($('pickSheet').classList.contains('open')) closePick(); else if($('todoSheet').classList.contains('open')) closeTodoSheet(); else if($('listSheet').classList.contains('open')) closeListSheet(); else if($('authSheet').classList.contains('open')) closeAuth(); else if($('confirmBackdrop').classList.contains('open')) closeConfirm(); else if(hdId) closeHD(); else closeEditor(false); return; }
         const t=e.target; if(!t || !t.matches) return;
         if(t.matches('.habit-open') && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); openEditor(t.dataset.edit); return; }
         if(t.matches('.drag-handle') && (e.key==='ArrowUp' || e.key==='ArrowDown')){ e.preventDefault(); moveHabit(t.dataset.drag,e.key==='ArrowUp'?-1:1); }
@@ -2548,6 +2579,8 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           done: todos().filter(t => t.done && inList(t)).sort((a, b) => (b.doneAt || 0) - (a.doneAt || 0))
         };
       }
+      let todoSortDir = { future: 'asc', done: 'asc' };
+      try { Object.assign(todoSortDir, JSON.parse(localStorage.getItem('riheng.v1.sort') || '{}')); } catch(e) {}
       const todoKey = () => todoView === 'ok' ? todoSub : todoView;
       const SVG_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>';
       const SVG_REPEAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3l3 3-3 3M4 11V9a3 3 0 0 1 3-3h13M7 21l-3-3 3-3M20 13v2a3 3 0 0 1-3 3H4"/></svg>';
@@ -2562,7 +2595,12 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         return `<div class="todo-row ${t.done ? 'done' : ''}" data-tid="${t.id}"><button type="button" class="todo-check p0" style="--pc:#9AA6BD" data-tcheck="${t.id}" aria-label="${t.done ? '标为未完成' : '完成'}：${escapeHTML(t.title)}">${SVG_CHECK}</button><div class="todo-main" data-topen="${t.id}" tabindex="0" role="button"><div class="todo-title">${escapeHTML(t.title)}</div>${chips.length ? `<div class="todo-meta">${chips.join('')}</div>` : ''}</div></div>`;
       }
       function renderTodo() {
-        const b = todoBuckets(), key = todoKey(), cur = b[key];
+        const b = todoBuckets(), key = todoKey(); let cur = b[key];
+        if(key === 'done' && todoSortDir.done === 'asc') cur = cur.slice().reverse();       // 默认从早到晚；也可切成从晚到早
+        if(key === 'future' && todoSortDir.future === 'desc') cur = cur.slice().reverse();
+        $('todoSeg').style.setProperty('--i', { pending: 0, ok: 1, done: 2 }[todoView]);
+        $('todoTools').hidden = !(key === 'future' || key === 'done');
+        if(key === 'future' || key === 'done') $('todoSortBtn').querySelector('span').textContent = (key === 'done' ? '完成时间' : '日期') + ' · ' + (todoSortDir[key] === 'asc' ? '从早到晚' : '从晚到早');
         $('todoEyebrow').textContent = `星期${WK[fromKey(todayKey).getDay()]} · ${fromKey(todayKey).getMonth() + 1} 月 ${fromKey(todayKey).getDate()} 日`;
         const over = b.today.filter(t => t.due < todayKey).length;
         $('todoSub').textContent = b.today.length ? `今天 ${b.today.length - over} 项${over ? ` · 逾期 ${over} 项` : ''}` : (todos().length ? '今天没有待办' : '写下要做的事');
@@ -2598,7 +2636,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         else { t.done = !t.done; t.doneAt = t.done ? Date.now() : 0; if(t.done) t.subs.forEach(s => { s.done = true; }); }
         t.u = Date.now(); saveData();
         const row = document.querySelector(`.todo-row[data-tid="${id}"]`);
-        if(row && !REDUCE) { row.classList.add('leaving'); setTimeout(renderTodo, 260); } else renderTodo();
+        if(row && !REDUCE) { row.classList.toggle('done', t.done); setTimeout(() => row.classList.add('leaving'), 170); setTimeout(renderTodo, 430); } else renderTodo();
       }
 
       // ---- 待办编辑 ----
@@ -2626,8 +2664,48 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         }, { passive: true });
         w.addEventListener('click', e => { const it = e.target.closest('.wheel-i'); if(it) w.scrollTo({ top: Number(it.dataset.i) * WH, behavior: 'smooth' }); });
       });
-      function setMore(on) { $('tfMore').hidden = !on; $('tfMoreBtn').setAttribute('aria-expanded', String(on)); if(on) { syncWheel('tfList'); syncWheel('tfRepeat'); } }
-      $('tfMoreBtn').addEventListener('click', () => setMore($('tfMore').hidden));
+      function setMore() {}
+      function _oldSetMore(on) { $('tfMore').hidden = !on; $('tfMoreBtn').setAttribute('aria-expanded', String(on)); if(on) { syncWheel('tfList'); syncWheel('tfRepeat'); } }
+      // ---- 日期 / 时间选择：应用内弹窗，和整体风格一致（不用系统选择框）----
+      const pad2 = n => String(n).padStart(2, '0');
+      function fmtDue(due) { if(!due) return '选择日期'; const d = fromKey(due); return (due === todayKey ? '今天' : due === shiftDate(todayKey, 1) ? '明天' : (d.getMonth() + 1) + ' 月 ' + d.getDate() + ' 日') + ' · 周' + WK[d.getDay()]; }
+      function renderDT() {
+        const due = $('tfDue').value, tm = $('tfTime').value;
+        $('tfDueBtn').textContent = fmtDue(due); $('tfDueBtn').classList.toggle('set', !!due);
+        $('tfTimeBtn').textContent = tm || '不提醒'; $('tfTimeBtn').classList.toggle('set', !!tm);
+        $('tfRepRow').hidden = !due;
+        document.querySelectorAll('#tfRepRow [data-rp]').forEach(b => b.classList.toggle('on', b.dataset.rp === $('tfRepeat').value));
+      }
+      let pickCtx = null;
+      function closePick() { $('pickSheet').classList.remove('open'); pickCtx = null; }
+      function renderDatePick() {
+        const { y, m } = pickCtx, days = new Date(y, m + 1, 0).getDate(), lead = (new Date(y, m, 1).getDay() + 6) % 7, sel = $('tfDue').value;
+        let cells = ''; for(let i = 0; i < lead; i++) cells += '<i></i>';
+        for(let d = 1; d <= days; d++) { const key = y + '-' + pad2(m + 1) + '-' + pad2(d); cells += `<button type="button" data-pd="${key}" class="${key === sel ? 'on' : key === todayKey ? 'today' : ''}">${d}</button>`; }
+        $('pickBody').innerHTML = `<div class="pk-head"><button type="button" data-pm="-1" aria-label="上个月">‹</button><strong>${y} 年 ${m + 1} 月</strong><button type="button" data-pm="1" aria-label="下个月">›</button></div><div class="pk-wk"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div><div class="pk-grid">${cells}</div><div class="pk-foot"><button type="button" data-pclear>清除</button><button type="button" data-pcancel>取消</button></div>`;
+      }
+      function renderTimePick() {
+        const [h, mi] = ($('tfTime').value || '09:00').split(':').map(Number);
+        const col = (n, id) => `<div class="wheel-wrap"><div class="wheel" id="${id}">${Array.from({ length: n }, (_, i) => `<div class="wheel-i" data-i="${i}">${pad2(i)}</div>`).join('')}</div><div class="wheel-band"></div></div>`;
+        $('pickBody').innerHTML = `<div class="pk-head"><strong>提醒时间</strong></div><div class="pk-time">${col(24, 'pkH')}<b>:</b>${col(60, 'pkM')}</div><div class="pk-foot"><button type="button" data-pclear>清除</button><button type="button" data-pok class="pri">确定</button></div>`;
+        [['pkH', h], ['pkM', mi]].forEach(([id, v]) => { const w = $(id); w.scrollTop = v * WH; markWheel(w, v); w.addEventListener('scroll', () => markWheel(w, Math.round(w.scrollTop / WH)), { passive: true }); });
+      }
+      function openPick(kind) {
+        pickCtx = { kind };
+        if(kind === 'date') { const v = $('tfDue').value || todayKey; pickCtx.y = +v.slice(0, 4); pickCtx.m = +v.slice(5, 7) - 1; renderDatePick(); }
+        $('pickSheet').classList.add('open');
+        if(kind === 'time') renderTimePick();
+      }
+      $('tfDueBtn').addEventListener('click', () => openPick('date'));
+      $('tfTimeBtn').addEventListener('click', () => openPick('time'));
+      $('tfRepRow').addEventListener('click', e => { const b = e.target.closest('[data-rp]'); if(!b) return; $('tfRepeat').value = b.dataset.rp; renderDT(); });
+      $('pickSheet').addEventListener('click', e => {
+        if(e.target === $('pickSheet') || e.target.closest('[data-pcancel]')) { closePick(); return; }
+        const d = e.target.closest('[data-pd]'); if(d) { $('tfDue').value = d.dataset.pd; renderDT(); closePick(); return; }
+        const mv = e.target.closest('[data-pm]'); if(mv && pickCtx) { pickCtx.m += +mv.dataset.pm; if(pickCtx.m < 0) { pickCtx.m = 11; pickCtx.y--; } if(pickCtx.m > 11) { pickCtx.m = 0; pickCtx.y++; } renderDatePick(); return; }
+        if(e.target.closest('[data-pclear]')) { if(pickCtx && pickCtx.kind === 'date') { $('tfDue').value = ''; $('tfTime').value = ''; $('tfRepeat').value = ''; } else $('tfTime').value = ''; renderDT(); closePick(); return; }
+        if(e.target.closest('[data-pok]')) { const hh = Math.round($('pkH').scrollTop / WH), mm = Math.round($('pkM').scrollTop / WH); $('tfTime').value = pad2(Math.min(23, hh)) + ':' + pad2(Math.min(59, mm)); if(!$('tfDue').value) $('tfDue').value = todayKey; renderDT(); closePick(); }
+      });
       function swAnim() { const l = $('todoList'); l.classList.remove('sw'); void l.offsetWidth; l.classList.add('sw'); }
       function openTodoSheet(id, pre) {
         const t = id ? todos().find(x => x.id === id) : null; if(id && !t) return;
@@ -2637,10 +2715,10 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('tfDue').value = t ? t.due : (todoKey() === 'today' ? todayKey : ''); $('tfTime').value = t ? t.time : '';
         fillListSelect(t ? t.list : (lists().some(l => l.id === todoList) ? todoList : '')); $('tfRepeat').value = t ? t.repeat : ''; syncWheel('tfRepeat');
         $('tfDelete').hidden = !t; setPrio(todoEdit.prio); renderSubs(); $('tfSubInput').value = '';
-        setMore(!!(t && t.repeat)); $('todoSheet').classList.add('open'); syncWheel('tfList'); syncWheel('tfRepeat'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
+        renderDT(); $('todoSheet').classList.add('open'); syncWheel('tfList'); syncWheel('tfRepeat'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
         if(!t && todoEdit.needDate) setTimeout(() => showToast('请选一个日期'), 200);
       }
-      function closeTodoSheet() { $('todoSheet').classList.remove('open'); todoEdit = null; if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
+      function closeTodoSheet() { try { closePick(); } catch(e) {} $('todoSheet').classList.remove('open'); todoEdit = null; if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
       function addSub() { const v = $('tfSubInput').value.trim().slice(0, 80); if(!v || !todoEdit || todoEdit.subs.length >= 50) return; todoEdit.subs.push({ id: newId('s'), t: v, done: false }); $('tfSubInput').value = ''; renderSubs(); }
       function saveTodoSheet() {
         if(!todoEdit) return;
@@ -2707,6 +2785,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       function scheduleTodoPush() { clearTimeout(todoPushTimer); todoPushTimer = setTimeout(pushTodoReminders, 400); }
       // ---- 事件 ----
       $('todoSeg').addEventListener('click', e => { const b = e.target.closest('[data-tview]'); if(!b) return; todoView = b.dataset.tview; renderTodo(); swAnim(); });
+      $('todoSortBtn').addEventListener('click', () => { const k = todoKey(); if(k !== 'future' && k !== 'done') return; todoSortDir[k] = todoSortDir[k] === 'asc' ? 'desc' : 'asc'; try { localStorage.setItem('riheng.v1.sort', JSON.stringify(todoSortDir)); } catch(e) {} renderTodo(); swAnim(); });
       $('todoSub2').addEventListener('click', e => { const b = e.target.closest('[data-tsub]'); if(!b) return; todoSub = b.dataset.tsub; renderTodo(); swAnim(); });
 
       $('todoList').addEventListener('click', e => {
@@ -2725,7 +2804,8 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       $('tfDates').addEventListener('click', e => {
         const b = e.target.closest('[data-qd]'); if(!b) return; const k = b.dataset.qd;
         $('tfDue').value = k === 'today' ? todayKey : k === 'tomorrow' ? shiftDate(todayKey, 1) : k === 'week' ? shiftDate(todayKey, 7 - ((fromKey(todayKey).getDay() + 6) % 7)) : '';
-        if(k === 'none') { $('tfTime').value = ''; $('tfRepeat').value = ''; syncWheel('tfRepeat'); }
+        if(k === 'none') { $('tfTime').value = ''; $('tfRepeat').value = ''; }
+        renderDT();
       });
       $('tfSubAdd').addEventListener('click', addSub);
       $('tfSubInput').addEventListener('keydown', e => { if(e.key === 'Enter') { e.preventDefault(); addSub(); } });
@@ -2919,6 +2999,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       window.__RIHENGHandleBack = function() {
         if(document.getElementById('confirmBackdrop').classList.contains('open')) { closeConfirm(); return true; }
         if(document.getElementById('authSheet').classList.contains('open')) { closeAuth(); return true; }
+        if(document.getElementById('pickSheet').classList.contains('open')) { closePick(); return true; }
         if(document.getElementById('todoSheet').classList.contains('open')) { closeTodoSheet(); return true; }
         if(document.getElementById('listSheet').classList.contains('open')) { closeListSheet(); return true; }
         if(hdId) { closeHD(); return true; }

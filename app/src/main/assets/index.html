@@ -975,14 +975,14 @@
     /* 悬浮玻璃底栏（手机）：半透明 + 背景模糊 + 高光描边；选中项下面是一块会滑动、会拉伸的「水滴」 */
     .nav-lens { display: none; }
     @media (max-width: 760px) {
-      .bottom-nav { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 0; position: fixed; z-index: 50; left: 0; right: 0; margin-inline: auto; bottom: calc(14px + env(safe-area-inset-bottom));
+      .bottom-nav { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 0; position: fixed; z-index: 50; left: 0; right: 0; margin-inline: auto; bottom: calc(14px + env(safe-area-inset-bottom));
         width: min(calc(100% - 36px), 400px); padding: 6px; isolation: isolate; touch-action: pan-y; -webkit-user-select: none; user-select: none;
         border: 1px solid rgba(255,255,255,.75); border-radius: 34px;
         background: linear-gradient(180deg, rgba(255,255,255,.68), rgba(255,255,255,.4));
         -webkit-backdrop-filter: blur(22px) saturate(1.9); backdrop-filter: blur(22px) saturate(1.9);
         box-shadow: 0 16px 38px rgba(20,40,110,.18), 0 2px 8px rgba(20,40,110,.08), inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -1.5px 1px rgba(255,255,255,.45), inset 0 0 20px rgba(255,255,255,.3); }
       .bottom-nav::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 34%, rgba(255,255,255,0) 66%, rgba(255,255,255,.3) 100%); }
-      .nav-lens { display: block; position: absolute; z-index: 0; top: 6px; bottom: 6px; left: 6px; width: calc((100% - 12px) / var(--n, 4)); border-radius: 28px; pointer-events: none;
+      .nav-lens { display: block; position: absolute; z-index: 0; top: 6px; bottom: 6px; left: 6px; width: calc((100% - 12px) / var(--n, 3)); border-radius: 28px; pointer-events: none;
         translate: calc(var(--i0, 0) * 100%) 0; transition: translate .7s var(--sp-lens), opacity .25s ease, scale .4s var(--sp-pop);
         background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(232,240,255,.8)); border: 1px solid rgba(255,255,255,.95);
         box-shadow: 0 7px 20px rgba(44,98,238,.24), 0 1px 3px rgba(44,98,238,.16), inset 0 1px 1px #fff, inset 0 -3px 8px rgba(44,98,238,.1); }
@@ -1337,8 +1337,24 @@
     #todoSheet, #listSheet { align-items: flex-start; padding: 7vh 14px 0; }
     #todoSheet .todo-modal, #listSheet .todo-modal { width: min(100%, 420px); margin: 0 auto; max-height: 86dvh; padding: 20px 20px 18px; border-radius: 26px; border: 1px solid var(--line); }
     #todoSheet .modal-head, #listSheet .modal-head { margin-bottom: 10px; }
+    #todoSheet, #listSheet { --kb: 0px; }
+    #todoSheet.kb, #listSheet.kb { padding-top: 12px; }
+    #todoSheet.kb .todo-modal, #listSheet.kb .todo-modal { max-height: calc(100dvh - var(--kb) - 24px); overflow-y: auto; overscroll-behavior: contain; }
+    #authSheet.kb { padding-bottom: var(--kb); }
+    #authSheet.kb .modal { max-height: calc(100dvh - var(--kb) - 24px); }
+    /* 去掉系统默认的方形焦点框（盖过全局 input:focus-visible），改成圆角底线高亮 */
+    .tf-title:focus-visible, .tf-note:focus-visible, .tf-row input:focus-visible, .tf-row select:focus-visible, .tf-subadd input:focus-visible, #lfName:focus-visible { outline: none; }
+    .tf-title:focus { border-bottom-color: var(--green); box-shadow: 0 1px 0 var(--green); }
     .tf-title { width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid var(--line); background: transparent; padding: 8px 2px 12px; font: inherit; font-size: 19px; font-weight: 700; color: var(--ink); outline: none; }
     .tf-note { width: 100%; box-sizing: border-box; border: 0; background: transparent; padding: 12px 2px 6px; font: inherit; font-size: 15px; color: var(--ink); resize: none; outline: none; }
+    /* 清单 / 重复：直接在界面里上下滑动选择，不再弹出系统选项框 */
+    .tf-row label:has(.wheel) { flex: 1; min-width: 0; }
+    .wheel { position: relative; height: 108px; margin-top: 6px; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior: contain; touch-action: pan-y; scrollbar-width: none; border-radius: 14px; background: var(--surface-soft); padding: 36px 0; box-sizing: border-box; -webkit-mask-image: linear-gradient(transparent, #000 32%, #000 68%, transparent); mask-image: linear-gradient(transparent, #000 32%, #000 68%, transparent); }
+    .wheel::-webkit-scrollbar { display: none; }
+    .wheel-i { height: 36px; line-height: 36px; text-align: center; scroll-snap-align: center; font-size: 15px; font-weight: 600; color: #8D99B3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 10px; transition: color .15s, font-size .15s; }
+    .wheel-i.on { color: var(--ink); font-weight: 750; font-size: 16.5px; }
+    .wheel-band { position: absolute; z-index: 1; left: 0; right: 0; top: 36px; height: 36px; border-radius: 11px; background: rgba(44,98,238,.10); pointer-events: none; }
+    .wheel-wrap { position: relative; margin-top: 6px; } .wheel-wrap .wheel { margin-top: 0; }
     .tf-label { font-size: 12px; font-weight: 750; color: var(--muted); margin: 14px 2px 7px; }
     .tf-chips { display: flex; gap: 8px; margin: 12px 0 8px; }
     .tf-chips button { flex: 1; height: 34px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); font: inherit; font-size: 13.5px; font-weight: 700; color: #51607F; }
@@ -1384,7 +1400,6 @@
       <aside class="sidebar">
         <nav class="side-nav" aria-label="主导航">
           <button class="nav-item active" data-page="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><g transform="translate(12 12) scale(.86) translate(-12 -12)" stroke-width="2.1"><rect x="3.5" y="4" width="17" height="17" rx="4"/><path d="M8 2.8v3M16 2.8v3M7.5 10h9M8 14l2.2 2.1 4.3-4.5"/></g></svg><span>今日打卡</span></button>
-          <button class="nav-item" data-page="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19v-6.5M12 19V5M19 19V9.5"/></svg><span>数据统计</span></button>
           <button class="nav-item" data-page="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><path d="M10.35 6.65 L10.75 4.71 L13.25 4.71 L13.65 6.65 L14.61 7.05 L16.27 5.96 L18.04 7.73 L16.95 9.39 L17.35 10.35 L19.29 10.75 L19.29 13.25 L17.35 13.65 L16.95 14.61 L18.04 16.27 L16.27 18.04 L14.61 16.95 L13.65 17.35 L13.25 19.29 L10.75 19.29 L10.35 17.35 L9.39 16.95 L7.73 18.04 L5.96 16.27 L7.05 14.61 L6.65 13.65 L4.71 13.25 L4.71 10.75 L6.65 10.35 L7.05 9.39 L5.96 7.73 L7.73 5.96 L9.39 7.05Z" stroke-linejoin="round"/></svg><span>设置</span></button>
         </nav>
         <div class="side-note"><div class="note-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 26V15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 19C8.8 19 5 14.5 5 7.5c7.4 0 12 3.5 12 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 15c.4-6 4.1-9.5 11-10-0.1 6.7-3.7 10.2-11 10Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>不用一次改变所有事情。<br/>每天完成一点，就已经在前进。</p></div>
@@ -1414,21 +1429,11 @@
           <div class="panel"><div class="section-head" style="margin-bottom:19px"><h2 class="section-title" id="calendarMonthTitle">2026 年 10 月</h2><span class="section-meta">点选日期查看记录</span></div><div class="calendar-grid" id="calendarGrid"></div><div class="calendar-legend"><span class="legend-dot"></span>有打卡记录 <span style="margin-left:auto" id="calendarMonthSummary">本月 0 次打卡</span></div></div>
           <div class="panel history-panel"><div class="day-summary"><strong id="selectedDateTitle">今日记录</strong><span id="selectedDateCount">0 / 0 项完成</span></div><div class="history-list" id="historyList"></div></div>
         </section>
-        <section class="page" id="page-stats">
-          <div class="page-header"><div><div class="eyebrow">SMALL STEPS, REAL PROGRESS</div><h1>坚持的痕迹。</h1><p class="subheading"></p></div></div>
-          <div class="period-seg" id="periodSeg" role="tablist" aria-label="统计周期" style="--seg:0"><button type="button" role="tab" data-period="week" class="selected">周</button><button type="button" role="tab" data-period="month">月</button><button type="button" role="tab" data-period="year">年</button></div>
-          <div class="pnav"><button type="button" id="pPrev" aria-label="上一段"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div class="pnav-mid"><b id="pLabel"></b><small id="pName"></small></div><button type="button" id="pNext" aria-label="下一段"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
-          <div class="s-card ov"><div><div class="ov-label" id="ovLabel">本周完成率</div><div class="ov-pctrow"><div class="ov-pct" id="ovPct">0%</div><span class="delta hide" id="ovDelta"></span></div><div class="ov-count" id="ovCount"></div><div class="ov-range" id="ovRange"></div></div><svg class="ov-ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="42"/><circle id="ovRing" cx="50" cy="50" r="42"/></svg>
-            <div class="ov-stats"><div><small>全部完成的天数</small><div class="nv" id="stPerfect"></div></div><div><small>连续全部完成</small><div class="nv" id="stCur"></div></div><div><small>最长连续</small><div class="nv" id="stBest"></div></div></div></div>
-          <div class="s-card"><h3 id="trendTitle">每日完成率</h3><div id="trendChart"></div><div id="dayDetail"></div></div>
-          <div class="s-card"><h3>各习惯</h3><div id="habitStats"></div></div>
-          
-        </section>
         <div class="hd" id="habitDetail" role="dialog" aria-modal="true" aria-label="习惯详情" aria-hidden="true"><div class="hd-top"><button type="button" id="hdBack" aria-label="返回"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><b id="hdTitle"></b><span></span></div><div id="hdBody"></div></div>
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.1.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>Persist · 把小事做成日常</strong><p>版本 3.1.1 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1437,7 +1442,6 @@
     <span class="nav-lens" aria-hidden="true"></span>
     <button class="nav-item active" data-page="todo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6.5h9M10 12h9M10 17.5h9M4.5 6.2l1.3 1.3 2.2-2.6M4.5 11.7l1.3 1.3 2.2-2.6M4.5 17.2l1.3 1.3 2.2-2.6"/></svg><span>待办</span></button>
     <button class="nav-item" data-page="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><g transform="translate(12 12) scale(.86) translate(-12 -12)" stroke-width="2.1"><rect x="3.5" y="4" width="17" height="17" rx="4"/><path d="M8 2.8v3M16 2.8v3M7.5 10h9M8 14l2.2 2.1 4.3-4.5"/></g></svg><span>打卡</span></button>
-    <button class="nav-item" data-page="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19v-6.5M12 19V5M19 19V9.5"/></svg><span>统计</span></button>
     <button class="nav-item" data-page="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><path d="M10.35 6.65 L10.75 4.71 L13.25 4.71 L13.65 6.65 L14.61 7.05 L16.27 5.96 L18.04 7.73 L16.95 9.39 L17.35 10.35 L19.29 10.75 L19.29 13.25 L17.35 13.65 L16.95 14.61 L18.04 16.27 L16.27 18.04 L14.61 16.95 L13.65 17.35 L13.25 19.29 L10.75 19.29 L10.35 17.35 L9.39 16.95 L7.73 18.04 L5.96 16.27 L7.05 14.61 L6.65 13.65 L4.71 13.25 L4.71 10.75 L6.65 10.35 L7.05 9.39 L5.96 7.73 L7.73 5.96 L9.39 7.05Z" stroke-linejoin="round"/></svg><span>设置</span></button>
   </nav>
   <div id="fx" aria-hidden="true"></div>
@@ -1487,7 +1491,7 @@
       <div class="tf-chips" id="tfDates"><button type="button" data-qd="today">今天</button><button type="button" data-qd="tomorrow">明天</button><button type="button" data-qd="week">下周</button><button type="button" data-qd="none">不限</button></div>
       <div class="tf-row"><label>日期<input type="date" id="tfDue" /></label><label>提醒时间<input type="time" id="tfTime" /></label></div>
       <div class="tf-label">优先级</div><div class="tf-seg" id="tfPrio"><button type="button" data-p="0">无</button><button type="button" data-p="1">低</button><button type="button" data-p="2">中</button><button type="button" data-p="3">高</button></div>
-      <div class="tf-row" style="margin-top:14px"><label>清单<select id="tfList"></select></label><label>重复<select id="tfRepeat"><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select></label></div>
+      <div class="tf-row" style="margin-top:14px"><label>清单<select id="tfList" hidden></select><div class="wheel" data-for="tfList"></div></label><label>重复<div class="wheel" data-for="tfRepeat"></div><select id="tfRepeat" hidden><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select></label></div>
       <div class="tf-label">子任务</div><div id="tfSubs"></div><div class="tf-subadd"><input id="tfSubInput" type="text" maxlength="80" enterkeyhint="done" placeholder="添加子任务，回车" /><button type="button" id="tfSubAdd" aria-label="添加子任务">＋</button></div>
       <div class="tf-actions"><button type="button" class="btn-danger" id="tfDelete" hidden>删除</button><button type="submit" class="btn-primary">保存</button></div></form></div></div>
   <div class="modal-backdrop" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listSheetTitle"><div class="modal todo-modal"><div class="modal-head"><h2 id="listSheetTitle">新建清单</h2><button type="button" class="close-btn" id="listClose" aria-label="关闭">×</button></div>
@@ -1695,7 +1699,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const icons={check:'<path d="m5 12 4 4L19 6" pathLength="1"/>',plus:'<path d="M12 5v14M5 12h14"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>'};
         return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]||icons.check}</svg>`;
       }
-      function render() { clearTimeout(renderTimer); renderTimer = 0; clearTimeout(leaveTimer); leaveTimer = 0; leaveFn = null; applyTheme(); renderToday(); if(activePage==='calendar') renderCalendar(); if(activePage==='stats') renderStats(); if(activePage==='todo' && typeof renderTodo==='function') renderTodo(); }   // 其他页面切过去时才画（setPage 里会画）
+      function render() { clearTimeout(renderTimer); renderTimer = 0; clearTimeout(leaveTimer); leaveTimer = 0; leaveFn = null; applyTheme(); renderToday(); if(activePage==='calendar') renderCalendar(); if(activePage==='todo' && typeof renderTodo==='function') renderTodo(); }   // 其他页面切过去时才画（setPage 里会画）
       function applyTheme() { document.body.dataset.theme='grove'; document.body.classList.remove('dark'); document.querySelector('meta[name="theme-color"]').setAttribute('content','#f5f7fb'); }
       function renderToday() {
         if(drag) abortDrag();
@@ -1923,7 +1927,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id===`page-${page}`)); if(page==='settings' && typeof remRender==='function') remRender();
         document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===page));
         if(page!=='today' && doneView) { flushLeave(); doneView=false; renderToday(); }
-        if(page==='calendar')renderCalendar(); if(page==='stats')renderStats(); if(page==='todo')renderTodo();
+        if(page==='calendar')renderCalendar(); if(page==='todo')renderTodo();
         if(page!==prevPage) enterPage(page);
         updateLens(prevPage); window.scrollTo({top:0,behavior:'smooth'});
       }
@@ -2317,7 +2321,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.1.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.1.1',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2440,9 +2444,15 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         foot.style.translate = `0 ${-px}px`;
         toast.style.translate = `0 ${-px}px`;
         scroll.style.setProperty('--kb', px + 'px');
+        ['todoSheet','listSheet','authSheet'].forEach(id => { const el = $(id); if(el) { el.style.setProperty('--kb', px + 'px'); el.classList.toggle('kb', px > 0); } });
         clearTimeout(kbTimer);
-        if (px > 0) kbTimer = setTimeout(ensureFocusVisible, ms + 60);
+        if (px > 0) kbTimer = setTimeout(() => { ensureFocusVisible(); sheetFocusVisible(); }, ms + 60);
       }
+      function sheetFocusVisible() {
+        const a = document.activeElement; if(!a || !a.closest) return;
+        const m = a.closest('.modal-backdrop.open .modal'); if(m) a.scrollIntoView({ block:'center', behavior:'smooth' });
+      }
+      document.addEventListener('focusin', e => { if(e.target.closest && e.target.closest('.modal-backdrop.open .modal') && kbTarget > 0) setTimeout(sheetFocusVisible, 120); });
       window.__RIHENGKeyboard = function(px, ms) {
         kbTarget = Math.max(0, Number(px) || 0);
         if (kbTarget === 0) kbBaseH = window.innerHeight;
@@ -2557,15 +2567,34 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       function renderSubs() {
         $('tfSubs').innerHTML = todoEdit.subs.map((s, i) => `<div class="tf-sub ${s.done ? 'done' : ''}"><button type="button" class="tf-subcheck" data-subtoggle="${i}" aria-label="勾选子任务">${SVG_CHECK}</button><span>${escapeHTML(s.t)}</span><button type="button" class="tf-subdel" data-subdel="${i}" aria-label="删除子任务">×</button></div>`).join('');
       }
-      function fillListSelect(sel) { $('tfList').innerHTML = '<option value="">收集箱</option>' + lists().map(l => `<option value="${l.id}" ${l.id === sel ? 'selected' : ''}>${escapeHTML(l.name)}</option>`).join(''); }
+      function fillListSelect(sel) { $('tfList').innerHTML = '<option value="">收集箱</option>' + lists().map(l => `<option value="${l.id}" ${l.id === sel ? 'selected' : ''}>${escapeHTML(l.name)}</option>`).join(''); syncWheel('tfList'); }
       function setPrio(p) { todoEdit.prio = p; document.querySelectorAll('#tfPrio [data-p]').forEach(b => { const on = +b.dataset.p === p; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); }); }
+      // ---- 滚轮选择器：以隐藏的 <select> 为数据源，滑动停下后写回它的值 ----
+      const WH = 36;
+      function syncWheel(selId) {
+        const sel = $(selId), w = document.querySelector('.wheel[data-for="' + selId + '"]'); if(!sel || !w) return;
+        w.innerHTML = [...sel.options].map((o, i) => `<div class="wheel-i" data-i="${i}">${o.textContent}</div>`).join('');
+        w.scrollTop = Math.max(0, sel.selectedIndex) * WH; markWheel(w, sel.selectedIndex);
+      }
+      function markWheel(w, idx) { w.querySelectorAll('.wheel-i').forEach((el, i) => el.classList.toggle('on', i === idx)); }
+      document.querySelectorAll('.wheel').forEach(w => {
+        const sel = $(w.dataset.for); let tm = 0;
+        const wrap = document.createElement('div'); wrap.className = 'wheel-wrap'; w.parentNode.insertBefore(wrap, w); wrap.appendChild(w);
+        const band = document.createElement('div'); band.className = 'wheel-band'; wrap.appendChild(band);
+        w.addEventListener('scroll', () => {
+          const idx = Math.max(0, Math.min(sel.options.length - 1, Math.round(w.scrollTop / WH)));
+          markWheel(w, idx); clearTimeout(tm);
+          tm = setTimeout(() => { if(sel.selectedIndex !== idx) { sel.selectedIndex = idx; sel.dispatchEvent(new Event('change', { bubbles: true })); } }, 90);
+        }, { passive: true });
+        w.addEventListener('click', e => { const it = e.target.closest('.wheel-i'); if(it) w.scrollTo({ top: Number(it.dataset.i) * WH, behavior: 'smooth' }); });
+      });
       function openTodoSheet(id) {
         const t = id ? todos().find(x => x.id === id) : null; if(id && !t) return;
         todoEdit = { id: id || null, subs: t ? t.subs.map(s => Object.assign({}, s)) : [], prio: t ? t.prio : 0 };
         $('todoSheetTitle').textContent = t ? '编辑待办' : '新待办';
         $('tfTitle').value = t ? t.title : ''; $('tfNote').value = t ? t.note : '';
         $('tfDue').value = t ? t.due : (todoView === 'today' ? todayKey : todoView === 'plan' ? shiftDate(todayKey, 1) : ''); $('tfTime').value = t ? t.time : '';
-        fillListSelect(t ? t.list : (lists().some(l => l.id === todoList) ? todoList : '')); $('tfRepeat').value = t ? t.repeat : '';
+        fillListSelect(t ? t.list : (lists().some(l => l.id === todoList) ? todoList : '')); $('tfRepeat').value = t ? t.repeat : ''; syncWheel('tfRepeat');
         $('tfDelete').hidden = !t; setPrio(todoEdit.prio); renderSubs(); $('tfSubInput').value = '';
         $('todoSheet').classList.add('open'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
         if(!t) setTimeout(() => $('tfTitle').focus(), 160);
@@ -2653,7 +2682,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       $('tfDates').addEventListener('click', e => {
         const b = e.target.closest('[data-qd]'); if(!b) return; const k = b.dataset.qd;
         $('tfDue').value = k === 'today' ? todayKey : k === 'tomorrow' ? shiftDate(todayKey, 1) : k === 'week' ? shiftDate(todayKey, 7 - ((fromKey(todayKey).getDay() + 6) % 7)) : '';
-        if(k === 'none') { $('tfTime').value = ''; $('tfRepeat').value = ''; }
+        if(k === 'none') { $('tfTime').value = ''; $('tfRepeat').value = ''; syncWheel('tfRepeat'); }
       });
       $('tfSubAdd').addEventListener('click', addSub);
       $('tfSubInput').addEventListener('keydown', e => { if(e.key === 'Enter') { e.preventDefault(); addSub(); } });
@@ -2818,7 +2847,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       window.addEventListener('online', () => { if(auth) scheduleSync(600); });
       renderAccount(); if(auth) scheduleSync(1500);
 
-      { const hp = (location.hash || '').slice(1); if(['today', 'stats', 'settings', 'calendar'].includes(hp)) setPage(hp); }
+      { const hp = (location.hash || '').slice(1); if(['today', 'settings', 'calendar'].includes(hp)) setPage(hp); }
       // ---- 每日提醒：原生负责排期和发通知，这里只是开关和时间 ----
       const remNative = () => (window.RiHengNative && typeof window.RiHengNative.getReminder === 'function' && typeof window.RiHengNative.setReminder === 'function') ? window.RiHengNative : null;
       const remFmt = m => String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');

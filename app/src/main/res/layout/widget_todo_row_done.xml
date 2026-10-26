@@ -34,6 +34,7 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:text="待办"
+            android:fontFamily="sans-serif"
             android:textColor="@color/widget_muted"
             android:textSize="14sp" />
         <TextView
@@ -44,6 +45,7 @@
             android:maxLines="2"
             android:paddingStart="8dp"
             android:paddingEnd="4dp"
+            android:fontFamily="sans-serif"
             android:textColor="@color/widget_muted"
             android:textSize="11sp" />
     </LinearLayout>

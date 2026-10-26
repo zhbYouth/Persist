@@ -76,7 +76,8 @@ class TodoWidgetService : RemoteViewsService() {
                 !t.done && m.startsWith("逾期") -> c.getColor(R.color.widget_warn)
                 else -> c.getColor(R.color.widget_muted)
             })
-            if (t.flash.isNotEmpty()) v.setInt(R.id.rowRoot, "setBackgroundResource", if (t.flash == "done") R.drawable.widget_flash_ok else R.drawable.widget_flash_undo)
+            // 列表里的行会被回收复用：不高亮的行也要明确清掉背景，否则上一行的高亮会残留在别的行上
+            v.setInt(R.id.rowRoot, "setBackgroundResource", when (t.flash) { "done" -> R.drawable.widget_flash_ok; "undo" -> R.drawable.widget_flash_undo; else -> 0 })
             v.setContentDescription(R.id.rowCheckArea, (if (t.done) "撤销完成：" else "完成：") + t.title)
             v.setOnClickFillInIntent(R.id.rowCheckArea, Intent().putExtra(TodoWidgetProvider.EXTRA_ACTION, if (t.done) "undo" else "done").putExtra(TodoWidgetProvider.EXTRA_ID, t.id))
             v.setOnClickFillInIntent(R.id.rowBody, Intent().putExtra(TodoWidgetProvider.EXTRA_ACTION, "open").putExtra(TodoWidgetProvider.EXTRA_ID, t.id).putExtra(TodoWidgetProvider.EXTRA_VIEW, if (t.done) "done" else viewOf(t)))

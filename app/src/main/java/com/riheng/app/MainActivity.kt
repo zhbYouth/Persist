@@ -364,7 +364,7 @@ class MainActivity : Activity() {
         HabitWidgetProvider.updateAll(this)
         TodoWidgetProvider.updateAll(this)
         Reminder.schedule(this)
-        TodoReminders.scheduleNext(this)
+        TodoReminders.fire(this)     // 回到前台时补发错过的提醒，并重新排下一个闹钟
     }
 
     override fun onPause() {
@@ -406,7 +406,27 @@ class MainActivity : Activity() {
         /** 每日提醒的当前设置：{enabled, minutes, allowed}（allowed = 系统是否允许本应用发通知）。 */
         @JavascriptInterface fun getReminder(): String =
             JSONObject().put("enabled", Reminder.enabled(this@MainActivity)).put("minutes", Reminder.minutes(this@MainActivity))
-                .put("allowed", Reminder.canNotify(this@MainActivity)).toString()
+                .put("allowed", Reminder.canNotify(this@MainActivity)).put("todo", TodoReminders.status(this@MainActivity)).toString()
+
+        /** 立刻发一条测试通知；返回 false = 系统没允许本应用发通知。 */
+        @JavascriptInterface fun testNotification(): Boolean = TodoReminders.test(this@MainActivity)
+
+        /** 打开系统里本应用的「通知」设置页。 */
+        @JavascriptInterface fun openNotificationSettings() {
+            mainHandler.post {
+                try {
+                    startActivity(Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, packageName))
+                } catch (e: Exception) { try { startActivity(Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, android.net.Uri.parse("package:$packageName"))) } catch (e2: Exception) {} }
+            }
+        }
+
+        /** 打开系统的「电池优化」列表，把本应用设为「不限制」，提醒才不会被后台清理拦掉。 */
+        @JavascriptInterface fun openBatterySettings() {
+            mainHandler.post {
+                try { startActivity(Intent(android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) }
+                catch (e: Exception) { try { startActivity(Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, android.net.Uri.parse("package:$packageName"))) } catch (e2: Exception) {} }
+            }
+        }
 
         @JavascriptInterface fun setReminder(enabled: Boolean, minutes: Int) {
             Reminder.set(this@MainActivity, enabled, minutes)

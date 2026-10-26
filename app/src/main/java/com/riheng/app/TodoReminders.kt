@@ -47,6 +47,9 @@ object TodoReminders {
     fun set(c: Context, json: String) {
         val arr = try { JSONArray(json) } catch (e: Exception) { JSONArray() }
         val now = System.currentTimeMillis()
+        // 网页只会交来「还没到点」的提醒，整份替换前，先把之前错过的（闹钟被系统推迟或清掉）补发出来
+        val missed = load(c).filter { it.third <= now + 30_000 }
+        if (missed.isNotEmpty() && Reminder.canNotify(c)) missed.forEach { if (stillOpen(c, it.first)) post(c, it.first, it.second) }
         val items = (0 until arr.length()).mapNotNull { arr.optJSONObject(it) }
             .map { Triple(it.optString("id"), it.optString("title").take(120), it.optLong("at")) }
             .filter { it.first.isNotEmpty() && it.third > now - STALE_MS }
@@ -68,12 +71,18 @@ object TodoReminders {
         val at = maxOf(next.third, System.currentTimeMillis() + 1500)
         val exact = Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()
         try {
-            if (exact) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pending(c))
+            // 能精确就用 setAlarmClock：它不受省电 / 休眠限制，国产系统上最不容易被推迟（代价是状态栏会显示一个闹钟图标）
+            if (exact) am.setAlarmClock(AlarmManager.AlarmClockInfo(at, open(c)), pending(c))
             else am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pending(c))
         } catch (e: SecurityException) {
             am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pending(c))
         }
     }
+
+    private fun open(c: Context): PendingIntent = PendingIntent.getActivity(
+        c, 2, Intent(c, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
 
     private fun stillOpen(c: Context, id: String): Boolean {
         return try {
@@ -96,20 +105,31 @@ object TodoReminders {
         scheduleNext(c)
     }
 
+    /** 给设置页用：{count: 已排好的提醒数, next: 下一条的时间戳(没有就是 0), exact: 能否精确定时}。 */
+    fun status(c: Context): JSONObject {
+        val list = load(c)
+        val am = c.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        return JSONObject().put("count", list.size).put("next", list.firstOrNull()?.third ?: 0L)
+            .put("exact", Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms())
+    }
+
+    /** 立刻发一条测试通知，用来确认「通知权限、通知渠道、系统拦截」这一环是通的。 */
+    fun test(c: Context): Boolean {
+        if (!Reminder.canNotify(c)) return false
+        post(c, "test", "测试通知：看到这条就说明提醒是通的")
+        return true
+    }
+
     private fun post(c: Context, id: String, title: String) {
         val nm = c.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.createNotificationChannel(NotificationChannel(CHANNEL, "待办提醒", NotificationManager.IMPORTANCE_HIGH).apply {
             description = "到你设定的时间，提醒这条待办"
         })
-        val open = PendingIntent.getActivity(
-            c, 2, Intent(c, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
         val n = Notification.Builder(c, CHANNEL)
             .setSmallIcon(R.drawable.ic_stat_check)
             .setContentTitle(title.ifEmpty { "待办" })
             .setContentText("待办提醒")
-            .setContentIntent(open)
+            .setContentIntent(open(c))
             .setAutoCancel(true)
             .build()
         nm.notify(8000 + (id.hashCode() and 0xFFFFF), n)

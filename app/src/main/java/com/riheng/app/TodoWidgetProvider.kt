@@ -88,7 +88,7 @@ class TodoWidgetProvider : AppWidgetProvider() {
             return v
         }
 
-        /** 点圈完成：这一行先留在原位高亮，约 1 秒后再沉到最下面。 */
+        /** 点圈完成：这一行马上沉到最下面并高亮，约 0.8 秒后高亮消失。 */
         fun completeAndRefresh(c: Context, id: String, pending: PendingResult? = null) { if (TodoData.complete(c, id)) settle(c, pending) else pending?.finish() }
 
         /** 点已完成的圈：撤销，这一行回到原来的位置并高亮一下。 */

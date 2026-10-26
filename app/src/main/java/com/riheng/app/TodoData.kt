@@ -20,7 +20,7 @@ object TodoData {
     private const val FLASH_KEY = "todo_flash"
     const val FLASH_MS = 800L
 
-    /** flash：刚完成 / 刚撤销的那一行，短时间内高亮；刚完成的那行先留在原位，之后再沉到底部。 */
+    /** flash：刚完成 / 刚撤销的那一行，短时间内高亮（位置马上就到位，只有高亮会稍后消失，列表只跳一次）。 */
     class Item(
         val id: String, val title: String, val due: String, val time: String,
         val done: Boolean, val flash: String
@@ -73,12 +73,11 @@ object TodoData {
         val fl = flashOf(c)
         val all = (0 until todos.length()).mapNotNull { todos.optJSONObject(it) }.filter { it.optString("title").isNotBlank() }
         val inTab = all.filter { (it.optString("due").isEmpty()) == (tab == TAB_PENDING) }
-        fun isFlashDone(o: JSONObject) = fl != null && fl.second == "done" && fl.first == o.optString("id")
-        val open = inTab.filter { !it.optBoolean("done", false) || isFlashDone(it) }
+        val open = inTab.filter { !it.optBoolean("done", false) }
         val openSorted = if (tab == TAB_PENDING)
             open.sortedWith(compareByDescending<JSONObject> { it.optString("created") }.thenByDescending { it.optLong("u", 0L) })
         else open.sortedBy { sortKey(it) }
-        val done = inTab.filter { it.optBoolean("done", false) && !isFlashDone(it) }
+        val done = inTab.filter { it.optBoolean("done", false) }
             .sortedBy { it.optLong("doneAt", 0L) }.takeLast(40)
         return (openSorted + done).map {
             val id = it.optString("id")

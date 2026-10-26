@@ -31,7 +31,20 @@ class TodoWidgetProvider : AppWidgetProvider() {
             if (all.isNotEmpty()) m.notifyAppWidgetViewDataChanged(all, R.id.todoList)
         }
 
+        private fun applyStatus(c: Context, v: RemoteViews) {
+            val st = TodoData.status(c)
+            v.setTextViewText(R.id.todoStatus, st.text)
+            v.setTextColor(R.id.todoStatus, c.getColor(st.colorRes))
+            v.setImageViewResource(R.id.todoMascot, when (st.mood) {
+                TodoData.Mood.PARTY -> R.drawable.mascot_party
+                TodoData.Mood.CHEER -> R.drawable.mascot_cheer
+                TodoData.Mood.WORRY -> R.drawable.mascot_worry
+                else -> R.drawable.mascot_idle
+            })
+        }
+
         private fun applyTabs(c: Context, v: RemoteViews) {
+            applyStatus(c, v)
             val tab = TodoData.getTab(c)
             val (ok, pending) = TodoData.counts(c)
             v.setTextViewText(R.id.todoTabOk, "已确定" + if (ok > 0) " $ok" else "")
@@ -54,9 +67,10 @@ class TodoWidgetProvider : AppWidgetProvider() {
             applyTabs(c, v)
             v.setOnClickPendingIntent(R.id.todoTabOk, tabIntent(c, TodoData.TAB_OK))
             v.setOnClickPendingIntent(R.id.todoTabPending, tabIntent(c, TodoData.TAB_PENDING))
-            // ＋：弹出快速添加小窗（默认放进当前所在分组）；↗：打开应用
-            val add = Intent(c, QuickAddActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                .setData(Uri.parse("riheng://widget/todo/add/$widgetId"))
+            // ＋：进入应用里的添加面板（默认放进当前所在分组，与应用内完全一致）；↗：打开待办页
+            val addView = if (TodoData.getTab(c) == TodoData.TAB_PENDING) "add:pending" else "add:today"
+            val add = Intent(c, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                .putExtra(MainActivity.EXTRA_OPEN_PAGE, "todo").putExtra(MainActivity.EXTRA_OPEN_VIEW, addView).setData(Uri.parse("riheng://widget/todo/add/$addView"))
             v.setOnClickPendingIntent(R.id.todoAdd, PendingIntent.getActivity(c, 11, add, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
             val open = Intent(c, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .putExtra(MainActivity.EXTRA_OPEN_PAGE, "todo").setData(Uri.parse("riheng://widget/todo/open"))
@@ -73,13 +87,16 @@ class TodoWidgetProvider : AppWidgetProvider() {
             return v
         }
 
-        /** 只更新分组标签和列表数据：列表滑动位置不动，不闪。 */
-        /** 点圈完成：先让这一行变成「已勾选」，稍后再让它从列表里消失，比直接消失更顺。 */
-        fun completeAndRefresh(c: Context, id: String) {
-            if (!TodoData.complete(c, id)) return
+        /** 点圈完成：先让这一行留在原位高亮，约 1 秒后再沉到最下面。 */
+        fun completeAndRefresh(c: Context, id: String) { if (TodoData.complete(c, id)) settle(c) }
+
+        /** 点已完成的圈：撤销，这一行回到原来的位置并高亮一下。 */
+        fun undoAndRefresh(c: Context, id: String) { if (TodoData.uncomplete(c, id)) settle(c) }
+
+        private fun settle(c: Context) {
             val app = c.applicationContext
             refreshLight(app)
-            Handler(Looper.getMainLooper()).postDelayed({ refreshLight(app) }, 650)
+            Handler(Looper.getMainLooper()).postDelayed({ refreshLight(app) }, TodoData.FLASH_MS + 80)
         }
 
         fun refreshLight(c: Context) {
@@ -107,12 +124,11 @@ class TodoWidgetProvider : AppWidgetProvider() {
             ACTION_DONE -> {
                 val id = intent.getStringExtra(EXTRA_ID) ?: return
                 if (!TodoData.complete(context, id)) return
-                // 先让这一行变成「已勾选」（打勾 + 删除线），稍后再让它从列表里消失，比直接消失更顺
                 refreshLight(context)
                 val pending = goAsync()
                 Handler(Looper.getMainLooper()).postDelayed({
                     try { refreshLight(context) } finally { pending.finish() }
-                }, 650)
+                }, TodoData.FLASH_MS + 80)
             }
             Intent.ACTION_DATE_CHANGED, Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED -> updateAll(context)
         }

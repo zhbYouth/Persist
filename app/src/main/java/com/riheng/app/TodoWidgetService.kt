@@ -66,15 +66,20 @@ class TodoWidgetService : RemoteViewsService() {
                 val s = SpannableString(t.title); s.setSpan(StrikethroughSpan(), 0, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 v.setTextViewText(R.id.rowName, s)
             } else v.setTextViewText(R.id.rowName, t.title)
-            val m = meta(t)
+            // 刚完成 / 刚撤销：整行短暂高亮，并换一句小提示
+            val m = when (t.flash) { "done" -> "完成啦 ✨"; "undo" -> "已恢复 ↩"; else -> meta(t) }
             v.setTextViewText(R.id.rowMeta, m)
             v.setViewVisibility(R.id.rowMeta, if (m.isEmpty()) View.GONE else View.VISIBLE)
-            v.setTextColor(R.id.rowMeta, if (!t.done && m.startsWith("逾期")) 0xFFE8506B.toInt() else c.getColor(R.color.widget_muted))
-            if (!t.done) {
-                v.setContentDescription(R.id.rowCheckArea, "完成：" + t.title)
-                v.setOnClickFillInIntent(R.id.rowCheckArea, Intent().putExtra(TodoWidgetProvider.EXTRA_ACTION, "done").putExtra(TodoWidgetProvider.EXTRA_ID, t.id))
-                v.setOnClickFillInIntent(R.id.rowBody, Intent().putExtra(TodoWidgetProvider.EXTRA_ACTION, "open").putExtra(TodoWidgetProvider.EXTRA_ID, t.id).putExtra(TodoWidgetProvider.EXTRA_VIEW, viewOf(t)))
-            }
+            v.setTextColor(R.id.rowMeta, when {
+                t.flash == "done" -> c.getColor(R.color.widget_good)
+                t.flash == "undo" -> c.getColor(R.color.widget_accent)
+                !t.done && m.startsWith("逾期") -> c.getColor(R.color.widget_warn)
+                else -> c.getColor(R.color.widget_muted)
+            })
+            if (t.flash.isNotEmpty()) v.setInt(R.id.rowRoot, "setBackgroundResource", if (t.flash == "done") R.drawable.widget_flash_ok else R.drawable.widget_flash_undo)
+            v.setContentDescription(R.id.rowCheckArea, (if (t.done) "撤销完成：" else "完成：") + t.title)
+            v.setOnClickFillInIntent(R.id.rowCheckArea, Intent().putExtra(TodoWidgetProvider.EXTRA_ACTION, if (t.done) "undo" else "done").putExtra(TodoWidgetProvider.EXTRA_ID, t.id))
+            v.setOnClickFillInIntent(R.id.rowBody, Intent().putExtra(TodoWidgetProvider.EXTRA_ACTION, "open").putExtra(TodoWidgetProvider.EXTRA_ID, t.id).putExtra(TodoWidgetProvider.EXTRA_VIEW, if (t.done) "done" else viewOf(t)))
             return v
         }
     }

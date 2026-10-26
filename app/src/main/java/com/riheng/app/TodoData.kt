@@ -17,12 +17,28 @@ object TodoData {
     const val TAB_OK = "ok"
     const val TAB_PENDING = "pending"
     private const val TAB_KEY = "todo_tab"
-    private const val RECENT_DONE_MS = 1200L
+    private const val FLASH_KEY = "todo_flash"
+    const val FLASH_MS = 1000L
 
+    /** flash：刚完成 / 刚撤销的那一行，短时间内高亮；刚完成的那行先留在原位，之后再沉到底部。 */
     class Item(
         val id: String, val title: String, val due: String, val time: String,
-        val done: Boolean, val recent: Boolean
+        val done: Boolean, val flash: String
     )
+
+    enum class Mood { IDLE, CHEER, PARTY, WORRY }
+    class Status(val mood: Mood, val text: String, val colorRes: Int)
+
+    private fun setFlash(c: Context, id: String, kind: String) {
+        prefs(c).edit().putString(FLASH_KEY, "$id|$kind|${System.currentTimeMillis()}").apply()
+    }
+
+    private fun flashOf(c: Context): Triple<String, String, Long>? {
+        val p = (prefs(c).getString(FLASH_KEY, null) ?: return null).split("|")
+        if (p.size != 3) return null
+        val at = p[2].toLongOrNull() ?: return null
+        return if (System.currentTimeMillis() - at in 0..FLASH_MS) Triple(p[0], p[1], at) else null
+    }
 
     private fun prefs(c: Context) = c.getSharedPreferences(HabitWidgetProvider.PREFS, Context.MODE_PRIVATE)
 
@@ -48,25 +64,56 @@ object TodoData {
     private fun sortKey(o: JSONObject): String =
         o.optString("due", "9999-99-99").ifEmpty { "9999-99-99" } + " " + o.optString("time", "").ifEmpty { "99:99" }
 
-    /** 某个分组里的待办：已确定 = 今天（含逾期）在前、未来在后，各自按日期和时间升序；待确定 = 最新的在前。 */
+    /**
+     * 某个分组里的待办：没完成的按日期、时间从早到晚；已完成的沉到最下面（也是从早到晚）。
+     * 已确定 = 有日期；待确定 = 没日期（最新的在前）。
+     */
     fun items(c: Context, tab: String): List<Item> {
         val todos = readRoot(c).optJSONArray("todos") ?: JSONArray()
-        val now = System.currentTimeMillis()
-        val all = (0 until todos.length()).mapNotNull { todos.optJSONObject(it) }.filter {
-            val visible = !it.optBoolean("done", false) || (now - it.optLong("doneAt", 0L) in 0..RECENT_DONE_MS)
-            visible && it.optString("title").isNotBlank()
+        val fl = flashOf(c)
+        val all = (0 until todos.length()).mapNotNull { todos.optJSONObject(it) }.filter { it.optString("title").isNotBlank() }
+        val inTab = all.filter { (it.optString("due").isEmpty()) == (tab == TAB_PENDING) }
+        fun isFlashDone(o: JSONObject) = fl != null && fl.second == "done" && fl.first == o.optString("id")
+        val open = inTab.filter { !it.optBoolean("done", false) || isFlashDone(it) }
+        val openSorted = if (tab == TAB_PENDING)
+            open.sortedWith(compareByDescending<JSONObject> { it.optString("created") }.thenByDescending { it.optLong("u", 0L) })
+        else open.sortedBy { sortKey(it) }
+        val done = inTab.filter { it.optBoolean("done", false) && !isFlashDone(it) }
+            .sortedBy { it.optLong("doneAt", 0L) }.takeLast(40)
+        return (openSorted + done).map {
+            val id = it.optString("id")
+            val flash = if (fl != null && fl.first == id) fl.second else ""
+            Item(id, it.optString("title"), it.optString("due"), it.optString("time"), it.optBoolean("done", false), flash)
         }
-        val picked = if (tab == TAB_PENDING) {
-            all.filter { it.optString("due").isEmpty() }
-                .sortedWith(compareByDescending<JSONObject> { it.optString("created") }.thenByDescending { it.optLong("u", 0L) })
-        } else {
-            all.filter { it.optString("due").isNotEmpty() }.sortedBy { sortKey(it) }
+    }
+
+    /** 小组件顶部的状态：文字、颜色、小成的表情，会随完成度变化。 */
+    fun status(c: Context): Status {
+        val todos = readRoot(c).optJSONArray("todos") ?: JSONArray()
+        val today = todayKey()
+        val zone = ZoneId.systemDefault()
+        var overdue = 0; var dueNow = 0; var open = 0; var doneToday = 0; var doneAll = 0
+        for (i in 0 until todos.length()) {
+            val t = todos.optJSONObject(i) ?: continue
+            if (t.optString("title").isBlank()) continue
+            val due = t.optString("due")
+            if (t.optBoolean("done", false)) {
+                doneAll++
+                val at = t.optLong("doneAt", 0L)
+                if (at > 0 && java.time.Instant.ofEpochMilli(at).atZone(zone).toLocalDate().toString() == today) doneToday++
+            } else {
+                open++
+                if (due.isNotEmpty() && due < today) overdue++
+                if (due.isNotEmpty() && due <= today) dueNow++
+            }
         }
-        return picked.map {
-            Item(
-                it.optString("id"), it.optString("title"), it.optString("due"), it.optString("time"),
-                it.optBoolean("done", false), it.optBoolean("done", false)
-            )
+        return when {
+            overdue > 0 -> Status(Mood.WORRY, "有 $overdue 件逾期啦，先做一件吧", R.color.widget_warn)
+            open == 0 && doneAll > 0 -> Status(Mood.PARTY, "所有任务都完成啦！", R.color.widget_good)
+            dueNow == 0 && doneToday > 0 -> Status(Mood.PARTY, "今天的任务全完成了，真棒", R.color.widget_good)
+            doneToday > 0 -> Status(Mood.CHEER, "已完成 $doneToday 件，再来一件", R.color.widget_accent)
+            dueNow > 0 -> Status(Mood.IDLE, "今天还有 $dueNow 件，从小的开始", R.color.widget_muted)
+            else -> Status(Mood.IDLE, "今天没有安排，轻松一下", R.color.widget_muted)
         }
     }
 
@@ -110,8 +157,23 @@ object TodoData {
             val now = System.currentTimeMillis()
             val repeat = t.optString("repeat")
             if (repeat.isNotEmpty() && t.optString("due").isNotEmpty()) t.put("due", nextDue(t.optString("due"), repeat))
-            else { t.put("done", true); t.put("doneAt", now) }
+            else { t.put("done", true); t.put("doneAt", now); setFlash(c, id, "done") }
             t.put("u", now)
+            writeRoot(c, root)
+            return true
+        }
+        return false
+    }
+
+    /** 点已完成的圈：撤销完成，回到原来的分组。 */
+    fun uncomplete(c: Context, id: String): Boolean {
+        val root = readRoot(c)
+        val todos = root.optJSONArray("todos") ?: return false
+        for (i in 0 until todos.length()) {
+            val t = todos.optJSONObject(i) ?: continue
+            if (t.optString("id") != id || !t.optBoolean("done", false)) continue
+            t.put("done", false); t.put("doneAt", 0); t.put("u", System.currentTimeMillis())
+            setFlash(c, id, "undo")
             writeRoot(c, root)
             return true
         }

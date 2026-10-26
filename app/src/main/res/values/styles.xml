@@ -16,27 +16,4 @@
     <style name="StartingTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/launch_bg</item>
     </style>
-
-    <!-- 小组件「＋」弹出的快速添加小窗：透明窗口 + 底部卡片 -->
-    <style name="QuickAddTheme" parent="android:style/Theme.Material.Light.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowShowWallpaper">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:colorAccent">#2C62EE</item>
-        <item name="android:fontFamily">sans</item>
-    </style>
-    <style name="QaChip">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">38dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/qa_chip_off</item>
-        <item name="android:textColor">@color/widget_muted</item>
-        <item name="android:textSize">13sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:singleLine">true</item>
-    </style>
 </resources>

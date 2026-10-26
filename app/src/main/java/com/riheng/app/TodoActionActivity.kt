@@ -11,6 +11,7 @@ class TodoActionActivity : Activity() {
         val id = intent.getStringExtra(TodoWidgetProvider.EXTRA_ID) ?: ""
         when (intent.getStringExtra(TodoWidgetProvider.EXTRA_ACTION)) {
             "done" -> if (id.isNotEmpty()) TodoWidgetProvider.completeAndRefresh(this, id)
+            "undo" -> if (id.isNotEmpty()) TodoWidgetProvider.undoAndRefresh(this, id)
             "open" -> startActivity(
                 Intent(this, MainActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)

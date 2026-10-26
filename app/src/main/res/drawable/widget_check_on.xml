@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 已打卡：蓝色实心圆 + 白色对勾 -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="@color/widget_accent" />
-        </shape>
-    </item>
-    <item
-        android:drawable="@drawable/ic_widget_check"
-        android:left="6dp"
-        android:top="6dp"
-        android:right="6dp"
-        android:bottom="6dp" />
-</layer-list>
+<!-- 已完成：蓝色实心圆 + 白色对勾（点一下撤销） -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:pathData="M12,12m-10.2,0a10.2,10.2 0,1 1,20.4 0a10.2,10.2 0,1 1,-20.4 0" android:fillColor="@color/widget_accent" />
+    <path android:pathData="M7,12.6l3.4,3.4L17,8.8" android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.4" android:strokeLineCap="round" android:strokeLineJoin="round" />
+</vector>

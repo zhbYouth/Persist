@@ -64,14 +64,6 @@
             android:taskAffinity=""
             android:excludeFromRecents="true"
             android:noHistory="true" />
-        <!-- 小组件的「＋」：只弹一个小窗，不打开整个应用 -->
-        <activity
-            android:name=".QuickAddActivity"
-            android:exported="false"
-            android:theme="@style/QuickAddTheme"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
-            android:excludeFromRecents="true"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
     </application>
 </manifest>

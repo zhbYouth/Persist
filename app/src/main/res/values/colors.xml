@@ -13,4 +13,9 @@
     <color name="widget_ring">#C3CBDB</color>
     <!-- 打卡后的对勾画在蓝底上，深浅色模式下都保持白色 -->
     <color name="widget_check_mark">#FFFFFF</color>
+    <color name="widget_flash_ok">#E2F6EC</color>
+    <color name="widget_flash_undo">#E9EEFB</color>
+    <color name="widget_warn">#E8506B</color>
+    <color name="widget_good">#17A673</color>
+    <color name="widget_gold">#F0A400</color>
 </resources>

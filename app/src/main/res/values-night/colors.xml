@@ -9,4 +9,9 @@
     <color name="widget_chip">#262E45</color>
     <color name="widget_accent">#4F80FF</color>
     <color name="widget_ring">#4A5573</color>
+    <color name="widget_flash_ok">#173B2E</color>
+    <color name="widget_flash_undo">#2A3558</color>
+    <color name="widget_warn">#FF7088</color>
+    <color name="widget_good">#3DD6A0</color>
+    <color name="widget_gold">#FFC53D</color>
 </resources>

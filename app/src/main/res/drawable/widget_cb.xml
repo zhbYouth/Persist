@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 勾选框：点下去由桌面立刻播放「圆圈填满 + 对勾画出来」，不用等我们刷新 -->
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/cb_on" android:state_checked="true" android:drawable="@drawable/widget_check_on" />
+    <item android:id="@+id/cb_off" android:drawable="@drawable/widget_check_off" />
+    <transition android:fromId="@id/cb_off" android:toId="@id/cb_on" android:drawable="@drawable/widget_cb_anim_in" />
+    <transition android:fromId="@id/cb_on" android:toId="@id/cb_off" android:drawable="@drawable/widget_cb_anim_out" />
+</animated-selector>

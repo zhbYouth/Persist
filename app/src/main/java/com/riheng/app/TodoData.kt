@@ -18,7 +18,7 @@ object TodoData {
     const val TAB_PENDING = "pending"
     private const val TAB_KEY = "todo_tab"
     private const val FLASH_KEY = "todo_flash"
-    const val FLASH_MS = 800L
+    const val FLASH_MS = 1250L
 
     /** flash：刚完成 / 刚撤销的那一行，短时间内高亮（位置马上就到位，只有高亮会稍后消失，列表只跳一次）。 */
     class Item(

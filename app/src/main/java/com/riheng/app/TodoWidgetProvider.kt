@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.widget.RemoteViews
@@ -96,8 +97,12 @@ class TodoWidgetProvider : AppWidgetProvider() {
 
         private fun settle(c: Context, pending: PendingResult?) {
             val app = c.applicationContext
-            refreshLight(app, false)
-            Handler(Looper.getMainLooper()).postDelayed({ try { refreshLight(app, false) } finally { pending?.finish() } }, TodoData.FLASH_MS + 80)
+            val h = Handler(Looper.getMainLooper())
+            // Android 12+ 的勾选框点下去就已经在播动画了：等它播完（约 0.45 秒）再刷新列表、把这一行挪到底部；
+            // 更早的系统没有这层即时反馈，就马上刷新。高亮在列表更新后再停留一会儿，最后清掉。
+            val lead = if (Build.VERSION.SDK_INT >= 31) 450L else 0L
+            h.postDelayed({ refreshLight(app, false) }, lead)
+            h.postDelayed({ try { refreshLight(app, false) } finally { pending?.finish() } }, lead + TodoData.FLASH_MS + 80)
         }
 
         /** tabs = false：只换顶部的小成和文字，不重设分组标签（完成 / 撤销时标签没变，少改一点界面就少闪一点）。 */

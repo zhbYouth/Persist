@@ -92,27 +92,27 @@ object TodoData {
         val todos = readRoot(c).optJSONArray("todos") ?: JSONArray()
         val today = todayKey()
         val zone = ZoneId.systemDefault()
-        var overdue = 0; var dueNow = 0; var open = 0; var doneToday = 0; var doneAll = 0
+        var overdue = 0; var todayN = 0; var future = 0; var open = 0; var doneToday = 0
         for (i in 0 until todos.length()) {
             val t = todos.optJSONObject(i) ?: continue
             if (t.optString("title").isBlank()) continue
             val due = t.optString("due")
             if (t.optBoolean("done", false)) {
-                doneAll++
                 val at = t.optLong("doneAt", 0L)
                 if (at > 0 && java.time.Instant.ofEpochMilli(at).atZone(zone).toLocalDate().toString() == today) doneToday++
-            } else {
+            } else if (due.isNotEmpty()) {            // 待确定的不算在「今天 / 未来」里
                 open++
-                if (due.isNotEmpty() && due < today) overdue++
-                if (due.isNotEmpty() && due <= today) dueNow++
+                if (due < today) overdue++ else if (due == today) todayN++ else future++
             }
         }
+        val fut = if (future > 0) " · 未来 $future 件" else ""
         return when {
-            overdue > 0 -> Status(Mood.WORRY, "有 $overdue 件逾期啦，先做一件吧", R.color.widget_warn)
-            open == 0 && doneAll > 0 -> Status(Mood.PARTY, "所有任务都完成啦！", R.color.widget_good)
-            dueNow == 0 && doneToday > 0 -> Status(Mood.PARTY, "今天的任务全完成了，真棒", R.color.widget_good)
-            doneToday > 0 -> Status(Mood.CHEER, "已完成 $doneToday 件，再来一件", R.color.widget_accent)
-            dueNow > 0 -> Status(Mood.IDLE, "今天还有 $dueNow 件，从小的开始", R.color.widget_muted)
+            overdue > 0 -> Status(Mood.WORRY, "逾期 $overdue 件 · 今天 $todayN 件$fut", R.color.widget_warn)
+            open == 0 && doneToday > 0 -> Status(Mood.PARTY, "所有任务都完成啦！", R.color.widget_good)
+            todayN == 0 && doneToday > 0 -> Status(Mood.PARTY, "今天的都完成啦$fut", R.color.widget_good)
+            doneToday > 0 -> Status(Mood.CHEER, "今天 $todayN 件，已完成 $doneToday$fut", R.color.widget_accent)
+            todayN > 0 -> Status(Mood.IDLE, "今天 $todayN 件$fut", R.color.widget_muted)
+            future > 0 -> Status(Mood.IDLE, "今天没有安排 · 未来 $future 件", R.color.widget_muted)
             else -> Status(Mood.IDLE, "今天没有安排，轻松一下", R.color.widget_muted)
         }
     }

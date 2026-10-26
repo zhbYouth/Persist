@@ -1373,7 +1373,7 @@
     .wheel-i.on { color: var(--ink); font-weight: 750; font-size: 16.5px; }
     .wheel-band { position: absolute; z-index: 1; left: 0; right: 0; top: 36px; height: 36px; border-radius: 11px; background: rgba(44,98,238,.10); pointer-events: none; }
     .wheel-wrap { position: relative; margin-top: 6px; } .wheel-wrap .wheel { margin-top: 0; }
-    /* 3.5.0：自绘日期/时间选择、重复一行、排序、更顺的动画 */
+    /* 3.5.1：自绘日期/时间选择、重复一行、排序、更顺的动画 */
     .tf-pick { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; height: 38px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface-soft); padding: 0 12px; font: inherit; font-size: 14px; font-weight: 650; color: #8D99B3; text-align: left; transition: scale .25s cubic-bezier(.34,1.5,.64,1); }
     .tf-pick.set { color: var(--ink); } .tf-pick:active { scale: .97; }
     #tfRepRow { margin: 8px 0 0; } #tfRepRow[hidden] { display: none; }
@@ -1565,7 +1565,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.5.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.5.1 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -2068,7 +2068,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id===`page-${page}`)); if(page==='settings' && typeof remRender==='function') remRender();
         document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===(page==='calendar'?'today':page)));
         if(page!=='today' && doneView) { flushLeave(); doneView=false; renderToday(); }
-        if(page==='calendar')renderCalendar(); if(page==='todo')renderTodo();
+        if(page==='calendar')renderCalendar(); if(page==='todo')renderTodo(); updateMood();
         if(page!==prevPage) enterPage(page);
         updateLens(prevPage); window.scrollTo({top:0,behavior:'smooth'});
       }
@@ -2462,7 +2462,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.5.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.5.1',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2646,23 +2646,38 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       // ===== 小成：按今天的完成度换表情、换提醒文字和颜色 =====
       const MOODS = { idle: '#66728A', cheer: '#2C62EE', party: '#17A673', worry: '#E8506B' };
       let moodText = '';
+      // 待办页的小成说待办（今天 / 未来 / 逾期），打卡页的小成说打卡（今天打了几个、连续天数）
+      function todoMood() {
+        let overdue = 0, today = 0, future = 0, open = 0, doneToday = 0;
+        for (const t of todos()) {
+          if(t.done) { if(t.doneAt && dateKey(new Date(t.doneAt)) === todayKey) doneToday++; continue; }
+          if(!t.due) continue;                       // 待确定的不算在「今天 / 未来」里
+          open++; if(t.due < todayKey) overdue++; else if(t.due === todayKey) today++; else future++;
+        }
+        const fut = future ? ' · 未来 ' + future + ' 件' : '';
+        if(overdue > 0) return ['worry', '逾期 ' + overdue + ' 件 · 今天 ' + today + ' 件' + fut];
+        if(open === 0 && doneToday > 0) return ['party', '所有任务都完成啦！'];
+        if(today === 0 && doneToday > 0) return ['party', '今天的待办完成啦' + fut];
+        if(doneToday > 0) return ['cheer', '今天 ' + today + ' 件，已完成 ' + doneToday + fut];
+        if(today > 0) return ['idle', '今天 ' + today + ' 件待办' + fut];
+        return ['idle', future ? '今天没有待办 · 未来 ' + future + ' 件' : '今天没有待办，轻松一下'];
+      }
+      function habitMood() {
+        const hs = data.habits.filter(h => isScheduled(h, todayKey)), left = hs.filter(h => !isDone(h, todayKey)), hd = hs.length - left.length;
+        if(!hs.length) return ['idle', '今天没有要打卡的习惯'];
+        if(!left.length) return ['party', '今天的习惯全打卡啦！'];
+        const risk = new Date().getHours() >= 18 ? left.map(h => [h, habitStreak(h)]).filter(x => x[1] >= 3).sort((a, b) => b[1] - a[1])[0] : null;
+        if(risk) return ['worry', '「' + risk[0].name + '」已连续 ' + risk[1] + ' 天，别断了'];
+        if(hd > 0) return ['cheer', '已打卡 ' + hd + ' / ' + hs.length + '，还差 ' + left.length + ' 个'];
+        return ['idle', '今天有 ' + hs.length + ' 个习惯要打卡'];
+      }
       function updateMood() {
         try {
-          const ts = todos(); let overdue = 0, open = 0, dueNow = 0, doneToday = 0;
-          for (const t of ts) {
-            if(t.done) { if(t.doneAt && dateKey(new Date(t.doneAt)) === todayKey) doneToday++; continue; }
-            open++; if(t.due && t.due <= todayKey) dueNow++; if(t.due && t.due < todayKey) overdue++;
-          }
-          let hs = 0, hd = 0; for (const h of data.habits) if(isScheduled(h, todayKey)) { hs++; if(isDone(h, todayKey)) hd++; }
-          const total = dueNow + doneToday + hs, finished = doneToday + hd;
-          let mood = 'idle', text;
-          if(overdue > 0) { mood = 'worry'; text = '有 ' + overdue + ' 件逾期没完成，先做一件吧'; }
-          else if(total > 0 && finished === total) { mood = 'party'; text = open === 0 ? '所有任务都完成啦！' : '今天的任务全完成了，真棒'; }
-          else if(finished > 0) { mood = 'cheer'; text = '已完成 ' + finished + ' / ' + total + '，再来一件'; }
-          else text = total > 0 ? '今天有 ' + total + ' 件，从小的开始' : '今天没有安排，轻松一下';
+          const onHabit = activePage === 'today' || activePage === 'calendar';
+          const [mood, text] = onHabit ? habitMood() : todoMood();
           const m = $('mascot'); if(m.dataset.mood !== mood) { m.dataset.mood = mood; const svg = m.firstElementChild; svg.style.animation = 'none'; void svg.getBoundingClientRect(); svg.style.animation = ''; }
           moodText = text; document.documentElement.style.setProperty('--mood', MOODS[mood]);
-          $('moodLine').textContent = text; $('mascotBubble').textContent = text;
+          $('moodLine').textContent = todoMood()[1]; $('mascotBubble').textContent = text;
         } catch(e) {}
       }
       let bubbleTimer = 0;

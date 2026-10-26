@@ -46,9 +46,8 @@ class TodoWidgetProvider : AppWidgetProvider() {
         private fun applyTabs(c: Context, v: RemoteViews) {
             applyStatus(c, v)
             val tab = TodoData.getTab(c)
-            val (ok, pending) = TodoData.counts(c)
-            v.setTextViewText(R.id.todoTabOk, "已确定" + if (ok > 0) " $ok" else "")
-            v.setTextViewText(R.id.todoTabPending, "待确定" + if (pending > 0) " $pending" else "")
+            v.setTextViewText(R.id.todoTabOk, "已确定")      // 件数统一放在下面那行「今天 N 件 · 未来 N 件」，标签上不再放数字
+            v.setTextViewText(R.id.todoTabPending, "待确定")
             val on = c.getColor(R.color.widget_ink); val off = c.getColor(R.color.widget_muted)
             v.setInt(R.id.todoTabOk, "setBackgroundResource", if (tab == TodoData.TAB_OK) R.drawable.widget_tab_on else 0)
             v.setInt(R.id.todoTabPending, "setBackgroundResource", if (tab == TodoData.TAB_PENDING) R.drawable.widget_tab_on else 0)

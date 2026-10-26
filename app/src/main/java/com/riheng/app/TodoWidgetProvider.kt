@@ -16,6 +16,7 @@ class TodoWidgetProvider : AppWidgetProvider() {
     companion object {
         const val ACTION_TAB = "com.riheng.app.ACTION_TODO_TAB"
         const val ACTION_DONE = "com.riheng.app.ACTION_TODO_DONE"
+        const val ACTION_ITEM = "com.riheng.app.ACTION_TODO_ITEM"
         const val EXTRA_TAB = "tab"
         const val EXTRA_ID = "todo_id"
         const val EXTRA_ACTION = "todo_action"
@@ -80,22 +81,23 @@ class TodoWidgetProvider : AppWidgetProvider() {
             }
             @Suppress("DEPRECATION")
             v.setRemoteAdapter(R.id.todoList, adapter)
-            // 点圈 = 完成；点任务本身 = 打开应用里对应的分组。都交给一个不显示界面的中转 Activity 处理（广播里不能直接打开应用）
-            val template = Intent(c, TodoActionActivity::class.java).setData(Uri.parse("riheng://widget/todo/list/$widgetId"))
-            v.setPendingIntentTemplate(R.id.todoList, PendingIntent.getActivity(c, widgetId, template, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE))
+            // 点圈 = 完成 / 撤销；点任务本身 = 打开应用里对应的分组。
+            // 用「广播」而不是「Activity」：启动 Activity 会触发桌面的打开动画（小组件和壁纸跟着弹一下），广播不会。
+            val template = Intent(c, TodoWidgetProvider::class.java).setAction(ACTION_ITEM).setData(Uri.parse("riheng://widget/todo/list/$widgetId"))
+            v.setPendingIntentTemplate(R.id.todoList, PendingIntent.getBroadcast(c, widgetId, template, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE))
             return v
         }
 
-        /** 点圈完成：先让这一行留在原位高亮，约 1 秒后再沉到最下面。 */
-        fun completeAndRefresh(c: Context, id: String) { if (TodoData.complete(c, id)) settle(c) }
+        /** 点圈完成：这一行先留在原位高亮，约 1 秒后再沉到最下面。 */
+        fun completeAndRefresh(c: Context, id: String, pending: PendingResult? = null) { if (TodoData.complete(c, id)) settle(c, pending) else pending?.finish() }
 
         /** 点已完成的圈：撤销，这一行回到原来的位置并高亮一下。 */
-        fun undoAndRefresh(c: Context, id: String) { if (TodoData.uncomplete(c, id)) settle(c) }
+        fun undoAndRefresh(c: Context, id: String, pending: PendingResult? = null) { if (TodoData.uncomplete(c, id)) settle(c, pending) else pending?.finish() }
 
-        private fun settle(c: Context) {
+        private fun settle(c: Context, pending: PendingResult?) {
             val app = c.applicationContext
             refreshLight(app)
-            Handler(Looper.getMainLooper()).postDelayed({ refreshLight(app) }, TodoData.FLASH_MS + 80)
+            Handler(Looper.getMainLooper()).postDelayed({ try { refreshLight(app) } finally { pending?.finish() } }, TodoData.FLASH_MS + 80)
         }
 
         fun refreshLight(c: Context) {
@@ -120,14 +122,21 @@ class TodoWidgetProvider : AppWidgetProvider() {
                 TodoData.setTab(context, intent.getStringExtra(EXTRA_TAB) ?: TodoData.TAB_OK)
                 refreshLight(context)
             }
-            ACTION_DONE -> {
+            ACTION_ITEM, ACTION_DONE -> {
                 val id = intent.getStringExtra(EXTRA_ID) ?: return
-                if (!TodoData.complete(context, id)) return
-                refreshLight(context)
-                val pending = goAsync()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    try { refreshLight(context) } finally { pending.finish() }
-                }, TodoData.FLASH_MS + 80)
+                when (if (intent.action == ACTION_DONE) "done" else intent.getStringExtra(EXTRA_ACTION)) {
+                    "done" -> completeAndRefresh(context, id, goAsync())
+                    "undo" -> undoAndRefresh(context, id, goAsync())
+                    "open" -> try {
+                        context.startActivity(
+                            Intent(context, MainActivity::class.java)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                                .putExtra(MainActivity.EXTRA_OPEN_PAGE, "todo")
+                                .putExtra(MainActivity.EXTRA_OPEN_VIEW, intent.getStringExtra(EXTRA_VIEW) ?: "")
+                                .putExtra(MainActivity.EXTRA_OPEN_ID, id)
+                        )
+                    } catch (e: Exception) { /* 系统不允许从后台打开时就忽略 */ }
+                }
             }
             Intent.ACTION_DATE_CHANGED, Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED -> updateAll(context)
         }

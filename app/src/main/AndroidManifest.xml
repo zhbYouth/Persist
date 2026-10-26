@@ -57,13 +57,6 @@
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/todo_widget_info" />
         </receiver>
-        <activity
-            android:name=".TodoActionActivity"
-            android:exported="false"
-            android:theme="@android:style/Theme.NoDisplay"
-            android:taskAffinity=""
-            android:excludeFromRecents="true"
-            android:noHistory="true" />
 
     </application>
 </manifest>

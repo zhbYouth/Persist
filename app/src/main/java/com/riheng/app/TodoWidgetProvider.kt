@@ -96,16 +96,17 @@ class TodoWidgetProvider : AppWidgetProvider() {
 
         private fun settle(c: Context, pending: PendingResult?) {
             val app = c.applicationContext
-            refreshLight(app)
-            Handler(Looper.getMainLooper()).postDelayed({ try { refreshLight(app) } finally { pending?.finish() } }, TodoData.FLASH_MS + 80)
+            refreshLight(app, false)
+            Handler(Looper.getMainLooper()).postDelayed({ try { refreshLight(app, false) } finally { pending?.finish() } }, TodoData.FLASH_MS + 80)
         }
 
-        fun refreshLight(c: Context) {
+        /** tabs = false：只换顶部的小成和文字，不重设分组标签（完成 / 撤销时标签没变，少改一点界面就少闪一点）。 */
+        fun refreshLight(c: Context, tabs: Boolean = true) {
             val m = AppWidgetManager.getInstance(c)
             val all = ids(c)
             if (all.isEmpty()) return
             val partial = RemoteViews(c.packageName, R.layout.widget_todo_root)
-            applyTabs(c, partial)
+            if (tabs) applyTabs(c, partial) else applyStatus(c, partial)
             for (id in all) m.partiallyUpdateAppWidget(id, partial)
             m.notifyAppWidgetViewDataChanged(all, R.id.todoList)
         }

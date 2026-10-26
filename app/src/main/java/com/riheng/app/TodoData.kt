@@ -18,7 +18,7 @@ object TodoData {
     const val TAB_PENDING = "pending"
     private const val TAB_KEY = "todo_tab"
     private const val FLASH_KEY = "todo_flash"
-    const val FLASH_MS = 1000L
+    const val FLASH_MS = 800L
 
     /** flash：刚完成 / 刚撤销的那一行，短时间内高亮；刚完成的那行先留在原位，之后再沉到底部。 */
     class Item(
@@ -87,12 +87,12 @@ object TodoData {
         }
     }
 
-    /** 小组件顶部的状态：文字、颜色、小成的表情，会随完成度变化。 */
+    /** 小组件顶部的状态：文字、颜色、小成的表情。文案跟着当前分组走（与应用里同一套话）。 */
     fun status(c: Context): Status {
         val todos = readRoot(c).optJSONArray("todos") ?: JSONArray()
         val today = todayKey()
         val zone = ZoneId.systemDefault()
-        var overdue = 0; var todayN = 0; var future = 0; var open = 0; var doneToday = 0
+        var overdue = 0; var todayOpen = 0; var future = 0; var pending = 0; var doneToday = 0
         for (i in 0 until todos.length()) {
             val t = todos.optJSONObject(i) ?: continue
             if (t.optString("title").isBlank()) continue
@@ -100,18 +100,26 @@ object TodoData {
             if (t.optBoolean("done", false)) {
                 val at = t.optLong("doneAt", 0L)
                 if (at > 0 && java.time.Instant.ofEpochMilli(at).atZone(zone).toLocalDate().toString() == today) doneToday++
-            } else if (due.isNotEmpty()) {            // 待确定的不算在「今天 / 未来」里
-                open++
-                if (due < today) overdue++ else if (due == today) todayN++ else future++
-            }
+            } else if (due.isEmpty()) pending++
+            else if (due < today) overdue++
+            else if (due == today) todayOpen++
+            else future++
         }
+        val total = todayOpen + doneToday
         val fut = if (future > 0) " · 未来 $future 件" else ""
+        val clear = overdue + todayOpen + future + pending == 0 && doneToday > 0
+        if (getTab(c) == TAB_PENDING) return when {
+            clear -> Status(Mood.PARTY, "所有任务都完成啦！", R.color.widget_good)
+            pending == 0 -> Status(Mood.CHEER, "脑子里很清爽，没有悬着的事", R.color.widget_accent)
+            pending >= 8 -> Status(Mood.IDLE, "悬着的事有 $pending 件，挑一件先定下来", R.color.widget_muted)
+            else -> Status(Mood.IDLE, "有 $pending 件事还悬着，选一件定个日期吧", R.color.widget_muted)
+        }
         return when {
-            overdue > 0 -> Status(Mood.WORRY, "逾期 $overdue 件 · 今天 $todayN 件$fut", R.color.widget_warn)
-            open == 0 && doneToday > 0 -> Status(Mood.PARTY, "所有任务都完成啦！", R.color.widget_good)
-            todayN == 0 && doneToday > 0 -> Status(Mood.PARTY, "今天的都完成啦$fut", R.color.widget_good)
-            doneToday > 0 -> Status(Mood.CHEER, "今天 $todayN 件，已完成 $doneToday$fut", R.color.widget_accent)
-            todayN > 0 -> Status(Mood.IDLE, "今天 $todayN 件$fut", R.color.widget_muted)
+            overdue > 0 -> Status(Mood.WORRY, "逾期 $overdue 件 · 今天 $total 件$fut", R.color.widget_warn)
+            clear -> Status(Mood.PARTY, "所有任务都完成啦！", R.color.widget_good)
+            todayOpen == 0 && doneToday > 0 -> Status(Mood.PARTY, "今天的都完成啦$fut", R.color.widget_good)
+            doneToday > 0 -> Status(Mood.CHEER, "今天 $total 件，已完成 $doneToday$fut", R.color.widget_accent)
+            todayOpen > 0 -> Status(Mood.IDLE, "今天 $total 件$fut", R.color.widget_muted)
             future > 0 -> Status(Mood.IDLE, "今天没有安排 · 未来 $future 件", R.color.widget_muted)
             else -> Status(Mood.IDLE, "今天没有安排，轻松一下", R.color.widget_muted)
         }

@@ -11,8 +11,8 @@ android {
         applicationId = "com.riheng.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 57
-        versionName = "3.6.1"
+        versionCode = 58
+        versionName = "3.7.0"
     }
 
     // 固定签名：每次构建（包括 GitHub Actions）都用同一把 key，

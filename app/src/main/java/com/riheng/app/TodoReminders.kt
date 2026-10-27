@@ -103,6 +103,15 @@ object TodoReminders {
         save(c, all - due.toSet())
         if (due.isNotEmpty() && Reminder.canNotify(c)) due.forEach { if (stillOpen(c, it.first)) post(c, it.first, it.second) }
         scheduleNext(c)
+        // 到点那一刻还不算逾期，过 1 分钟才算：现在刷新一次小组件，并约一个 65 秒后的再刷新
+        if (due.isNotEmpty()) {
+            try {
+                TodoWidgetProvider.updateAll(c)
+                val am = c.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val tick = PendingIntent.getBroadcast(c, 3, Intent(c, TodoWidgetProvider::class.java).setAction(TodoWidgetProvider.ACTION_TICK), PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+                am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 65_000, tick)
+            } catch (e: Exception) { /* 小组件刷新失败不影响提醒本身 */ }
+        }
     }
 
     /** 给设置页用：{count: 已排好的提醒数, next: 下一条的时间戳(没有就是 0), exact: 能否精确定时}。 */

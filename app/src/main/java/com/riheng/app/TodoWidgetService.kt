@@ -39,6 +39,7 @@ class TodoWidgetService : RemoteViewsService() {
             val days = ChronoUnit.DAYS.between(today, d)
             val day = when {
                 days < 0 -> "逾期${-days}天"
+                days == 0L && t.time.isNotEmpty() && TodoData.minutesLate(t.time) > 0 -> TodoData.lateText(t.time)   // 有时间的，过一分钟就逾期
                 days == 0L -> "今天"
                 days == 1L -> "明天"
                 else -> "${d.monthValue}月${d.dayOfMonth}日 · ${days}天后"

@@ -47,6 +47,14 @@ object TodoData {
 
     fun todayKey(): String = LocalDate.now().toString()
 
+    /** 今天的某个时间（HH:mm）已经过了多少分钟；没到点或格式不对 = 0。 */
+    fun minutesLate(time: String): Int = try {
+        val d = java.time.Duration.between(LocalTime.parse(time), LocalTime.now())
+        if (d.isNegative) 0 else d.toMinutes().toInt()
+    } catch (e: Exception) { 0 }
+
+    fun lateText(time: String): String { val m = minutesLate(time); return if (m < 60) "逾期${m}分钟" else "逾期${m / 60}小时" }
+
     private fun readRoot(c: Context): JSONObject {
         val raw = prefs(c).getString(HabitWidgetProvider.DATA_KEY, null)
         val root = try { if (raw == null) JSONObject() else JSONObject(raw) } catch (e: Exception) { JSONObject() }
@@ -100,7 +108,7 @@ object TodoData {
                 val at = t.optLong("doneAt", 0L)
                 if (at > 0 && java.time.Instant.ofEpochMilli(at).atZone(zone).toLocalDate().toString() == today) doneToday++
             } else if (due.isEmpty()) pending++
-            else if (due < today) overdue++
+            else if (due < today || (due == today && t.optString("time").isNotEmpty() && minutesLate(t.optString("time")) > 0)) overdue++
             else if (due == today) todayOpen++
             else future++
         }

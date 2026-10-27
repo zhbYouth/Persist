@@ -1114,6 +1114,7 @@
       .nav-lens { background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(214,228,255,.5)); border: 0;
         box-shadow: 0 6px 16px rgba(44,98,238,.22), 0 1px 2px rgba(44,98,238,.14), inset 0 1.5px 0 #fff, inset 0 -2px 6px rgba(44,98,238,.14), inset 0 0 0 1px rgba(255,255,255,.7); }
   
+
     /* ===== 启动进场：很短、很轻 —— 各块依次上浮淡入，小成弹一下，底栏最后升起 ===== */
     @keyframes enterIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
     @keyframes navIn { from { opacity: 0; transform: translateY(28px) scale(.96); } to { opacity: 1; transform: none; } }
@@ -1350,7 +1351,7 @@
     .todo-row.done .todo-check { background: var(--pc, #9AA6BD); color: #fff; }
     .todo-main { flex: 1; min-width: 0; padding: 1px 0; outline: none; }
     .todo-title { font-size: 16px; font-weight: 650; line-height: 1.4; color: var(--ink); overflow-wrap: anywhere; }
-    .todo-row.done .todo-title { color: #9AA6BD; text-decoration: line-through; text-decoration-color: #C3CCDD; }
+    .todo-row.done .todo-title { color: #9AA6BD; }
     .todo-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }
     .tm { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: #8392AF; font-weight: 600; }
     .tm.now { color: var(--green); } .tm.over { color: #E8506B; }
@@ -1465,8 +1466,8 @@
     /* 3.2：待办弹窗精简 + 更顺的动画 */
     .todo-h1 { font-size: 26px; line-height: 1.22; letter-spacing: -.5px; font-weight: 800; margin: 2px 0 0; }
     #todoSheet, #listSheet { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(15,22,40,.38); }
-    #todoSheet .modal, #listSheet .modal { transform: translateY(18px); transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .22s ease; will-change: transform, opacity; }
-    #todoSheet.open .modal, #listSheet.open .modal { transform: none; }
+    #todoSheet .modal, #listSheet .modal { transform: translateY(30px) scale(.93); transition: transform .24s ease, opacity .2s ease; will-change: transform, opacity; }
+    #todoSheet.open .modal, #listSheet.open .modal { transform: none; transition: transform .6s var(--sp-pop), opacity .2s ease; }
     #todoSheet .todo-modal { padding: 16px 16px 14px; border-radius: 22px; }
     #todoSheet .modal-head { margin-bottom: 2px; } #todoSheet .modal-head h2 { font-size: 17px; }
     #todoSheet .close-btn { width: 32px; height: 32px; font-size: 20px; }
@@ -1514,7 +1515,38 @@
     .lf-color { width: 34px; height: 34px; border-radius: 50%; border: 3px solid #fff; background: var(--c); box-shadow: 0 0 0 1.5px #D5DDF0; padding: 0; }
     .lf-color.on { box-shadow: 0 0 0 2.5px var(--c); }
     .bottom-nav .nav-item span { white-space: nowrap; }
-  </style>
+      /* ===== Q 弹包：圆圈、划线、数字、新行、逾期、小成都有点小动静（只用 transform / opacity，不拖累滚动） ===== */
+    .todo-check svg path { stroke-dasharray: 22; stroke-dashoffset: 22; transition: stroke-dashoffset .32s cubic-bezier(.3,.7,.3,1) .06s; }
+    .todo-row.done .todo-check svg path { stroke-dashoffset: 0; }
+    .todo-row.done .todo-check { background: var(--pc, #9AA6BD); color: #fff; }
+    .todo-title { width: fit-content; max-width: 100%; }
+    .todo-title span { text-decoration: none; background: linear-gradient(currentColor, currentColor) no-repeat 0 62% / 0% 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size .36s cubic-bezier(.3,.7,.3,1) .1s, color .3s ease; }
+    .todo-row.done .todo-title { text-decoration: none; }
+    .todo-row.done .todo-title span { background-size: 100% 2px; }
+    .todo-row.flip .todo-check { animation: chkPop2 .55s var(--sp-pop); }
+    @keyframes chkPop2 { 0% { transform: scale(.55); } 40% { transform: scale(1.32); } 68% { transform: scale(.94); } 100% { transform: scale(1); } }
+    .todo-row.flip:not(.done) .todo-check { animation: chkUn .5s var(--sp-pop); }
+    @keyframes chkUn { 0% { transform: scale(1.2) rotate(0); } 35% { transform: scale(.8) rotate(-12deg); } 70% { transform: scale(1.06) rotate(5deg); } 100% { transform: none; } }
+    .todo-main { transition: scale .4s var(--sp-pop); } .todo-main:active { scale: .97; }
+    #todoSeg button { transition: color .25s ease, scale .4s var(--sp-pop); } #todoSeg button:active { scale: .92; }
+    #todoSub2 button { transition: scale .4s var(--sp-pop), color .25s ease; } #todoSub2 button:active { scale: .92; }
+    #todoSeg button b.bump, #todoSub2 button b.bump, .bump { animation: bump .5s var(--sp-pop); }
+    @keyframes bump { 0% { transform: scale(1); } 35% { transform: scale(1.5); } 70% { transform: scale(.9); } 100% { transform: scale(1); } }
+    .todo-row.pop-in { animation: rowPop .62s var(--sp-pop) both; }
+    @keyframes rowPop { from { opacity: 0; transform: translateY(-14px) scale(.9); } to { opacity: 1; transform: none; } }
+    .todo-row.late-new { animation: lateShake .7s ease-in-out both; }
+    @keyframes lateShake { 0%, 100% { transform: none; } 15% { transform: translateX(-6px); } 35% { transform: translateX(5px); } 55% { transform: translateX(-3px); } 75% { transform: translateX(2px); } }
+    .tm.over { font-weight: 700; }
+    .mascot.hop svg { animation: mJump .8s var(--sp-pop) 1; }
+    .mascot.hmm svg { animation: mHmm .8s var(--sp-pop) 1; }
+    @keyframes mHmm { 0% { transform: none; } 30% { transform: rotate(-12deg) translateY(1px); } 65% { transform: rotate(8deg); } 100% { transform: none; } }
+    #page-today .section-title { white-space: nowrap; }
+    .done-chip:active, .stat-btn:active, .plus-btn:active { scale: .86; }
+    #page-today .head-actions { gap: 6px; } #page-today .head-actions > * { height: 40px; } #page-today .head-actions .stat-btn, #page-today .head-actions .plus-btn { width: 40px; }
+    #page-today #habitCountLabel { white-space: nowrap; }
+    #page-today:has(#doneViewBtn[aria-pressed="true"]) #planTitle { font-size: 19px; }
+    #doneViewBtn[aria-pressed="true"] #doneViewLabel { display: none; } #doneViewBtn[aria-pressed="true"] { padding: 0 12px 0 10px; gap: 6px; }
+</style>
 </head>
 <body class="boot">
   <div class="app">
@@ -1571,7 +1603,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label><div class="settings-row" id="remTodoRow"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="settings-copy"><strong>待办提醒</strong><small id="remTodoSub"></small></span></div><button type="button" class="settings-row" id="remTest"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-7-5 16-3-6.5z"/></svg></span><span class="settings-copy"><strong>发送测试通知</strong><small id="remTestSub">立刻发一条，确认手机能收到</small></span><span class="chevron">›</span></button><button type="button" class="settings-row" id="remSys"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span><span class="settings-copy"><strong>通知与后台设置</strong><small>打开系统里本应用的通知开关</small></span><span class="chevron">›</span></button><button type="button" class="settings-row" id="remBat"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="16" height="9" rx="2.5"/><path d="M21 11v3M7 12.5h5"/></svg></span><span class="settings-copy"><strong>允许后台运行</strong><small>把本应用设为「不限制」，提醒才不会被系统拦下</small></span><span class="chevron">›</span></button></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.5.6 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.5.7 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1877,7 +1909,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const emptyNone=`<div class="empty-state">${eart('sun')}<strong>今天的计划都完成了</strong><p>点上方的「已完成」回顾今天的成果。</p></div>`, emptyDone=`<div class="empty-state">${eart('sprout')}<strong>今天还没有完成的习惯</strong><p>完成一个习惯后，它会出现在这里。</p></div>`;
         if(!tasks.length) doneView=false;
         list.innerHTML=!tasks.length?`<div class="empty-state">${eart(data.habits.length?'sun':'plus')}<strong>${data.habits.length?'今天没有安排的习惯':'先添加第一个习惯'}</strong><p>${data.habits.length?'好好休息，或者点右上方的「添加习惯」再加一件小事。':'点上方的「添加习惯」，选一件你想坚持的小事，不必从很多件开始。'}</p></div>`:(doneView?(finished.length?finished.map(h=>cardHTML(h,true,[h])).join(''):emptyDone):(pending.length?pending.map(h=>cardHTML(h,false,pending)).join(''):emptyNone));
-        $('doneNum').textContent=finished.length; $('doneViewBtn').setAttribute('aria-pressed',String(doneView)); $('doneViewLabel').textContent=doneView?'返回计划':'已完成'; $('planTitle').textContent=doneView?'今日已完成':'今日计划';
+        $('doneNum').textContent=finished.length; $('doneViewBtn').setAttribute('aria-pressed',String(doneView)); $('doneViewLabel').textContent=doneView?'返回':'已完成'; $('planTitle').textContent=doneView?'今日已完成':'今日计划';
         const divider=list.querySelector('.list-divider'); if(divider&&!hadDivider) divider.classList.add('fresh');
       }
       function isDoneAny(key) { return data.habits.some(h=>isScheduled(h,key)&&isDone(h,key)); }
@@ -2468,7 +2500,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.5.6',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.5.7',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2631,6 +2663,14 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       let todoEdit = null;                              // 正在编辑的待办：{id|null, subs, prio}
       let listEdit = null;                              // 正在编辑的清单：{id|null, color}
 
+      // 逾期：有具体时间的，时间一过（差 1 分钟）就算；没有时间的，要过了那一天（差 1 天）才算
+      const hmNow = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+      function isOverdue(t) { if(t.done || !t.due) return false; return t.due < todayKey || (t.due === todayKey && !!t.time && t.time < hmNow()); }
+      function overdueText(t) {
+        if(t.due < todayKey) return Math.round((fromKey(todayKey) - fromKey(t.due)) / 864e5) + ' 天';
+        const [h, m] = t.time.split(':').map(Number), d = new Date(); const mins = Math.max(1, d.getHours() * 60 + d.getMinutes() - (h * 60 + m));
+        return mins < 60 ? mins + ' 分钟' : Math.floor(mins / 60) + ' 小时';
+      }
       function dueText(key) {
         if(!key) return '';
         if(key === todayKey) return '今天'; if(key === shiftDate(todayKey, 1)) return '明天'; if(key === shiftDate(todayKey, -1)) return '昨天';
@@ -2660,7 +2700,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         for (const t of todos()) {
           if(t.done) { doneAll++; if(t.doneAt && dateKey(new Date(t.doneAt)) === todayKey) doneToday++; }
           else if(!t.due) pending++;
-          else if(t.due < todayKey) overdue++;
+          else if(isOverdue(t)) overdue++;
           else if(t.due === todayKey) todayOpen++;
           else future++;
         }
@@ -2695,6 +2735,13 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if(hd > 0) return ['cheer', '已打卡 ' + hd + ' / ' + hs.length + '，还差 ' + left.length + ' 个'];
         return ['idle', '今天有 ' + hs.length + ' 个习惯要打卡'];
       }
+      // 小成对操作的反应：完成时蹦一下，撤销时歪头疑惑一下
+      let reactTimer = 0;
+      function mascotReact(kind) {
+        const m = $('mascot'); if(!m || REDUCE) return;
+        m.classList.remove('hop', 'hmm'); void m.offsetWidth; m.classList.add(kind);
+        clearTimeout(reactTimer); reactTimer = setTimeout(() => m.classList.remove('hop', 'hmm'), 1000);
+      }
       function updateMood() {
         try {
           const onHabit = activePage === 'today' || activePage === 'calendar';
@@ -2726,20 +2773,27 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const l = t.list ? lists().find(x => x.id === t.list) : null, subsDone = t.subs.filter(s => s.done).length;
         const chips = [];
         const skipDate = !t.done && ((todoKey() === 'today' && t.due === todayKey) || (todoKey() === 'future'));   // 分组标题已经说明了日期
-        const dueLabel = (t.due && !skipDate ? dueText(t.due) : '') + (t.time ? (t.due && !skipDate ? ' ' : '') + t.time : '');
-        if(dueLabel) chips.push(`<span class="tm ${!t.done && t.due && t.due < todayKey ? 'over' : t.due === todayKey ? 'now' : ''}">${dueLabel}</span>`);
+        const late = isOverdue(t);
+        const dueLabel = late ? '逾期 ' + overdueText(t) + (t.time ? ' · ' + t.time : '') : (t.due && !skipDate ? dueText(t.due) : '') + (t.time ? (t.due && !skipDate ? ' ' : '') + t.time : '');
+        if(dueLabel) chips.push(`<span class="tm ${late ? 'over' : t.due === todayKey ? 'now' : ''}">${dueLabel}</span>`);
         if(t.done && t.doneAt) { const d = new Date(t.doneAt), z = n => String(n).padStart(2, '0'); chips.push(`<span class="tm">完成于 ${d.getMonth() + 1}/${d.getDate()} ${z(d.getHours())}:${z(d.getMinutes())}</span>`); }
         if(t.repeat) chips.push(`<span class="tm ico">${SVG_REPEAT}</span>`);
-        return `<div class="todo-row ${t.done ? 'done' : ''}" data-tid="${t.id}"><button type="button" class="todo-check p0" style="--pc:#9AA6BD" data-tcheck="${t.id}" aria-label="${t.done ? '标为未完成' : '完成'}：${escapeHTML(t.title)}">${SVG_CHECK}</button><div class="todo-main" data-topen="${t.id}" tabindex="0" role="button"><div class="todo-title">${escapeHTML(t.title)}</div>${chips.length ? `<div class="todo-meta">${chips.join('')}</div>` : ''}</div></div>`;
+        return `<div class="todo-row ${t.done ? 'done' : ''} ${newRows.has(t.id) ? 'pop-in' : ''} ${lateRows.has(t.id) ? 'late-new' : ''}" data-tid="${t.id}"><button type="button" class="todo-check p0" style="--pc:#9AA6BD" data-tcheck="${t.id}" aria-label="${t.done ? '标为未完成' : '完成'}：${escapeHTML(t.title)}">${SVG_CHECK}</button><div class="todo-main" data-topen="${t.id}" tabindex="0" role="button"><div class="todo-title"><span>${escapeHTML(t.title)}</span></div>${chips.length ? `<div class="todo-meta">${chips.join('')}</div>` : ''}</div></div>`;
       }
       // 顶部的件数（副标题、三个分组标签、今天 / 未来标签）：完成或撤销时立刻更新，不等列表重画
+      function setCount(n, v) {                      // 数字变了就弹一下
+        const old = n.textContent; n.textContent = v;
+        if(old !== String(v) && old !== '' && !REDUCE) { n.classList.remove('bump'); void n.offsetWidth; n.classList.add('bump'); }
+      }
       function updateTodoCounts(b) {
-        const over = b.today.filter(t => t.due < todayKey).length;
+        const over = b.today.filter(isOverdue).length;
         $('todoSub').textContent = b.today.length ? `今天 ${b.today.length - over} 项${over ? ` · 逾期 ${over} 项` : ''}` : (todos().length ? '今天没有待办' : '写下要做的事');
         const cnt = { pending: b.pending.length, ok: b.today.length + b.future.length, done: 0 };
-        document.querySelectorAll('#todoSeg [data-tview]').forEach(el => { const on = el.dataset.tview === todoView; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) n.textContent = cnt[el.dataset.tview] || ''; });
-        document.querySelectorAll('#todoSub2 [data-tsub]').forEach(el => { const on = el.dataset.tsub === todoSub; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) n.textContent = b[el.dataset.tsub].length || ''; });
+        document.querySelectorAll('#todoSeg [data-tview]').forEach(el => { const on = el.dataset.tview === todoView; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) setCount(n, cnt[el.dataset.tview] || ''); });
+        document.querySelectorAll('#todoSub2 [data-tsub]').forEach(el => { const on = el.dataset.tsub === todoSub; el.classList.toggle('selected', on); el.setAttribute('aria-selected', String(on)); const n = el.querySelector('b'); if(n) setCount(n, b[el.dataset.tsub].length || ''); });
       }
+      // 新出现的行弹进来；刚刚变成逾期的行抖一下（只在同一个分组里对比，切换分组时不触发）
+      let newRows = new Set(), lateRows = new Set(), prevRows = null, prevLate = new Set(), prevKey = '';
       function renderTodo() {
         updateMood(); const b = todoBuckets(), key = todoKey(); let cur = b[key];
         if(key === 'done' && todoSortDir.done === 'asc') cur = cur.slice().reverse();       // 默认从早到晚；也可切成从晚到早
@@ -2748,21 +2802,30 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('todoTools').hidden = !(key === 'future' || key === 'done');
         if(key === 'future' || key === 'done') $('todoSortBtn').querySelector('span').textContent = (key === 'done' ? '完成时间' : '日期') + ' · ' + (todoSortDir[key] === 'asc' ? '从早到晚' : '从晚到早');
         $('todoEyebrow').textContent = `星期${WK[fromKey(todayKey).getDay()]} · ${fromKey(todayKey).getMonth() + 1} 月 ${fromKey(todayKey).getDate()} 日`;
-        updateTodoCounts(b); const over = b.today.filter(t => t.due < todayKey).length;
+        updateTodoCounts(b); const over = b.today.filter(isOverdue).length;
         $('todoSub2').hidden = todoView !== 'ok'; $('todoQuick').hidden = key !== 'pending';
         $('todoQuickInput').placeholder = { pending: '先记下来，还没想好也行', today: '添加今天要做的事，回车保存', future: '添加未来的事，下一步选日期', done: '添加待办，会放进待确定' }[key];
+        const ids = new Set(cur.map(t => t.id)), lateNow = new Set(cur.filter(isOverdue).map(t => t.id));
+        newRows = prevRows && prevKey === key && !REDUCE ? new Set([...ids].filter(i => !prevRows.has(i))) : new Set();
+        lateRows = prevKey === key && !REDUCE ? new Set([...lateNow].filter(i => !prevLate.has(i) && prevRows && prevRows.has(i))) : new Set();
+        prevRows = ids; prevLate = lateNow; prevKey = key;
         let html = '';
         if(!cur.length) {
           const msg = { pending: ['还没有待确定的想法', '想到什么先记下来，决定做了再给它定个日期'], today: ['今天没有待办', '点右边的＋，添加到今天'], future: ['未来还没有安排', '点右边的＋，选个日期添加'], done: ['还没有完成的待办', '完成的待办会收在这里'] }[key];
           html = `<div class="empty-state">${eart(key === 'done' ? 'chart' : 'sun')}<strong>${msg[0]}</strong><p>${msg[1]}</p></div>`;
         } else if(key === 'today' && over && over < cur.length) {
-          html = `<div class="todo-group over">逾期</div>${cur.filter(t => t.due < todayKey).map(todoRowHTML).join('')}<div class="todo-group">今天</div>${cur.filter(t => t.due >= todayKey).map(todoRowHTML).join('')}`;
+          html = `<div class="todo-group over">逾期</div>${cur.filter(isOverdue).map(todoRowHTML).join('')}<div class="todo-group">今天</div>${cur.filter(t => !isOverdue(t)).map(todoRowHTML).join('')}`;
         } else if(key === 'future') {
           let last = '';
           cur.forEach(t => { if(t.due !== last) { last = t.due; html += `<div class="todo-group">${dueText(t.due)} · 星期${WK[fromKey(t.due).getDay()]}</div>`; } html += todoRowHTML(t); });
         } else html = cur.map(todoRowHTML).join('');
-        $('todoList').innerHTML = html;
+        $('todoList').innerHTML = html; newRows = new Set(); lateRows = new Set();
       }
+      setInterval(() => {                                                // 每 20 秒看一眼：有任务刚好过了时间，就换成红色逾期
+        if(document.hidden || $('todoSheet').classList.contains('open') || !(todos().some(isOverdue) || prevLate.size)) return;
+        const now = new Set(todos().filter(isOverdue).map(t => t.id));
+        if(now.size !== prevLate.size || [...now].some(i => !prevLate.has(i))) { if(activePage === 'todo') renderTodo(); else updateMood(); }
+      }, 20000);
       function addQuickTodo(title) {
         title = title.trim().slice(0, 120); if(!title) return false;
         const key = todoKey();
@@ -2781,7 +2844,10 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         updateMood(); updateTodoCounts(todoBuckets());                 // 数字马上变，不等动画
         const row = document.querySelector(`.todo-row[data-tid="${id}"]`);
         if(!row || REDUCE) { renderTodo(); return; }
-        row.classList.toggle('done', t.done); row.classList.add('flip');   // 圆圈弹一下、标题变灰
+        row.classList.toggle('done', t.done); row.classList.add('flip');   // 圆圈弹一下、标题划掉
+        const ck = row.querySelector('.todo-check'), cr = ck && ck.getBoundingClientRect();
+        if(t.done && cr) burst(cr.left + cr.width / 2, cr.top + cr.height / 2, 9);     // 打勾的一瞬间：光环 + 小星点
+        mascotReact(t.done ? 'hop' : 'hmm');
         setTimeout(() => { row.style.height = row.offsetHeight + 'px'; void row.offsetHeight; row.classList.add('collapse'); row.style.height = '0px'; }, 170);   // 然后整行平滑收起，下面的行顺势上移
         setTimeout(() => {
           if(!row.isConnected) return;

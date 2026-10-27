@@ -17,6 +17,7 @@ class TodoWidgetProvider : AppWidgetProvider() {
     companion object {
         const val ACTION_TAB = "com.riheng.app.ACTION_TODO_TAB"
         const val ACTION_DONE = "com.riheng.app.ACTION_TODO_DONE"
+        const val ACTION_TICK = "com.riheng.app.ACTION_TODO_TICK"
         const val ACTION_ITEM = "com.riheng.app.ACTION_TODO_ITEM"
         const val EXTRA_TAB = "tab"
         const val EXTRA_ID = "todo_id"
@@ -144,6 +145,7 @@ class TodoWidgetProvider : AppWidgetProvider() {
                     } catch (e: Exception) { /* 系统不允许从后台打开时就忽略 */ }
                 }
             }
+            ACTION_TICK -> updateAll(context)
             Intent.ACTION_DATE_CHANGED, Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED -> updateAll(context)
         }
     }

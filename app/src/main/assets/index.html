@@ -1546,6 +1546,31 @@
     #page-today #habitCountLabel { white-space: nowrap; }
     #page-today:has(#doneViewBtn[aria-pressed="true"]) #planTitle { font-size: 19px; }
     #doneViewBtn[aria-pressed="true"] #doneViewLabel { display: none; } #doneViewBtn[aria-pressed="true"] { padding: 0 12px 0 10px; gap: 6px; }
+
+    /* 3.6.0 手势 */
+    .todo-row { position: relative; touch-action: pan-y; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+    .todo-row > .todo-check, .todo-row > .todo-main { transform: translateX(var(--dx, 0px)); }
+    .todo-row.sw-anim > .todo-check, .todo-row.sw-anim > .todo-main { transition: transform .42s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)); }
+    .todo-row.swiping { overflow: hidden; }
+    .sw-under { position: absolute; top: 4px; bottom: 4px; display: flex; align-items: center; overflow: hidden; border-radius: 14px; pointer-events: none; }
+    .sw-under.r { left: 0; background: #3DA678; color: #fff; justify-content: flex-start; padding-left: 16px; }
+    .sw-under.r i { font-style: normal; font-weight: 800; font-size: 19px; opacity: .55; transform: scale(.8); transition: transform .3s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)), opacity .2s; }
+    .sw-under.r i.hit { opacity: 1; transform: scale(1.25); }
+    .sw-under.l { right: 0; justify-content: flex-end; pointer-events: auto; }
+    .sw-btns { display: flex; flex: 0 0 auto; height: 100%; }
+    .sw-b { flex: 1; border: 0; color: #fff; font: 600 13.5px/1 inherit; font-family: inherit; background: #6C7A99; }
+    .sw-b.today, .sw-b.tomorrow { background: #4C7DF0; } .sw-b.pending { background: #E0A13A; } .sw-b.delete { background: #E2574C; }
+    .sw-b:active { filter: brightness(.9); }
+    .todo-row.lp { transform: scale(.975); background: color-mix(in srgb, var(--surface, #fff) 70%, transparent); border-radius: 14px; transition: transform .3s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)); }
+    .sw-menu { position: fixed; left: 16px; right: 16px; max-width: 380px; margin: 0 auto; z-index: 90; display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; border-radius: 20px; background: color-mix(in srgb, var(--surface, #fff) 88%, transparent); -webkit-backdrop-filter: blur(22px) saturate(1.6); backdrop-filter: blur(22px) saturate(1.6); border: 1px solid var(--line); box-shadow: 0 14px 40px rgba(20,30,50,.18); opacity: 0; transform: scale(.82); transition: transform .38s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)), opacity .18s; }
+    .sw-menu.on { opacity: 1; transform: scale(1); }
+    .sw-menu button { flex: 1 1 calc(33% - 8px); min-width: 72px; height: 40px; border: 0; border-radius: 12px; background: color-mix(in srgb, var(--text, #222) 7%, transparent); color: var(--text, #222); font: 600 14px/1 inherit; font-family: inherit; }
+    .sw-menu button.danger { color: #E2574C; } .sw-menu button:active { transform: scale(.94); }
+    .habit-card { touch-action: pan-y; }
+    .habit-card.swiping { transform: translateX(var(--dx, 0px)); transition: none; }
+    .habit-card.sw-anim { transition: transform .42s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)); transform: translateX(var(--dx, 0px)); }
+    .habit-card::before { content: '✓'; position: absolute; left: -46px; top: 50%; width: 34px; height: 34px; margin-top: -17px; border-radius: 50%; display: grid; place-items: center; background: #3DA678; color: #fff; font-weight: 800; opacity: var(--sp, 0); transform: scale(calc(.5 + var(--sp, 0) * .5)); pointer-events: none; transition: transform .25s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)); }
+    .habit-card.sw-hit::before { transform: scale(1.25); }
 </style>
 </head>
 <body class="boot">
@@ -1603,7 +1628,7 @@
         <section class="page" id="page-settings">
           <div class="page-header"><div><div class="eyebrow">MAKE IT YOURS</div><h1>设置</h1><p class="subheading"></p></div></div>
           <div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label><div class="settings-row" id="remTodoRow"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="settings-copy"><strong>待办提醒</strong><small id="remTodoSub"></small></span></div><button type="button" class="settings-row" id="remTest"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-7-5 16-3-6.5z"/></svg></span><span class="settings-copy"><strong>发送测试通知</strong><small id="remTestSub">立刻发一条，确认手机能收到</small></span><span class="chevron">›</span></button><button type="button" class="settings-row" id="remSys"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span><span class="settings-copy"><strong>通知与后台设置</strong><small>打开系统里本应用的通知开关</small></span><span class="chevron">›</span></button><button type="button" class="settings-row" id="remBat"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="16" height="9" rx="2.5"/><path d="M21 11v3M7 12.5h5"/></svg></span><span class="settings-copy"><strong>允许后台运行</strong><small>把本应用设为「不限制」，提醒才不会被系统拦下</small></span><span class="chevron">›</span></button></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.5.7 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.4l2.7 2.7 5-5.8"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.6.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -2500,7 +2525,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.5.7',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.6.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -3035,6 +3060,106 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const o = e.target.closest('[data-topen]'); if(o) openTodoSheet(o.dataset.topen);
       });
       $('todoList').addEventListener('keydown', e => { if((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-topen]')) { e.preventDefault(); openTodoSheet(e.target.dataset.topen); } });
+
+      // ---- 手势（3.6.0）：待办行 右滑完成 / 左滑改期·删除 / 长按菜单；习惯卡右滑打卡 ----
+      (() => {
+        const list = $('todoList'), DONE_AT = 84, BTN_W = 64;
+        let g = null, openRow = null, swallowUntil = 0, menuEl = null;
+        const rub = (d, max) => d < max ? d : max + (d - max) * .3;           // 过了头就变“硬”，像拉橡皮筋
+        const tmr = () => { const d = new Date(); d.setDate(d.getDate() + 1); return dateKey(d); };
+        const setX = (row, x, anim) => { row.style.setProperty('--dx', x + 'px'); row.classList.toggle('sw-anim', !!anim); };
+        function underOf(row) { let u = row.querySelector('.sw-under'); if(!u) { u = document.createElement('div'); u.className = 'sw-under'; row.prepend(u); } return u; }
+        function actionsFor(t) {
+          if(t.done) return [['delete', '删除']];
+          const c = [['today', '今天'], ['tomorrow', '明天'], ['pending', '待确定']].filter(a => a[0] === 'today' ? t.due !== todayKey : a[0] === 'tomorrow' ? t.due !== tmr() : !!t.due);
+          return c.slice(0, 2).concat([['delete', '删除']]);
+        }
+        function fillUnder(row, t, dx) {
+          const u = underOf(row);
+          if(dx > 0) { u.className = 'sw-under r'; u.style.width = dx + 'px'; u.innerHTML = `<i class="${dx >= DONE_AT ? 'hit' : ''}">${t.done ? '↺' : '✓'}</i>`; }
+          else {
+            const acts = actionsFor(t); u.className = 'sw-under l'; u.style.width = -dx + 'px';
+            if(!u.dataset.k || u.dataset.k !== acts.map(a => a[0]).join()) { u.dataset.k = acts.map(a => a[0]).join(); u.innerHTML = `<div class="sw-btns" style="width:${acts.length * BTN_W}px">${acts.map(a => `<button type="button" class="sw-b ${a[0]}" data-swact="${a[0]}" data-tid="${t.id}">${a[1]}</button>`).join('')}</div>`; }
+          }
+        }
+        function closeOpen(anim = true) { if(!openRow) return; const r = openRow; openRow = null; setX(r, 0, anim); setTimeout(() => { if(!openRow || openRow !== r) { r.classList.remove('swiping'); const u = r.querySelector('.sw-under'); u && u.remove(); } }, 320); }
+        function act(id, a) {
+          const t = todos().find(x => x.id === id); if(!t) return;
+          if(a === 'delete') { openConfirm('删除这条待办？', `将删除「${t.title}」，此操作无法撤销。`, () => { data.todos = todos().filter(x => x.id !== id); try { markDeleted(id); } catch(e) {} saveData(); closeConfirm(); renderTodo(); updateMood(); }, '删除'); return; }
+          if(a === 'done') { toggleTodo(id); return; }
+          if(a === 'edit') { openTodoSheet(id); return; }
+          t.due = a === 'today' ? todayKey : a === 'tomorrow' ? tmr() : ''; if(!t.due) { t.time = ''; t.repeat = ''; }
+          t.u = Date.now(); saveData(); renderTodo(); updateMood();
+          showToast(a === 'pending' ? '放回「待确定」了' : a === 'today' ? '改到今天了' : '改到明天了'); buzz();
+        }
+        function closeMenu() { if(menuEl) { const m = menuEl; menuEl = null; m.classList.remove('on'); setTimeout(() => m.remove(), 220); } document.querySelectorAll('.todo-row.lp').forEach(r => r.classList.remove('lp')); }
+        function openMenu(row) {
+          const t = todos().find(x => x.id === row.dataset.tid); if(!t) return;
+          closeMenu(); row.classList.add('lp'); buzz();
+          const items = [['edit', '编辑']].concat(t.done ? [['done', '标为未完成']] : [['done', '完成']].concat(actionsFor(t).slice(0, -1))).concat([['delete', '删除']]);
+          const m = document.createElement('div'); m.className = 'sw-menu';
+          m.innerHTML = items.map(a => `<button type="button" data-mact="${a[0]}" class="${a[0] === 'delete' ? 'danger' : ''}">${a[1]}</button>`).join('');
+          document.body.appendChild(m);
+          const r = row.getBoundingClientRect(), h = m.offsetHeight, below = r.bottom + 8 + h < innerHeight - 90;
+          m.style.top = Math.max(70, below ? r.bottom + 8 : r.top - h - 8) + 'px'; m.style.transformOrigin = below ? '50% 0' : '50% 100%';
+          requestAnimationFrame(() => m.classList.add('on')); menuEl = m;
+          m.addEventListener('click', e => { const b = e.target.closest('[data-mact]'); if(!b) return; const id = row.dataset.tid; closeMenu(); act(id, b.dataset.mact); });
+        }
+        document.addEventListener('pointerdown', e => { if(menuEl && !e.target.closest('.sw-menu')) closeMenu(); if(openRow && !e.target.closest('.sw-under') && !openRow.contains(e.target)) closeOpen(); }, true);
+        list.addEventListener('pointerdown', e => {
+          if(e.pointerType === 'mouse' && e.button !== 0) return;
+          const row = e.target.closest('.todo-row'); if(!row || e.target.closest('.sw-under')) return;
+          g = { row, x: e.clientX, y: e.clientY, mode: 0, base: openRow === row ? -(row.querySelector('.sw-btns') ? row.querySelector('.sw-btns').offsetWidth : 0) : 0, id: e.pointerId };
+          g.lp = setTimeout(() => { if(g && !g.mode) { g.mode = 3; swallowUntil = Date.now() + 600; openMenu(row); } }, 480);
+        });
+        document.addEventListener('pointermove', e => {
+          if(!g || e.pointerId !== g.id) return;
+          const dx = e.clientX - g.x, dy = e.clientY - g.y;
+          if(!g.mode) {
+            if(Math.abs(dy) > 9) { clearTimeout(g.lp); g = null; return; }
+            if(Math.abs(dx) > 9 && Math.abs(dx) > Math.abs(dy) * 1.3) { clearTimeout(g.lp); g.mode = 1; if(openRow && openRow !== g.row) closeOpen(); g.row.classList.add('swiping'); try { g.row.setPointerCapture(e.pointerId); } catch(err) {} }
+            else if(Math.hypot(dx, dy) > 9) clearTimeout(g.lp);
+            if(!g || g.mode !== 1) return;
+          }
+          if(g.mode !== 1) return;
+          const t = todos().find(x => x.id === g.row.dataset.tid); if(!t) return;
+          const maxL = actionsFor(t).length * BTN_W;
+          let x = g.base + dx; x = x > 0 ? rub(x, DONE_AT) : -rub(-x, maxL);
+          const hit = x >= DONE_AT; if(hit !== !!g.hit) { g.hit = hit; if(hit) buzz(); }
+          setX(g.row, x, false); g.x2 = x; fillUnder(g.row, t, x);
+        });
+        const end = e => {
+          if(!g || (e && e.pointerId !== g.id)) return; clearTimeout(g.lp); const q = g; g = null;
+          if(q.mode !== 1) return;
+          swallowUntil = Date.now() + 350;
+          const x = q.x2 || 0, t = todos().find(v => v.id === q.row.dataset.tid), maxL = t ? actionsFor(t).length * BTN_W : 0;
+          if(x >= DONE_AT && t) { setX(q.row, 0, true); setTimeout(() => { q.row.classList.remove('swiping'); toggleTodo(t.id); }, 140); }
+          else if(x <= -maxL * .45 && maxL) { openRow = q.row; setX(q.row, -maxL, true); const u = q.row.querySelector('.sw-under'); if(u) u.style.width = maxL + 'px'; }
+          else { openRow = q.row; closeOpen(true); }
+        };
+        document.addEventListener('pointerup', end, true); document.addEventListener('pointercancel', end, true);
+        list.addEventListener('click', e => {
+          const b = e.target.closest('[data-swact]'); if(b) { e.stopPropagation(); const id = b.dataset.tid; closeOpen(false); act(id, b.dataset.swact); return; }
+          if(Date.now() < swallowUntil) { e.stopPropagation(); e.preventDefault(); return; }
+          if(openRow) { e.stopPropagation(); e.preventDefault(); closeOpen(); }
+        }, true);
+        list.addEventListener('contextmenu', e => { if(e.target.closest('.todo-row')) e.preventDefault(); });
+        $('todoList').addEventListener('scroll', () => closeOpen(false), true);
+
+        // 习惯卡：右滑打卡（撤销同理）
+        const hl = $('habitList'); let hg = null;
+        hl.addEventListener('pointerdown', e => { const c = e.target.closest('.habit-card'); if(!c || e.target.closest('.drag-handle') || (e.pointerType === 'mouse' && e.button !== 0)) return; hg = { c, x: e.clientX, y: e.clientY, m: 0, id: e.pointerId, dx: 0 }; });
+        document.addEventListener('pointermove', e => {
+          if(!hg || e.pointerId !== hg.id) return; const dx = e.clientX - hg.x, dy = e.clientY - hg.y;
+          if(!hg.m) { if(Math.abs(dy) > 9 || dx < -9) { hg = null; return; } if(dx > 9 && dx > Math.abs(dy) * 1.3) { hg.m = 1; hg.c.classList.add('swiping'); try { hg.c.setPointerCapture(e.pointerId); } catch(err) {} } else return; }
+          const x = Math.max(0, rub(dx, DONE_AT)); hg.dx = x; hg.c.style.setProperty('--dx', x + 'px'); hg.c.style.setProperty('--sp', Math.min(1, x / DONE_AT));
+          const hit = x >= DONE_AT; if(hit !== !!hg.hit) { hg.hit = hit; hg.c.classList.toggle('sw-hit', hit); if(hit) buzz(); }
+        });
+        const hend = e => { if(!hg || (e && e.pointerId !== hg.id)) return; const q = hg; hg = null; if(!q.m) return; swallowUntil = Date.now() + 350; q.c.classList.add('sw-anim'); q.c.style.setProperty('--dx', '0px'); q.c.style.setProperty('--sp', 0);
+          setTimeout(() => { q.c.classList.remove('swiping', 'sw-anim', 'sw-hit'); if(q.hit) toggleCheck(q.c.dataset.habit); }, 140); };
+        document.addEventListener('pointerup', hend, true); document.addEventListener('pointercancel', hend, true);
+        hl.addEventListener('click', e => { if(Date.now() < swallowUntil) { e.stopPropagation(); e.preventDefault(); } }, true);
+      })();
       $('todoQuick').addEventListener('submit', e => { e.preventDefault(); const i = $('todoQuickInput'); if(addQuickTodo(i.value)) i.value = ''; });
       $('todoAddBtn').addEventListener('click', () => openTodoSheet(null));
       $('todoAdd2').addEventListener('click', () => openTodoSheet(null, todoKey() === 'future' ? { needDate: true } : null));

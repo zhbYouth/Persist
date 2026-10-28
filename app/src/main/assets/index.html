@@ -49,9 +49,6 @@
     .brand-mark svg { width: 23px; height: 23px; }
     .brand-name { font-size: 19px; line-height: 1.1; letter-spacing: -.6px; font-weight: 800; }
     .brand-sub { color: var(--muted); font-size: 10px; margin-top: 4px; letter-spacing: 1.2px; }
-    .top-actions { display: flex; gap: 8px; }
-    .icon-btn { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 15px; }
-    .icon-btn svg { width: 19px; height: 19px; }
     .desktop-layout { display: grid; grid-template-columns: 224px minmax(0, 1fr); gap: 30px; align-items: start; }
     .sidebar { position: sticky; top: 20px; padding: 14px 0; }
     .side-nav { display: grid; gap: 8px; }
@@ -76,8 +73,6 @@
     .hero-label { color: #c7e3cc; font-size: 12px; letter-spacing: .7px; font-weight: 700; }
     .hero h2 { font-size: clamp(22px, 3vw, 29px); line-height: 1.28; letter-spacing: -.8px; margin: 12px 0 9px; }
     .hero p { color: rgba(244,255,244,.71); font-size: 13px; line-height: 1.6; margin: 0; }
-    .hero-action { display: inline-flex; align-items: center; gap: 7px; margin-top: 17px; border: 0; border-radius: 11px; padding: 10px 13px; color: #22392b; background: var(--lime); font-size: 12px; font-weight: 800; }
-    .hero-action svg { width: 15px; height: 15px; }
     .progress-ring-wrap { flex-shrink: 0; width: 122px; height: 122px; position: relative; display: grid; place-items: center; z-index: 1; }
     .progress-ring { width: 122px; height: 122px; transform: rotate(-90deg); }
     .progress-ring circle { fill: none; stroke-width: 7; }
@@ -123,9 +118,6 @@
     .empty-state .empty-emoji { font-size: 28px; margin-bottom: 10px; }
     .empty-state strong { display: block; color: var(--ink); font-size: 14px; margin-bottom: 6px; }
     .empty-state p { margin: 0; font-size: 12px; line-height: 1.7; }
-    
-    
-    .section-spacer { height: 24px; }
     .page-header { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin: 7px 0 24px; }
     .page-header h1 { font-size: 30px; }
     .month-controls { display: flex; align-items: center; gap: 8px; }
@@ -154,14 +146,6 @@
     .history-row .hist-title { flex: 1; font-size: 12px; font-weight: 700; }
     .history-row .hist-status { color: var(--muted); font-size: 11px; }
     .history-row .hist-status.ok { color: var(--green); font-weight: 800; }
-    
-    .stat-card { background: var(--surface); border: 1px solid var(--line); border-radius: 19px; padding: 17px 15px; min-width: 0; }
-    .stat-label { font-size: 11px; color: var(--muted); font-weight: 700; line-height: 1.5; }
-    .stat-value { margin-top: 9px; font-weight: 850; font-size: clamp(23px, 4vw, 31px); letter-spacing: -1.2px; }
-    .stat-foot { margin-top: 7px; font-size: 10px; color: var(--muted); }
-    .chart-panel { margin-bottom: 15px; }
-    .chart-panel h3{ margin: 0; font-size: 15px; letter-spacing: -.3px; }
-    .chart-panel .chart-sub { margin-top: 6px; color: var(--muted); font-size: 11px; }
     
     
     
@@ -205,7 +189,7 @@
     .close-btn { width: 34px; height: 34px; border: 0; border-radius: 11px; background: var(--surface-soft); color: var(--muted); font-size: 21px; }
     
     
-    .text-input{ width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 13px; color: var(--ink); background: var(--bg); outline: none; font-size: 13px; }
+    .text-input { width: 100%; padding: 13px 14px; border: 1px solid var(--line); border-radius: 13px; color: var(--ink); background: var(--bg); outline: none; font-size: 13px; }
     .text-input::placeholder { color: var(--muted); }
     
     
@@ -240,7 +224,6 @@
       .hero { padding: 21px 19px; min-height: 170px; border-radius: 23px; }
       .hero h2 { font-size: 23px; }
       .hero p { font-size: 11px; }
-      .hero-action { margin-top: 13px; }
       .progress-ring-wrap, .progress-ring { width: 94px; height: 94px; }
       .progress-ring circle { stroke-width: 7; }
       .ring-number { font-size: 23px; }
@@ -262,11 +245,6 @@
       .panel { padding: 15px; border-radius: 20px; }
       .calendar-grid { gap: 3px; }
       .calendar-day { border-radius: 10px; font-size: 11px; }
-      
-      .stat-card { border-radius: 16px; padding: 13px 10px; }
-      .stat-label { font-size: 10px; }
-      .stat-value { font-size: 25px; }
-      .stat-foot { font-size: 9px; }
       .modal-backdrop { align-items: end; padding: 0; }
       .modal { width: 100%; max-height: 91dvh; border-radius: 25px 25px 0 0; padding: 23px 20px calc(22px + env(safe-area-inset-bottom)); border-bottom: 0; }
       .confirm-modal { width: min(100%, 470px); margin: auto; border-radius: 25px; }
@@ -288,7 +266,6 @@
     .topbar { padding:30px 0 42px; }
     .brand { gap:13px; } .brand-mark { width:34px;height:34px;border-radius:50%;background:var(--green);color:#171914;box-shadow:none; }
     .brand-mark svg { width:20px;height:20px; } .brand-name { font-size:17px;letter-spacing:-.8px; } .brand-sub { display:none; }
-    .icon-btn { width:42px;height:42px;border-radius:50%;background:transparent;border-color:var(--line); }
     .desktop-layout { grid-template-columns:160px minmax(0,1fr);gap:58px; }
     .sidebar { top:24px; } .side-nav { gap:5px; }
     .nav-item { border-radius:0;padding:14px 10px;font-size:13px;gap:11px; }
@@ -304,8 +281,8 @@
     .hero::after { display:none; } .hero-copy { max-width:360px; }
     .hero-label { color:var(--muted);font-size:9px;letter-spacing:1.6px; }
     .hero h2 { font-size:clamp(24px,3vw,33px);line-height:1.1;letter-spacing:-1.4px;margin:15px 0 0;max-width:320px; }
-    .hero p { display:none; } .hero-action { margin-top:23px;border-radius:30px;padding:12px 17px;color:#171914;background:var(--green);font-size:11px;font-weight:750; }
-    .progress-ring-wrap,.progress-ring { width:112px;height:112px; } .progress-ring circle { stroke-width:4; }
+    .hero p { display:none; }
+    .progress-ring-wrap, .progress-ring { width:112px;height:112px; } .progress-ring circle { stroke-width:4; }
     .progress-ring .ring-bg { stroke:var(--line); } .progress-ring .ring-value { stroke:var(--green); }
     .ring-number { font-size:25px;color:var(--ink); } .ring-caption { color:var(--muted);font-size:9px; }
     .week-strip { gap:10px;margin:25px 0 50px; } .week-day { padding:11px 3px 12px;border-radius:18px;gap:10px; }
@@ -325,11 +302,9 @@
     
     
     .page-header { margin:0 0 38px; } .page-header h1 { font-size:clamp(38px,5.5vw,64px); }
-    .panel,.stat-card { background:transparent;border:1px solid var(--line);border-radius:2px;padding:24px;box-shadow:none; }
+    .panel { background:transparent;border:1px solid var(--line);border-radius:2px;padding:24px;box-shadow:none; }
     .calendar-day { border-radius:50%; } .calendar-day.selected { background:var(--ink);color:var(--bg); }
     .calendar-day.today { outline-color:var(--green); } .calendar-day.has-activity .cal-dot { background:var(--green); }
-     .stat-card { padding:20px 18px; } .stat-value { letter-spacing:-1.8px; }
-    .chart-panel h3{ font-size:18px;letter-spacing:-.6px; }
     
     .settings-panel { border-radius:2px;background:transparent; } .settings-row { padding:18px; }
     .settings-ico { border-radius:50%; } .about-card { background:transparent;border:1px solid var(--line);border-radius:2px; }
@@ -337,7 +312,7 @@
     .bottom-nav .nav-item { color:var(--muted); } .bottom-nav .nav-item.active { background:transparent;color:var(--ink); }
     .bottom-nav .nav-item.active svg { color:var(--ink); }
     .modal { border-radius:4px;box-shadow:0 20px 70px rgba(0,0,0,.12); }
-    .text-input,.repeat-btn { border-radius:3px; }
+    .text-input, .repeat-btn { border-radius:3px; }
     .toast { background:var(--ink);color:var(--bg);border-radius:30px; }
     @media (max-width:760px) {
       .app { padding:0 22px calc(100px + env(safe-area-inset-bottom)); } .topbar { padding:23px 0 48px; }
@@ -345,8 +320,7 @@
       .eyebrow { margin-bottom:16px; } h1 { font-size:clamp(42px,11vw,60px);letter-spacing:-2.8px;max-width:310px; }
       .date-chip { display:none; } .hero { padding:26px 0 28px;gap:12px; }
       .hero-copy { max-width:235px; } .hero h2 { font-size:25px;letter-spacing:-1px;margin-top:13px; }
-      .hero-action { margin-top:20px;padding:12px 15px; }
-      .progress-ring-wrap,.progress-ring { width:90px;height:90px; } .progress-ring circle { stroke-width:4; }
+      .progress-ring-wrap, .progress-ring { width:90px;height:90px; } .progress-ring circle { stroke-width:4; }
       .ring-number { font-size:21px; } .week-strip { gap:3px;margin:23px 0 48px; }
       .week-day { padding:9px 0 11px;gap:8px; } .week-day .day-number { width:32px;height:32px; }
       .section-title { font-size:21px; } .section-meta { display:none; } 
@@ -355,14 +329,12 @@
       .habit-meta { font-size:10px; } .check-btn { width:33px;height:33px; }
       .bottom-nav { padding:10px 18px calc(10px + env(safe-area-inset-bottom)); }
       .bottom-nav .nav-item { padding:7px 3px;font-size:10px; }
-      .page-header h1 { font-size:42px; } .panel { padding:16px 12px; }
-       .stat-card { padding:14px 10px; } .stat-value { font-size:24px; }
-      .stat-foot { display:none; } .modal { border-radius:20px 20px 0 0; }
+      .page-header h1 { font-size:42px; } .panel { padding:16px 12px; } .modal { border-radius:20px 20px 0 0; }
     }
     @media (max-width:370px) {
       .app { padding-left:17px;padding-right:17px; } h1 { font-size:40px; }
       .hero-copy { max-width:210px; } .hero h2 { font-size:22px; }
-      .progress-ring-wrap,.progress-ring { width:78px;height:78px; } .ring-number { font-size:18px; }
+      .progress-ring-wrap, .progress-ring { width:78px;height:78px; } .ring-number { font-size:18px; }
     }
 
 
@@ -375,7 +347,6 @@
       h1 { font-size: clamp(34px, 9vw, 46px); line-height: .98; letter-spacing: -2.2px; }
       .hero { padding: 15px 0 17px; }
       .hero h2 { font-size: 21px; margin-top: 8px; }
-      .hero-action { margin-top: 12px; padding: 9px 13px; }
       .progress-ring-wrap, .progress-ring { width: 70px; height: 70px; }
       .ring-number { font-size: 17px; }
       .ring-caption { font-size: 8px; }
@@ -428,14 +399,12 @@
       --green-light:#343d25; --lime:#c7f36b; --nav-bg:rgba(23,24,18,.94);
     }
     .brand-mark { border-radius: 13px; }
-    .icon-btn { border-radius: 50%; }
-    .nav-item{ border-radius: 999px; }
+    .nav-item { border-radius: 999px; }
     .nav-item.active { background: var(--green-light); }
     .nav-item.active::before { display:none; }
     .side-note { border-radius: 22px; padding: 18px; border: 1px solid var(--line); }
     .hero { border-radius: 28px; border: 1px solid var(--line); padding: 24px 26px; background: var(--surface); }
     .hero::after { display:block; opacity:.15; border-radius:50%; }
-    .hero-action { border-radius: 999px; }
     .week-day { border-radius: 22px; }
     .week-day.selected { border-radius: 22px; }
     .section-title { letter-spacing: -.7px; }
@@ -454,12 +423,12 @@
     .check-btn { width: 35px; height: 35px; border-radius: 50%; border-width: 1.5px; }
     .check-btn.checked { box-shadow: 0 0 0 4px var(--green-light); }
     
-    .panel, .stat-card { border-radius: 22px; border-color: var(--line); }
+    .panel { border-radius: 22px; border-color: var(--line); }
     .calendar-day { border-radius: 50%; }
     .settings-panel, .about-card { border-radius: 24px; overflow:hidden; }
     .settings-ico { border-radius: 14px; }
     .modal { border-radius: 28px; }
-    .text-input{ border-radius: 16px; }
+    .text-input { border-radius: 16px; }
     
     .repeat-btn { border-radius: 999px; }
     .toast { border-radius: 999px; }
@@ -492,53 +461,6 @@
     @media(max-width:760px) {
       .habit-icon { width:38px;height:38px;border-radius:13px !important; }
       .habit-icon svg { width:20px;height:20px; }
-      
-      
-    }
-
-
-    /* v0.6: clearer labeled icon picker */
-    
-    
-    
-    
-    
-    @media (max-width:760px) {
-      
-      
-      
-      
-      
-      body:has(#page-stats.active) .topbar { padding-bottom:10px !important; }
-      #page-stats .page-header { margin:0 0 12px !important; }
-      #page-stats .page-header h1 { font-size:31px !important; line-height:1.05; letter-spacing:-1.5px; }
-      #page-stats .eyebrow { margin-bottom:7px; font-size:9px; }
-      
-      #page-stats .stat-card { padding:10px 9px; border-radius:15px; }
-      #page-stats .stat-label { font-size:9px; line-height:1.35; }
-      #page-stats .stat-value { font-size:22px; margin-top:5px; letter-spacing:-1px; }
-      #page-stats .stat-foot { display:none; }
-      #page-stats .chart-panel { padding:12px; margin-bottom:9px; }
-      #page-stats .chart-panel h3{ font-size:13px; }
-      #page-stats .chart-sub { display:none; }
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-    }
-    @media (max-width:370px) {
-      #page-stats .page-header h1 { font-size:28px !important; }
-      #page-stats .stat-card { padding:9px 6px; }
-      #page-stats .stat-value { font-size:20px; }
       
       
     }
@@ -605,9 +527,9 @@
     .calendar-day:focus-visible, .week-day:focus-visible, .check-btn:focus-visible, .weekday-btn:focus-visible {
       outline: 2px solid var(--green); outline-offset: 2px;
     }
-    .history-list{ scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
-    .history-list::-webkit-scrollbar{ width: 4px; }
-    .history-list::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 99px; }
+    .history-list { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+    .history-list::-webkit-scrollbar { width: 4px; }
+    .history-list::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
     @media (max-width:760px) {
       .app { padding-left: max(15px, env(safe-area-inset-left)); padding-right: max(15px, env(safe-area-inset-right)); }
       .topbar { padding-top: 12px; padding-bottom: 17px; }
@@ -638,7 +560,7 @@
     
     
     
-    .habit-icon img,.hist-icon img,.habit-glyph img{ width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block; }
+    .habit-icon img, .hist-icon img, .habit-glyph img { width:100%;height:100%;object-fit:contain;border-radius:inherit;display:block; }
     
 
     /* v1.4 见下方键盘与背景改动 */
@@ -672,7 +594,7 @@
        手机浏览器遇到横向溢出会把整个页面缩小（实测 28 个汉字就会触发）。 */
     .habit-list { grid-template-columns: minmax(0, 1fr); }
     .habit-card, .habit-main { min-width: 0; }
-    .history-row .hist-title{ min-width: 0; overflow-wrap: anywhere; }
+    .history-row .hist-title { min-width: 0; overflow-wrap: anywhere; }
 
     /* 青柠底色上的文字改用深色（原来是白字/浅绿字，几乎看不清：「保存习惯」「每天」「自定义」等） */
     .btn-primary { color: var(--ink); }
@@ -693,7 +615,6 @@
     #confirmBackdrop { background: rgba(14,22,42,.42); }
     /* 蓝底上一律用白字 */
     .brand-mark { background: var(--green); color: #fff; }
-    .hero-action { background: var(--green); color: #fff; }
     .check-btn.checked { background: var(--green); border-color: var(--green); color: #fff; }
     .btn-primary { background: var(--green); color: #fff; }
     .weekday-btn.selected { background: var(--green); border-color: var(--green); color: #fff; }
@@ -731,7 +652,6 @@
     /* 今日 */
     .hero-label { font-size: 11px !important; letter-spacing: 1.6px !important; }
     .hero h2 { font-size: 23px !important; line-height: 1.28 !important; }
-    .hero-action { font-size: 15px !important; padding: 12px 18px !important; }
     .ring-number { font-size: 22px !important; }
     .ring-caption { font-size: 12px !important; }
     .week-day .day-label { font-size: 12px !important; }
@@ -757,11 +677,6 @@
     .history-row .hist-status { font-size: 13px !important; }
     .history-row .hist-icon { width: 38px !important; height: 38px !important; }
     .history-row .hist-icon svg { width: 20px !important; height: 20px !important; }
-
-    /* 统计 */
-    .stat-label { font-size: 12px !important; }
-    .stat-value { font-size: 26px !important; }
-    .stat-value span { font-size: 14px !important; }
     
     
     
@@ -869,8 +784,6 @@
     .habit-list.sorting, .habit-list.sorting * { -webkit-user-select: none; user-select: none; }
     .habit-card.just-added { animation: addedRing .9s ease-out 1; }
     @keyframes addedRing { 0% { box-shadow: 0 0 0 0 rgba(44,98,238,.5); } 100% { box-shadow: 0 0 0 14px rgba(44,98,238,0); } }
-    .list-hint { margin: 12px 4px 0; text-align: center; color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .list-hint:empty { display: none; }
     @media (prefers-reduced-motion: reduce) { .editor-page, .editor-page.open { transition: none; } .habit-card.just-added { animation: none; } }
 
     /* ===== v1.7：Q 弹动画 · 悬浮玻璃导航 · 完成项沉底 ===== */
@@ -916,14 +829,12 @@
     /* 进度环：带一点点弹性；0% / 100% 时不过冲，避免环首尾出现小缺口 */
     .progress-ring .ring-value { transition: stroke-dashoffset 1.2s var(--sp-soft); }
     .progress-ring-wrap.calm .ring-value { transition-timing-function: cubic-bezier(.2,.9,.2,1); }
-    .hero-action { transition: scale .5s var(--sp-pop); }
-    .hero-action:active { scale: .93; }
 
     /* 其余可点元素：统一的按压反馈（用独立的 scale 属性，不和位移/FLIP 冲突） */
-    .week-day, .brand-mark, .btn-primary, .btn-secondary, .btn-danger, .repeat-btn, .weekday-btn, .icon-cat, .icon-btn, .small-icon-btn, .close-btn, .calendar-day, .editor-delete, .photo-pick, .settings-row, .icon-cell, .editor-back, .date-chip {
+    .week-day, .brand-mark, .btn-primary, .btn-secondary, .btn-danger, .repeat-btn, .weekday-btn, .icon-cat, .small-icon-btn, .close-btn, .calendar-day, .editor-delete, .photo-pick, .settings-row, .icon-cell, .editor-back, .date-chip {
       transition: scale .5s var(--sp-pop), background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease, opacity .2s ease; }
-    .week-day:active, .calendar-day:active, .small-icon-btn:active, .icon-btn:active, .close-btn:active, .brand-mark:active, .editor-back:active, .icon-cell:active { scale: .88; transform: none; }
-    .btn-primary:active, .btn-secondary:active, .btn-danger:active, .repeat-btn:active, .weekday-btn:active, .icon-cat:active, .editor-delete:active, .photo-pick:active{ scale: .94; }
+    .week-day:active, .calendar-day:active, .small-icon-btn:active, .close-btn:active, .brand-mark:active, .editor-back:active, .icon-cell:active { scale: .88; transform: none; }
+    .btn-primary:active, .btn-secondary:active, .btn-danger:active, .repeat-btn:active, .weekday-btn:active, .icon-cat:active, .editor-delete:active, .photo-pick:active { scale: .94; }
     .settings-row:active { scale: .985; }
 
     /* 页面切换：内容逐块弹入（只在切换页面时加 .enter，不会随每次重绘重播） */
@@ -937,9 +848,7 @@
      
      
     
-    @keyframes growY { from { transform: scaleY(0); } to { transform: scaleY(1); } }
     
-    @keyframes growX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
     /* 编辑页 / 弹窗 / 提示：同一套弹性 */
     .editor-page { box-shadow: 0 0 0 48px var(--bg); transition: transform .62s var(--sp-page), visibility 0s linear .62s; }
@@ -1011,20 +920,6 @@
 
     /* ===== v1.7.1：统计页和编辑页换成和主页一致的「软」风格：大圆角、柔和投影、淡彩底色、胶囊控件 ===== */
     :root { --soft-shadow: 0 12px 30px rgba(44,74,150,.08), 0 2px 6px rgba(44,74,150,.04); --soft-line: rgba(214,224,245,.85); }
-    /* 统计 */
-    
-    body #page-stats .stat-card { border: 0; border-radius: 26px; padding: 14px 14px 13px; box-shadow: var(--soft-shadow); position: relative; overflow: hidden; }
-    body #page-stats .stat-card:nth-child(1) { background: linear-gradient(155deg, #E6EEFF, #F6F9FF); }
-    body #page-stats .stat-card:nth-child(2) { background: linear-gradient(155deg, #FFEFD6, #FFF9EE); }
-    body #page-stats .stat-card:nth-child(3) { background: linear-gradient(155deg, #DDF4E8, #F3FBF7); }
-    body #page-stats .stat-card:nth-child(1) .stat-value { color: #2C62EE; }
-    body #page-stats .stat-card:nth-child(2) .stat-value { color: #D77F1E; }
-    body #page-stats .stat-card:nth-child(3) .stat-value { color: #249566; }
-    body #page-stats .stat-label { font-size: 11px; font-weight: 700; color: #6B7792; position: relative; z-index: 1; }
-    body #page-stats .stat-value { position: relative; z-index: 1; margin-top: 6px; }
-    body #page-stats .panel { border: 0; border-radius: 30px; padding: 18px 16px 16px; box-shadow: var(--soft-shadow); }
-    body #page-stats .chart-panel { margin-bottom: 12px; }
-    body #page-stats .chart-panel h3{ font-size: 15px; letter-spacing: -.4px; }
     
     
     
@@ -1118,12 +1013,9 @@
     /* ===== 启动进场：很短、很轻 —— 各块依次上浮淡入，小成弹一下，底栏最后升起 ===== */
     @keyframes enterIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
     @keyframes navIn { from { opacity: 0; transform: translateY(28px) scale(.96); } to { opacity: 1; transform: none; } }
-    @keyframes mascotIn { from { opacity: 0; transform: scale(.4) rotate(-14deg); } to { opacity: 1; transform: none; } }
     body.entering .topbar .brand, body.entering .page.active > *:not(.habit-list):not(#todoList) { animation: enterIn .5s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--ei, 0) * 45ms); }
     body.entering .habit-card, body.entering #todoList > * { animation: enterIn .5s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(200ms + var(--ei, 0) * 45ms); }
-    body.entering .topbar .mascot { animation: mascotIn .7s var(--sp-pop) .15s both; }
     body.entering .bottom-nav { animation: navIn .6s cubic-bezier(.22,1,.36,1) .2s both; }
-    .mascot-bubble { visibility: hidden; transition: opacity .2s ease, transform .45s var(--sp-pop), visibility 0s .45s; } .mascot-bubble.show { visibility: visible; transition-delay: 0s; }
       .habit-card { content-visibility: auto; contain-intrinsic-size: auto 84px; }
       .editor-page { will-change: auto; }
     }
@@ -1151,62 +1043,6 @@
       .bottom-nav .nav-item { min-width: 0; width: 100%; height: 56px; padding: 0 2px; box-sizing: border-box; justify-content: center; }
       .bottom-nav .nav-item svg { flex: none; }
     }
-
-    /* ===== v1.8.1：统计页 ===== */
-    #page-stats .page-header { margin: 0 0 12px; }
-    
-    #page-stats .s-card { background: #fff; border: 1px solid rgba(214,224,245,.9); border-radius: 20px; padding: 16px; margin: 0 0 12px; box-shadow: none; }
-    #page-stats .s-card h3 { margin: 0; font-size: 16px; letter-spacing: -.2px; }
-    #page-stats .s-sub { margin: 3px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
-    
-    
-    
-     
-    
-    
-     
-    #page-stats #ovRing { stroke: var(--green); stroke-linecap: round; stroke-dasharray: 263.9; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset .8s var(--sp-soft); }
-    
-    
-    /* 趋势图 */
-    #page-stats .trend { --plot: 132px; display: grid; grid-template-columns: 34px 1fr; grid-template-rows: var(--plot) auto; column-gap: 6px; margin: 22px 0 4px; }
-    #page-stats .yax { display: flex; flex-direction: column; justify-content: space-between; text-align: right; font-size: 10.5px; color: var(--muted); line-height: 1; transform: translateY(0); }
-    #page-stats .yax span { display: block; transform: translateY(-1px); } #page-stats .yax span:last-child { transform: translateY(1px); }
-    #page-stats .plot { position: relative; }
-    #page-stats .grid { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
-    #page-stats .grid i { display: block; height: 0; border-top: 1px dashed #DCE4F5; } #page-stats .grid i:last-child { border-top: 1px solid #C9D3EA; }
-    #page-stats .bars { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
-    #page-stats .tb { position: relative; border: 0; background: transparent; padding: 0; height: 100%; min-width: 0; -webkit-tap-highlight-color: transparent; }
-    #page-stats .tbar { position: absolute; inset: 0; display: block; }
-    #page-stats .tbar i { position: absolute; left: 16%; right: 16%; bottom: 0; height: var(--h); border-radius: 5px 5px 0 0; background: #A9C1FF; transition: height .6s var(--sp-soft), background-color .2s ease; }
-    #page-stats .trend.dense .tbar i { left: 14%; right: 14%; border-radius: 3px 3px 0 0; }
-    #page-stats .tb.today .tbar i, #page-stats .tb.sel .tbar i { background: var(--green); }
-    #page-stats .tb.sel::after { content: ""; position: absolute; left: 4%; right: 4%; top: -4px; bottom: -4px; border-radius: 8px; background: rgba(44,98,238,.07); z-index: -1; }
-    #page-stats .tb.future .tbar i { display: none; }
-    #page-stats .tv { position: absolute; left: -6px; right: -6px; bottom: calc(var(--h) + 3px); text-align: center; font-style: normal; font-size: 10.5px; font-weight: 700; color: #51607F; line-height: 1; font-variant-numeric: tabular-nums; }
-    #page-stats .tb.none .tv { color: #B3BDD3; }
-    #page-stats .xax { grid-column: 2; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); margin-top: 7px; }
-    #page-stats .xl { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 28px; font-size: 11px; color: var(--muted); white-space: nowrap; }
-    #page-stats .xl b { font-weight: 700; font-size: 11px; } #page-stats .xl small { font-size: 11px; }
-    #page-stats .xl.today b, #page-stats .xl.today small { color: var(--green); font-weight: 800; }
-    #page-stats .trend.dense .xl { min-height: 16px; } #page-stats .trend.dense .xl small { display: block; width: 0; overflow: visible; text-align: center; transform: translateX(0); display: flex; justify-content: center; }
-    #page-stats #dayDetail { margin-top: 10px; padding-top: 12px; border-top: 1px solid #EDF1FA; }
-    #page-stats .dd-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 14px; } #page-stats .dd-head span { color: var(--green); font-weight: 750; font-size: 13px; }
-    #page-stats .dd-empty { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
-    #page-stats .dd-list { list-style: none; margin: 6px 0 0; padding: 0; }
-    #page-stats .dd-list li { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 14px; }
-    #page-stats .dd-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    #page-stats .dd-mark { flex: none; font-size: 12px; color: var(--muted); } #page-stats .dd-list li.ok .dd-mark { color: var(--green); font-weight: 750; }
-    #page-stats .habit-glyph { flex: none; width: 34px; height: 34px; border-radius: 12px; background: #F1F4FB; display: grid; place-items: center; }
-    #page-stats .habit-glyph svg, #page-stats .habit-glyph img { width: 19px; height: 19px; }
-    #page-stats #habitStats { margin-top: 10px; }
-    #page-stats .hs-head, #page-stats .hs-row { display: grid; grid-template-columns: minmax(0, 1fr) 84px 58px; align-items: center; gap: 8px; }
-    #page-stats .hs-head { padding: 0 0 9px; border-bottom: 1px solid #E3E9F6; font-size: 12.5px; color: var(--muted); font-weight: 650; }
-    #page-stats .hs-head span:nth-child(n+2), #page-stats .hs-row span:nth-child(n+2) { text-align: right; }
-    #page-stats .hs-row { padding: 14px 0; border-bottom: 1px solid #EDF1FA; } #page-stats .hs-row:last-child { border-bottom: 0; padding-bottom: 2px; }
-    #page-stats .hs-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15.5px; font-weight: 650; }
-    #page-stats .hs-nums { font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
-    #page-stats .hs-pct { font-size: 15.5px; font-weight: 800; color: var(--green); font-variant-numeric: tabular-nums; }
     
     
       
@@ -1220,26 +1056,6 @@
      .hd .cal-head button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--ink); display: grid; place-items: center; transition: scale .3s var(--sp-pop, ease), opacity .2s; }
      .hd .cal-head button:active { scale: .86; }  .hd .cal-head button:disabled { opacity: .25; pointer-events: none; }
      .hd .cal-head svg { width: 20px; height: 20px; }
-      
-    
-    #page-stats .delta { font-size: 12.5px; font-weight: 750; padding: 2px 8px; border-radius: 9px; white-space: nowrap; }
-    #page-stats .delta.hide { display: none; } #page-stats .delta.up { color: #1F8A52; background: #E3F6EA; } #page-stats .delta.down { color: #C2503A; background: #FDEBE6; } #page-stats .delta.flat { color: #51607F; background: #EEF2FB; }
-    
-    
-    
-     
-     
-     
-    
-    #page-stats .stat-foot { text-align: center; margin: 4px 8px 6px; font-size: 12px; color: var(--muted); line-height: 1.6; }
-    /* 习惯列表 */
-    #page-stats #habitStats { margin-top: 4px; }
-    #page-stats .hrow { width: 100%; display: grid; grid-template-columns: 40px minmax(0,1fr) auto 18px; align-items: center; column-gap: 12px; row-gap: 10px; border: 0; background: transparent; padding: 13px 0; border-bottom: 1px solid #EDF1FA; text-align: left; color: inherit; font: inherit; }
-    #page-stats .hrow:last-child { border-bottom: 0; padding-bottom: 2px; } #page-stats .hrow:active { opacity: .7; }
-    #page-stats .hinfo { min-width: 0; } #page-stats .hinfo strong { display: block; font-size: 15.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } #page-stats .hinfo small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
-    #page-stats .hpct { font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; } #page-stats .hgo { color: #B3BDD3; display: grid; place-items: center; } #page-stats .hgo svg { width: 16px; height: 16px; }
-    #page-stats .hbar { grid-column: 2 / 4; height: 6px; border-radius: 3px; background: #EEF2FB; overflow: hidden; display: block; } #page-stats .hbar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width .6s var(--sp-soft, ease); }
-    #page-stats .hrow .hpct { color: var(--ink); }
     /* 彩色图标底块（首页、日历、统计共用） */
     .habit-glyph, .habit-card .habit-icon, .history-row .hist-icon { background: var(--tint, #E2EAFE) !important; color: var(--accent, #3F6FF0) !important; border: 0 !important; filter: none !important; }
     .habit-card .habit-icon { border-radius: 16px !important; width: 48px; height: 48px; }
@@ -1272,11 +1088,7 @@
     .hd .wkd { display: grid; gap: 9px; margin-top: 12px; } .hd .wk-row { display: grid; grid-template-columns: 34px 1fr 46px; align-items: center; gap: 10px; font-size: 13px; } .hd .wk-n { color: #51607F; } .hd .wk-p { text-align: right; font-weight: 750; font-variant-numeric: tabular-nums; }
     .hd .wk-bar { height: 9px; border-radius: 5px; background: #EEF2FB; overflow: hidden; } .hd .wk-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); } .hd .wk-row.off { opacity: .45; }
     body.hd-open { overflow: hidden; }
-    @media (prefers-reduced-motion: reduce) { .hd, .hd.open, #page-stats .hbar i { transition: none; } }
-    /* 2.1.2：选中的柱子才深色；去掉越出绘图区的阴影 */
-    #page-stats .tb.sel::after { display: none; }
-    #page-stats .tb.today:not(.sel) .tbar i { background: #A9C1FF; }
-    #page-stats .tb.sel .tv { color: var(--green); }
+    @media (prefers-reduced-motion: reduce) { .hd, .hd.open { transition: none; } }
     /* 首页卡片：去掉按钮后，文字块与右侧百分比环垂直居中 */
     #heroTitle { min-height: 0 !important; }
     .hero-copy { align-self: center; }
@@ -1312,7 +1124,8 @@
     #accIn[hidden], #accOut[hidden] { display: none; }
     #page-settings #accEmail { word-break: break-all; }
     /* ===== 3.0.0 待办清单 ===== */
-    #page-todo .todo-quick { display: flex; gap: 8px; margin: 4px 0 14px; }
+    #todoCtl { min-height: 66px; }
+    #page-todo .todo-quick { display: flex; gap: 8px; margin: 12px 0 0; }
     #page-todo .todo-quick input { flex: 1; min-width: 0; box-sizing: border-box; height: 48px; border: 1px solid var(--line); background: #fff; border-radius: 16px; padding: 0 16px; font: inherit; font-size: 16px; color: var(--ink); outline: none; }
     #page-todo .todo-quick input:focus { border-color: #9DB6FA; }
     #page-todo .todo-quick .plus-btn { width: 48px; height: 48px; }
@@ -1342,30 +1155,27 @@
     #todoList:has(> .empty-state) { background: transparent; border: 0; padding: 0; }
     .todo-group { font-size: 12px; font-weight: 800; letter-spacing: .4px; color: #8392AF; padding: 14px 2px 4px; }
     .todo-group.over { color: #E8506B; }
-    .todo-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); transition: opacity .25s ease, transform .25s ease; }
+    .todo-row { display: flex; align-items: center; gap: 13px; padding: 14px 0; border-bottom: 1px solid var(--line); transition: opacity .25s ease, transform .25s ease; }
     .todo-row:last-child { border-bottom: 0; }
     .todo-row.leaving { opacity: 0; transform: translateX(14px); }
-    .todo-check { flex: none; width: 26px; height: 26px; margin-top: 0; border-radius: 50%; border: 2px solid var(--pc, #9AA6BD); background: transparent; color: transparent; display: grid; place-items: center; padding: 0; position: relative; transition: background-color .2s ease, color .2s ease; }
-    .todo-check::after { content: ""; position: absolute; inset: -9px; }
-    .todo-check svg { width: 15px; height: 15px; }
     
     .todo-main { flex: 1; min-width: 0; padding: 1px 0; outline: none; }
-    .todo-title { font-size: 16px; font-weight: 650; line-height: 1.4; color: var(--ink); overflow-wrap: anywhere; }
+    .todo-title { font-size: 17px; font-weight: 650; line-height: 1.4; color: var(--ink); overflow-wrap: anywhere; }
     .todo-row.done .todo-title { color: #9AA6BD; }
     .todo-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }
     .tm { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: #8392AF; font-weight: 600; }
     .tm.now { color: var(--green); } .tm.over { color: #E8506B; }
     .tm.ico svg { width: 13px; height: 13px; }
-    #todoSheet, #listSheet { align-items: center; padding: 14px; }
-    #todoSheet .todo-modal, #listSheet .todo-modal { width: min(100%, 420px); margin: 0 auto; max-height: 86dvh; padding: 20px 20px 18px; border-radius: 26px; border: 1px solid var(--line); }
-    #todoSheet .modal-head, #listSheet .modal-head { margin-bottom: 10px; }
-    #todoSheet, #listSheet { --kb: 0px; }
-    #todoSheet.kb, #listSheet.kb { padding: 12px 14px calc(var(--kb) + 12px); }
-    #todoSheet.kb .todo-modal, #listSheet.kb .todo-modal { max-height: calc(100dvh - var(--kb) - 24px); overflow-y: auto; overscroll-behavior: contain; }
+    #todoSheet { align-items: center; padding: 14px; }
+    #todoSheet .todo-modal .todo-modal { width: min(100%, 420px); margin: 0 auto; max-height: 86dvh; padding: 20px 20px 18px; border-radius: 26px; border: 1px solid var(--line); }
+    #todoSheet .modal-head .modal-head { margin-bottom: 10px; }
+    #todoSheet { --kb: 0px; }
+    #todoSheet.kb.kb { padding: 12px 14px calc(var(--kb) + 12px); }
+    #todoSheet.kb .todo-modal.kb .todo-modal { max-height: calc(100dvh - var(--kb) - 24px); overflow-y: auto; overscroll-behavior: contain; }
     #authSheet.kb { padding-bottom: var(--kb); }
     #authSheet.kb .modal { max-height: calc(100dvh - var(--kb) - 24px); }
     /* 去掉系统默认的方形焦点框（盖过全局 input:focus-visible），改成圆角底线高亮 */
-    .tf-title:focus-visible, .tf-note:focus-visible, .tf-row input:focus-visible, .tf-row select:focus-visible, .tf-subadd input:focus-visible, #lfName:focus-visible { outline: none; }
+    .tf-title:focus-visible, .tf-note:focus-visible, .tf-row input:focus-visible, .tf-row select:focus-visible { outline: none; }
     .tf-title:focus { border-bottom-color: var(--green); box-shadow: 0 1px 0 var(--green); }
     .tf-title { width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid var(--line); background: transparent; padding: 8px 2px 12px; font: inherit; font-size: 19px; font-weight: 700; color: var(--ink); outline: none; }
     .tf-note { width: 100%; box-sizing: border-box; border: 0; background: transparent; padding: 12px 2px 6px; font: inherit; font-size: 15px; color: var(--ink); resize: none; outline: none; }
@@ -1408,37 +1218,12 @@
     #todoList.sw .todo-row { animation: rowIn .38s cubic-bezier(.22,1,.36,1) both; }
     #todoList.sw .todo-row:nth-child(2) { animation-delay: 30ms; } #todoList.sw .todo-row:nth-child(3) { animation-delay: 60ms; } #todoList.sw .todo-row:nth-child(4) { animation-delay: 90ms; } #todoList.sw .todo-row:nth-child(n+5) { animation-delay: 120ms; }
     @keyframes rowIn { from { opacity: 0; transform: translateY(10px); } }
-    .todo-check { transition: scale .3s cubic-bezier(.34,1.6,.64,1), background .2s, color .2s; } .todo-check:active { scale: .8; }
      .plus-btn:active { scale: .9; }
     .shake { animation: shakeX .38s cubic-bezier(.36,.07,.19,.97); } @keyframes shakeX { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
     .todo-row.collapse { overflow: hidden; opacity: 0; padding-top: 0; padding-bottom: 0; border-bottom-width: 0; transform: translateX(14px) scale(.98); transition: height .36s cubic-bezier(.4,0,.2,1), padding .36s cubic-bezier(.4,0,.2,1), opacity .24s ease, transform .3s ease; pointer-events: none; }
-    .todo-row.flip .todo-check { animation: chkPop .46s cubic-bezier(.34,1.6,.64,1); }
     .todo-row.flip .todo-title { transition: color .3s ease; }
     @keyframes chkPop { 0% { transform: scale(.7); } 55% { transform: scale(1.22); } 100% { transform: scale(1); } }
 
-    /* ===== 小成：原创吉祥物，随今天的完成度变脸 ===== */
-    .mascot { position: relative; width: 52px; height: 52px; margin: -6px 0 -6px; padding: 0; border: 0; background: none; color: inherit; -webkit-tap-highlight-color: transparent; }
-    .mascot svg { width: 100%; height: 100%; overflow: visible; display: block; }
-    .mascot .m-f, .mascot .m-spark, .mascot .m-drop { display: none; }
-    .mascot[data-mood="idle"] .m-idle, .mascot[data-mood="cheer"] .m-cheer, .mascot[data-mood="party"] .m-party, .mascot[data-mood="worry"] .m-worry { display: inline; }
-    .mascot[data-mood="party"] .m-spark, .mascot[data-mood="worry"] .m-drop { display: inline; }
-    /* 动画只加在最外层的 <svg> 上（走合成器，不用每帧重绘）；会闪的星星、汗滴只播几轮就停，不再无限循环 */
-    .mascot svg { will-change: transform; animation: mFloat 3.6s ease-in-out infinite; }
-    .mascot[data-mood="cheer"] svg { animation: mFloat 2.4s ease-in-out infinite; }
-    .mascot[data-mood="party"] svg { animation: mJump .9s var(--sp-pop) 3; }
-    .mascot[data-mood="worry"] svg { animation: mShake .9s ease-in-out 2; }
-    .mascot .m-spark { transform-box: fill-box; transform-origin: center; animation: mTwinkle 1s ease-in-out 3; } .mascot .m-spark.s2 { animation-delay: .35s; }
-    .mascot .m-drop { animation: mDrop 1.4s ease-in 2; }
-    .mascot:active svg { scale: .88; transition: scale .3s var(--sp-pop); }
-    @keyframes mFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
-    @keyframes mJump { 0%,100% { transform: translateY(0) scale(1,1); } 18% { transform: translateY(1px) scale(1.06,.92); } 48% { transform: translateY(-6px) scale(.97,1.04); } 78% { transform: translateY(0) scale(1.02,.98); } }
-    @keyframes mShake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-2px); } 45% { transform: translateX(2px); } 70% { transform: translateX(-1.2px); } }
-    @keyframes mTwinkle { 0%,100% { opacity: .25; transform: scale(.6); } 50% { opacity: 1; transform: scale(1.1); } }
-    @keyframes mDrop { 0% { opacity: 0; transform: translateY(-3px); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateY(9px); } }
-    .mascot-bubble { position: absolute; z-index: 60; top: calc(100% + 4px); right: 0; width: max-content; max-width: 220px; padding: 9px 13px; border-radius: 16px; font-size: 13px; font-weight: 700; line-height: 1.35; text-align: left; color: var(--mood, #2C62EE);
-      background: rgba(255,255,255,.82); -webkit-backdrop-filter: blur(16px) saturate(1.8); backdrop-filter: blur(16px) saturate(1.8); border: 1px solid rgba(255,255,255,.9);
-      box-shadow: 0 10px 28px rgba(20,40,110,.16), inset 0 1px 0 #fff; opacity: 0; transform: translateY(-6px) scale(.9); transform-origin: 90% 0; pointer-events: none; transition: opacity .2s ease, transform .45s var(--sp-pop); }
-    .mascot-bubble.show { opacity: 1; transform: none; }
     .mood-line { display: inline-flex; align-items: center; gap: 7px; margin: 10px 0 0; padding: 6px 12px 6px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--mood, #66728A); background: color-mix(in srgb, var(--mood, #66728A) 11%, transparent); transition: color .4s ease, background-color .4s ease; }
     .mood-line::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
     .mood-line:empty { display: none; }
@@ -1462,70 +1247,36 @@
     .hs-nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
     .hs-num { text-align: center; background: var(--bg); border-radius: 14px; padding: 10px 4px; } .hs-num strong { display: block; font-size: 24px; line-height: 1.1; font-weight: 800; letter-spacing: -.5px; } .hs-num strong i { font-style: normal; font-size: 12px; font-weight: 700; color: #8D99B3; margin-left: 2px; letter-spacing: 0; } .hs-num span { display: block; margin-top: 4px; font-size: 11px; font-weight: 700; color: #8D99B3; white-space: nowrap; }
     .todo-row.hl { animation: rowHl 1.5s ease; } @keyframes rowHl { 0%, 60% { background: #E4EBFD; } 100% { background: transparent; } }
-    .gone { display: none !important; }
     /* 3.2：待办弹窗精简 + 更顺的动画 */
     .todo-h1 { font-size: 26px; line-height: 1.22; letter-spacing: -.5px; font-weight: 800; margin: 2px 0 0; }
-    #todoSheet, #listSheet { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(15,22,40,.38); }
-    #todoSheet .modal, #listSheet .modal { transform: translateY(30px) scale(.93); transition: transform .24s ease, opacity .2s ease; will-change: transform, opacity; }
-    #todoSheet.open .modal, #listSheet.open .modal { transform: none; transition: transform .6s var(--sp-pop), opacity .2s ease; }
+    #todoSheet { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(15,22,40,.38); }
+    #todoSheet .modal .modal { transform: translateY(30px) scale(.93); transition: transform .24s ease, opacity .2s ease; will-change: transform, opacity; }
+    #todoSheet.open .modal.open .modal { transform: none; transition: transform .6s var(--sp-pop), opacity .2s ease; }
     #todoSheet .todo-modal { padding: 16px 16px 14px; border-radius: 22px; }
     #todoSheet .modal-head { margin-bottom: 2px; } #todoSheet .modal-head h2 { font-size: 17px; }
     #todoSheet .close-btn { width: 32px; height: 32px; font-size: 20px; }
     #todoSheet .tf-title { font-size: 17px; padding: 6px 2px 10px; }
     #todoSheet .tf-chips { margin: 10px 0 8px; gap: 6px; } #todoSheet .tf-chips button { height: 30px; font-size: 12.5px; border-radius: 10px; }
     #todoSheet .tf-row label { font-size: 11.5px; }
-    #todoSheet .tf-row input, #todoSheet .tf-subadd input { height: 38px; font-size: 14px; border-radius: 11px; margin-top: 4px; }
-    #todoSheet .tf-label { font-size: 11.5px; margin: 10px 2px 5px; }
-    #todoSheet .tf-seg button { height: 32px; font-size: 13px; border-radius: 10px; }
+    #todoSheet .tf-row input { height: 38px; font-size: 14px; border-radius: 11px; margin-top: 4px; }
     #todoSheet .tf-note { font-size: 14px; padding: 8px 2px 4px; min-height: 22px; max-height: 76px; overflow-y: auto; }
-    #todoSheet .tf-subadd button { width: 38px; height: 38px; border-radius: 11px; }
     #todoSheet .tf-actions { margin-top: 12px; } #todoSheet .tf-actions .btn-primary, #todoSheet .tf-actions .btn-danger { height: 42px; font-size: 15px; border-radius: 13px; }
-    .tf-more { display: flex; align-items: center; gap: 4px; margin: 10px 0 0; padding: 4px 2px; border: 0; background: transparent; font: inherit; font-size: 13px; font-weight: 700; color: #6B7A99; }
-    .tf-more svg { width: 15px; height: 15px; transition: transform .25s cubic-bezier(.22,1,.36,1); } .tf-more[aria-expanded="true"] svg { transform: rotate(180deg); }
-    #tfMore:not([hidden]) { animation: tfIn .22s ease both; } @keyframes tfIn { from { opacity: 0; transform: translateY(-4px); } }
     .wheel { height: 90px; padding: 30px 0; } .wheel-i { height: 30px; line-height: 30px; font-size: 14px; } .wheel-i.on { font-size: 15px; } .wheel-band { top: 30px; height: 30px; }
-
-    .tf-label { font-size: 12px; font-weight: 750; color: var(--muted); margin: 14px 2px 7px; }
     .tf-chips { display: flex; gap: 8px; margin: 12px 0 8px; }
     .tf-chips button { flex: 1; height: 34px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); font: inherit; font-size: 13.5px; font-weight: 700; color: #51607F; }
     .tf-row { display: flex; gap: 10px; }
     .tf-row label { flex: 1; min-width: 0; display: block; font-size: 12px; font-weight: 750; color: var(--muted); }
-    .tf-row input, .tf-row select, .tf-subadd input, #lfName { width: 100%; box-sizing: border-box; margin-top: 6px; height: 44px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-soft); padding: 0 10px; font: inherit; font-size: 15px; color: var(--ink); outline: none; }
+    .tf-row input, .tf-row select { width: 100%; box-sizing: border-box; margin-top: 6px; height: 44px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-soft); padding: 0 10px; font: inherit; font-size: 15px; color: var(--ink); outline: none; }
     .tf-row + .tf-row { margin-top: 10px; }
-    .tf-seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-    .tf-seg button { height: 38px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); font: inherit; font-size: 14px; font-weight: 700; color: #51607F; }
-    .tf-seg button[data-p="1"].on { background: #E4EBFD; border-color: #9DB6FA; color: #3F6FF0; }
-    .tf-seg button[data-p="2"].on { background: #FDEBD3; border-color: #F3C58E; color: #D9731A; }
-    .tf-seg button[data-p="3"].on { background: #FCE3E8; border-color: #F2A5B3; color: #D63A57; }
-    .tf-seg button[data-p="0"].on { background: #EAEDF2; border-color: #C3CCDD; color: #51607F; }
-    .tf-sub { display: flex; align-items: center; gap: 10px; padding: 7px 2px; }
-    .tf-sub span { flex: 1; min-width: 0; font-size: 15px; overflow-wrap: anywhere; }
-    .tf-sub.done span { color: #9AA6BD; text-decoration: line-through; }
-    .tf-subcheck { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #9AA6BD; background: transparent; color: transparent; display: grid; place-items: center; padding: 0; }
-    .tf-subcheck svg { width: 12px; height: 12px; }
-    .tf-sub.done .tf-subcheck { background: var(--green); border-color: var(--green); color: #fff; }
-    .tf-subdel { flex: none; width: 28px; height: 28px; border: 0; background: transparent; color: #9AA6BD; font-size: 20px; }
-    .tf-subadd { display: flex; gap: 8px; }
-    .tf-subadd input { margin-top: 2px; }
-    .tf-subadd button { flex: none; width: 44px; height: 44px; margin-top: 2px; border: 0; border-radius: 13px; background: #E4EBFD; color: var(--green); font-size: 22px; font-weight: 700; }
     .tf-actions { display: flex; gap: 10px; margin-top: 18px; }
     .tf-actions .btn-primary, .tf-actions .btn-danger { flex: 1; height: 48px; font-size: 16px; }
     .tf-actions [hidden] { display: none; }
-    #lfColors { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 2px 4px; }
-    .lf-color { width: 34px; height: 34px; border-radius: 50%; border: 3px solid #fff; background: var(--c); box-shadow: 0 0 0 1.5px #D5DDF0; padding: 0; }
-    .lf-color.on { box-shadow: 0 0 0 2.5px var(--c); }
     .bottom-nav .nav-item span { white-space: nowrap; }
-      /* ===== Q 弹包：圆圈、划线、数字、新行、逾期、小成都有点小动静（只用 transform / opacity，不拖累滚动） ===== */
-    .todo-check svg path { stroke-dasharray: 22; stroke-dashoffset: 22; transition: stroke-dashoffset .32s cubic-bezier(.3,.7,.3,1) .06s; }
-    .todo-row.done .todo-check svg path { stroke-dashoffset: 0; }
     
     .todo-title { width: fit-content; max-width: 100%; }
     .todo-title span { text-decoration: none; background: linear-gradient(currentColor, currentColor) no-repeat 0 62% / 0% 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size .36s cubic-bezier(.3,.7,.3,1) .1s, color .3s ease; }
     .todo-row.done .todo-title { text-decoration: none; }
     .todo-row.done .todo-title span { background-size: 100% 2px; }
-    .todo-row.flip .todo-check { animation: chkPop2 .55s var(--sp-pop); }
-    @keyframes chkPop2 { 0% { transform: scale(.55); } 40% { transform: scale(1.32); } 68% { transform: scale(.94); } 100% { transform: scale(1); } }
-    .todo-row.flip:not(.done) .todo-check { animation: chkUn .5s var(--sp-pop); }
     @keyframes chkUn { 0% { transform: scale(1.2) rotate(0); } 35% { transform: scale(.8) rotate(-12deg); } 70% { transform: scale(1.06) rotate(5deg); } 100% { transform: none; } }
     .todo-main { transition: scale .4s var(--sp-pop); } .todo-main:active { scale: .97; }
     #todoSeg button { transition: color .25s ease, scale .4s var(--sp-pop); } #todoSeg button:active { scale: .92; }
@@ -1537,9 +1288,6 @@
     .todo-row.late-new { animation: lateShake .7s ease-in-out both; }
     @keyframes lateShake { 0%, 100% { transform: none; } 15% { transform: translateX(-6px); } 35% { transform: translateX(5px); } 55% { transform: translateX(-3px); } 75% { transform: translateX(2px); } }
     .tm.over { font-weight: 700; }
-    .mascot.hop svg { animation: mJump .8s var(--sp-pop) 1; }
-    .mascot.hmm svg { animation: mHmm .8s var(--sp-pop) 1; }
-    @keyframes mHmm { 0% { transform: none; } 30% { transform: rotate(-12deg) translateY(1px); } 65% { transform: rotate(8deg); } 100% { transform: none; } }
     #page-today .section-title { white-space: nowrap; }
     .done-chip:active, .stat-btn:active, .plus-btn:active { scale: .86; }
     #page-today .head-actions { gap: 6px; } #page-today .head-actions > * { height: 40px; } #page-today .head-actions .stat-btn, #page-today .head-actions .plus-btn { width: 40px; }
@@ -1569,8 +1317,6 @@
     .sw-menu button.danger { color: #E2574C; } .sw-menu button:active { transform: scale(.94); }
     .habit-card .check-btn { position: absolute; right: 24px; top: 50%; width: 2px; height: 2px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
     /* 切换分类的滑动动画 */
-    #todoList[data-dir="r"].sw .todo-row, #todoList[data-dir="r"].sw > .empty-state { animation: dirInR .46s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)) both; }
-    #todoList[data-dir="l"].sw .todo-row, #todoList[data-dir="l"].sw > .empty-state { animation: dirInL .46s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)) both; }
     @keyframes dirInR { from { opacity: 0; transform: translateX(-36px); } to { opacity: 1; transform: none; } }
     @keyframes dirInL { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: none; } }
     #todoList.edge-r { animation: edgeR .45s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)); } #todoList.edge-l { animation: edgeL .45s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)); }
@@ -1590,6 +1336,15 @@
     .gs-opt:active { transform: scale(.97); } .gs-opt.on { background: color-mix(in srgb, #2F63F0 12%, transparent); }
     .gs-opt i { flex: none; width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; color: #fff; font-style: normal; font-weight: 800; font-size: 17px; }
     .gs-opt span { flex: 1; } .gs-opt b { color: #2F63F0; font-size: 18px; }
+
+    .todo-bar { flex: none; align-self: stretch; width: 4px; margin: 3px 0; border-radius: 4px; background: var(--bar, #B8C2D6); transition: background .3s ease; }
+    .gest-hint { margin: 14px 0 0; text-align: center; font-size: 12.5px; color: var(--muted, #8D99B3); letter-spacing: .3px; transition: opacity .4s; }
+    .gest-hint[hidden] { display: none; }
+    .swiping > :not(.sw-under) { will-change: transform; }
+    #todoList[data-dir].sw .todo-row, #todoList[data-dir].sw > .empty-state { animation: none; }
+    #todoList[data-dir="r"].sw { animation: dirInR .42s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)) both; }
+    #todoList[data-dir="l"].sw { animation: dirInL .42s var(--sp-pop, cubic-bezier(.34,1.56,.64,1)) both; }
+    .tone-late { --bar: #E8506B; } .tone-now { --bar: #2F63F0; } .tone-fut { --bar: #8FA6D9; } .tone-pend { --bar: #C3CBDB; } .tone-ok { --bar: #3DA678; }
 </style>
 </head>
 <body class="boot">
@@ -1599,15 +1354,6 @@
         <div class="brand-mark" aria-hidden="true"><svg viewBox="22 22 68 68" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"><path d="M67.8 32A26 26 0 1 0 79.2 47.7"/><path d="M75 57.3L79.2 47.7L87.5 54.2"/><path d="M43 55.5L51 63.5L65 46.5"/></svg></div>
         <div><div class="brand-name">成事</div><div class="brand-sub">GET IT DONE</div></div>
       </div>
-      <div class="top-actions"><button type="button" class="mascot" id="mascot" data-mood="idle" aria-label="小成：查看今天的状态"><svg viewBox="0 0 64 64" aria-hidden="true">
-          <g class="m-body"><path class="m-ant" d="M32 14Q32 8 37 7" fill="none" stroke="#2C62EE" stroke-width="2.6" stroke-linecap="round"/><circle class="m-loop" cx="39" cy="6" r="3.6" fill="none" stroke="#2C62EE" stroke-width="2.4"/>
-          <circle cx="32" cy="36" r="22" fill="#2C62EE"/><ellipse cx="24" cy="25" rx="9" ry="5" fill="#fff" opacity=".16" transform="rotate(-24 24 25)"/>
-          <g class="m-f m-idle" fill="#fff"><circle class="m-eye" cx="24" cy="34" r="3"/><circle class="m-eye" cx="40" cy="34" r="3"/><path d="M27 43Q32 46.5 37 43" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g>
-          <g class="m-f m-cheer" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 35.5Q24 29.5 27.5 35.5M36.5 35.5Q40 29.5 43.5 35.5M25.5 42Q32 50 38.5 42"/></g>
-          <g class="m-f m-party"><path d="M20.5 35.5Q24 29.5 27.5 35.5M36.5 35.5Q40 29.5 43.5 35.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M24.5 41Q32 55 39.5 41Z" fill="#fff"/></g>
-          <g class="m-f m-worry"><circle cx="24" cy="34" r="3" fill="#fff"/><circle cx="40" cy="34" r="3" fill="#fff"/><path d="M19 30.5L28 27.5M45 30.5L36 27.5M26 46Q29 43 32 46Q35 49 38 46" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></g>
-          <path class="m-spark s1" d="M8 14l1.4 3.6 3.6 1.4-3.6 1.4L8 24l-1.4-3.6L3 19l3.6-1.4z" fill="#FFC53D"/><path class="m-spark s2" d="M55 24l1.1 2.9 2.9 1.1-2.9 1.1L55 32l-1.1-2.9L51 28l2.9-1.1z" fill="#FFC53D"/>
-          <path class="m-drop" d="M52 22Q56 28 52 31Q48 28 52 22Z" fill="#9CD3FF"/></svg><span class="mascot-bubble" id="mascotBubble" role="status"></span></button></div>
     </header>
     <div class="desktop-layout">
       <aside class="sidebar">
@@ -1620,11 +1366,14 @@
       <main>
         <section class="page active" id="page-todo">
           <div class="page-header"><div><div class="eyebrow" id="todoEyebrow"></div><h1 class="todo-h1">做想做的事，<br>也把重要的事做完</h1><p class="subheading" id="todoSub"></p><div class="mood-line" id="moodLine"></div></div></div>
-          <form class="todo-quick" id="todoQuick" autocomplete="off"><input id="todoQuickInput" type="text" maxlength="120" enterkeyhint="done" placeholder="添加待办，回车保存" aria-label="添加待办" /><button type="button" class="plus-btn" id="todoAddBtn" aria-label="详细添加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></form>
           <div id="todoSeg" role="tablist" aria-label="待办分组"><button type="button" role="tab" data-tview="pending">待确定<b></b></button><button type="button" role="tab" data-tview="ok" class="selected">已确定<b></b></button><button type="button" role="tab" data-tview="done">已完成<b></b></button></div>
+          <div id="todoCtl">
+          <form class="todo-quick" id="todoQuick" autocomplete="off"><input id="todoQuickInput" type="text" maxlength="120" enterkeyhint="done" placeholder="添加待办，回车保存" aria-label="添加待办" /><button type="button" class="plus-btn" id="todoAddBtn" aria-label="详细添加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></form>
           <div id="todoSub2" role="tablist" aria-label="已确定"><button type="button" role="tab" data-tsub="today" class="selected">今天<b></b></button><button type="button" role="tab" data-tsub="future">未来<b></b></button><button type="button" class="plus-btn sm" id="todoAdd2" aria-label="添加已确定的待办"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
           <div id="todoTools" hidden><button type="button" id="todoSortBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg><span></span></button></div>
+          </div>
           <div id="todoList"></div>
+          <p class="gest-hint" id="gestHint" hidden></p>
         </section>
         <section class="page" id="page-today">
           <div class="welcome-row"><div><div class="eyebrow" id="todayEyebrow">星期五 · 10 月 16 日</div><h1>少一点，做到底。</h1><p class="subheading"></p></div><div class="date-chip" id="todayChip">2026 / 10 / 16</div></div>
@@ -1649,7 +1398,7 @@
           <div class="settings-group"><div class="settings-title">待办手势</div><div class="settings-panel" id="gestTodo"></div></div>
           <div class="settings-group"><div class="settings-title">打卡手势</div><div class="settings-panel" id="gestHabit"></div><p class="settings-hint">滑过一半松手就会触发；长按待办会弹出更多操作。在待办页的列表外空白处左右滑，可以切换「待确定 / 已确定 / 已完成」。</p></div>
           <div class="settings-group" id="remGroup" hidden><div class="settings-title">提醒</div><div class="settings-panel"><button type="button" class="settings-row" id="remToggle" role="switch" aria-checked="false"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><span class="settings-copy"><strong>每日提醒</strong><small id="remSub">关闭</small></span><span class="switch" id="remSwitch"></span></button><label class="settings-row" id="remTimeRow" hidden><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="settings-copy"><strong>提醒时间</strong><small>还有没完成的习惯时才提醒</small></span><input type="time" id="remTime" class="rem-time" value="21:00" /></label><div class="settings-row" id="remTodoRow"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="settings-copy"><strong>待办提醒</strong><small id="remTodoSub"></small></span></div><div class="settings-note">提醒没响？先从这里排查</div><button type="button" class="settings-row" id="remTest"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-7-5 16-3-6.5z"/></svg></span><span class="settings-copy"><strong>发送测试通知</strong><small id="remTestSub">立刻发一条，确认手机能收到</small></span><span class="chevron">›</span></button><button type="button" class="settings-row" id="remSys"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span><span class="settings-copy"><strong>通知与后台设置</strong><small>打开系统里本应用的通知开关</small></span><span class="chevron">›</span></button><button type="button" class="settings-row" id="remBat"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="16" height="9" rx="2.5"/><path d="M21 11v3M7 12.5h5"/></svg></span><span class="settings-copy"><strong>允许后台运行</strong><small>把本应用设为「不限制」，提醒才不会被系统拦下</small></span><span class="chevron">›</span></button></div></div><div class="settings-group"><div class="settings-title">账号</div><div class="settings-panel"><div id="accOut"><button type="button" class="settings-row" id="accLogin"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong>登录 / 注册</strong><small>登录后数据自动同步，换手机也不会丢</small></span><span class="chevron">›</span></button></div><div id="accIn" hidden><div class="settings-row"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></svg></span><span class="settings-copy"><strong id="accEmail"></strong><small id="accStatus"></small></span></div><button type="button" class="settings-row" id="accSync"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4.5L20 15M20 20v-5h-5"/></svg></span><span class="settings-copy"><strong>立即同步</strong></span></button><button type="button" class="settings-row" id="accLogout"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 8l4 4-4 4M19 12H9"/></svg></span><span class="settings-copy"><strong>退出登录</strong></span></button></div></div></div><div class="settings-group"><div class="settings-title">数据管理</div><div class="settings-panel"><button class="settings-row" id="exportData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 15V3m-4 4 4-4 4 4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导出打卡数据</strong><small>保存为 JSON 文件，方便备份</small></span><span class="chevron">›</span></button><button class="settings-row" id="importData"><span class="settings-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span><span class="settings-copy"><strong>导入备份</strong><small>从 JSON 备份文件恢复，会替换当前数据</small></span><span class="chevron">›</span></button><input id="importFileInput" type="file" accept="application/json,.json" hidden /><button class="settings-row" id="clearData"><span class="settings-ico" style="color:var(--danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 13h11l1-13M9 7V4h6v3"/></svg></span><span class="settings-copy"><strong>清空所有数据</strong><small>删除本机保存的习惯、打卡记录和待办</small></span><span class="chevron">›</span></button></div></div>
-          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="22 22 68 68" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"><path d="M67.8 32A26 26 0 1 0 79.2 47.7"/><path d="M75 57.3L79.2 47.7L87.5 54.2"/><path d="M43 55.5L51 63.5L65 46.5"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.8.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
+          <div class="about-card"><div class="about-logo" aria-hidden="true"><svg viewBox="22 22 68 68" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"><path d="M67.8 32A26 26 0 1 0 79.2 47.7"/><path d="M75 57.3L79.2 47.7L87.5 54.2"/><path d="M43 55.5L51 63.5L65 46.5"/></svg></div><strong>成事 · 把想做的事做成</strong><p>版本 3.9.0 · 轻盈、专注、可持续<br/>数据保存在这台手机上，建议定期在设置里导出备份。<br/>图标库来自 Lucide（ISC 开源许可）。</p></div>
         </section>
       </main>
     </div>
@@ -1716,12 +1465,9 @@
       <div class="tf-chips" id="tfDates"><button type="button" data-qd="today">今天</button><button type="button" data-qd="tomorrow">明天</button><button type="button" data-qd="week">下周</button></div>
       <div class="tf-row"><label>日期<input type="hidden" id="tfDue" /><button type="button" class="tf-pick" id="tfDueBtn">选择日期</button></label><label>提醒时间<input type="hidden" id="tfTime" /><button type="button" class="tf-pick" id="tfTimeBtn">不提醒</button></label></div>
       <div class="tf-chips tf-rep" id="tfRepRow" hidden><button type="button" data-rp="">不重复</button><button type="button" data-rp="daily">每天</button><button type="button" data-rp="weekdays">工作日</button><button type="button" data-rp="weekly">每周</button><button type="button" data-rp="monthly">每月</button></div>
-      <div class="gone"><div class="gone"><div class="tf-label">优先级</div><div class="tf-seg" id="tfPrio"><button type="button" data-p="0">无</button><button type="button" data-p="1">低</button><button type="button" data-p="2">中</button><button type="button" data-p="3">高</button></div></div><div class="gone"><div class="tf-label">子任务</div><div id="tfSubs"></div><div class="tf-subadd"><input id="tfSubInput" type="text" maxlength="80" enterkeyhint="done" placeholder="添加子任务，回车" /><button type="button" id="tfSubAdd" aria-label="添加子任务">＋</button></div></div><select id="tfList" hidden></select><select id="tfRepeat" hidden><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select></div>
+      <select id="tfRepeat" hidden><option value="">不重复</option><option value="daily">每天</option><option value="weekdays">工作日</option><option value="weekly">每周</option><option value="monthly">每月</option></select>
       <div class="tf-actions"><button type="button" class="btn-danger" id="tfDelete" hidden>删除</button><button type="submit" class="btn-primary">保存</button></div></form></div></div>
   <div class="modal-backdrop" id="pickSheet" role="dialog" aria-modal="true"><div class="modal pick-modal"><div id="pickBody"></div></div></div>
-  <div class="modal-backdrop" id="listSheet" role="dialog" aria-modal="true" aria-labelledby="listSheetTitle"><div class="modal todo-modal"><div class="modal-head"><h2 id="listSheetTitle">新建清单</h2><button type="button" class="close-btn" id="listClose" aria-label="关闭">×</button></div>
-    <form id="listForm" novalidate autocomplete="off"><input id="lfName" type="text" maxlength="20" placeholder="清单名称，比如 工作、生活" /><div id="lfColors"></div>
-      <div class="tf-actions"><button type="button" class="btn-danger" id="lfDelete" hidden>删除</button><button type="submit" class="btn-primary">保存</button></div></form></div></div>
   <div class="modal-backdrop" id="authSheet" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="modal auth-modal"><div class="modal-head"><h2 id="authTitle">登录</h2><button type="button" class="close-btn" id="authClose" aria-label="关闭">×</button></div><form id="authForm" novalidate><label class="auth-field"><span>邮箱</span><input id="authEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@example.com" /></label><label class="auth-field"><span>密码</span><input id="authPass" type="password" autocomplete="current-password" placeholder="至少 6 位" /></label><p class="auth-err" id="authErr" role="alert"></p><button type="submit" class="btn-primary auth-go" id="authGo">登录</button><button type="button" class="auth-switch" id="authSwitch">没有账号？去注册</button></form></div></div>
   <div class="modal-backdrop" id="confirmBackdrop" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="modal confirm-modal"><div class="modal-head"><h2 id="confirmTitle">确定要继续吗？</h2><button type="button" class="close-btn" id="closeConfirm" aria-label="关闭">×</button></div><p id="confirmText">此操作无法撤销。</p><div class="modal-footer"><button type="button" class="btn-secondary" id="cancelConfirm">取消</button><button type="button" class="btn-danger" id="confirmAction">确认</button></div></div></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1735,7 +1481,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       const LIB_EMOJI_EXTRA={"gift": "🎁", "crown": "👑", "shield-check": "🛡️", "hourglass": "⏳", "rugby-ball": "🏉", "kayak": "🛶", "whistle": "📣", "swords": "⚔️", "flag-triangle-right": "🏁", "bow-arrow": "🏹", "gauge": "⏲️", "syringe": "💉", "thermometer": "🌡️", "bandage": "🩹", "ear": "👂", "hospital": "🏥", "ambulance": "🚑", "dna": "🧬", "microscope": "🔬", "baby": "👶", "germ": "🦠", "heart-handshake": "🤝", "egg-fried": "🍳", "pizza": "🍕", "hamburger": "🍔", "wine": "🍷", "refrigerator": "🧊", "popcorn": "🍿", "donut": "🍩", "beer": "🍺", "martini": "🍸", "bean": "🫘", "blender": "🥤", "atom": "⚛️", "terminal": "⌨️", "keyboard": "⌨️", "mail": "✉️", "inbox": "📥", "file-text": "📄", "folder": "📁", "chart-line": "📈", "chart-bar": "📊", "sticky-note": "🗒️", "scroll-text": "📜", "brain-circuit": "🧠", "ruler": "📏", "pencil-ruler": "📐", "award": "🏅", "badge-check": "✔️", "signature": "✍️", "shopping-bag": "🛍️", "package": "📦", "key-round": "🔑", "lamp": "💡", "plug": "🔌", "bubbles": "🫧", "paint-roller": "🖌️", "hammer": "🔨", "wrench": "🔧", "toolbox": "🧰", "fan": "🌀", "umbrella": "☂️", "receipt": "🧾", "tag": "🏷️", "toilet": "🚽", "scissors": "✂️", "paperclip": "📎", "calendar-clock": "📆", "flower-2": "🌼", "snowflake": "❄️", "hand-metal": "🤘", "mouth": "👄", "dice-5": "🎲", "drama": "🎭", "pen-tool": "✒️", "ghost": "👻", "radio": "📻", "cassette-tape": "📼", "joystick": "🕹️", "spade": "♠️", "playing-cards": "🃏", "sword": "🗡️", "wand-sparkles": "🪄", "sticker": "🏷️", "keyboard-music": "🎹", "theater": "🎭", "tree-palm": "🌴", "shrub": "🌿", "mountain-snow": "🏔️", "cloud-snow": "🌨️", "tornado": "🌪️", "rat": "🐭", "bone": "🦴", "paw-print": "🐾", "bug": "🐛", "shell": "🐚", "birdhouse": "🏡", "droplet": "💧", "eclipse": "🌗", "map": "🗺️", "luggage": "🧳", "plane": "✈️", "train-front": "🚆", "bus": "🚌", "car": "🚗", "sailboat": "⛵", "ship": "🚢", "anchor": "⚓", "motorbike": "🏍️", "scooter": "🛴", "tram-front": "🚇", "signpost": "🪧", "castle": "🏰", "church": "⛪", "landmark": "🏛️", "ferris-wheel": "🎡", "roller-coaster": "🎢", "parasol": "⛱️", "tickets": "🎫", "hotel": "🏨", "fuel": "⛽", "truck": "🚚", "satellite": "🛰️", "coins": "🪙", "banknote": "💵", "credit-card": "💳", "trending-down": "📉", "hand-coins": "💰", "chart-pie": "🥧", "gem": "💎", "vault": "🔐", "bitcoin": "₿", "circle-dollar-sign": "💲", "chart-candlestick": "📊", "percent": "％", "tablet": "📱", "monitor": "🖥️", "mouse": "🖱️", "wifi": "📶", "battery-charging": "🔋", "cpu": "💾", "bot": "🤖", "database": "🗄️", "cloud": "☁️", "git-branch": "🔀", "lock": "🔒", "lock-open": "🔓", "shield": "🛡️", "fingerprint-pattern": "🔏", "qr-code": "🔳", "usb": "💾", "printer": "🖨️", "video": "📹", "smartphone-charging": "🔌", "power": "⏻"};
 /*ICONS:END*/
       const STORAGE_KEY = 'riheng.v1.data';
-      const SETTINGS_KEY = 'riheng.v1.settings';
+      
       const EMOJIS = ['📚','💧','🚶','🧘','✍️','🏃','🥗','💤','🎯','🧹','🎨','🌿','🎸','🗣️','🐱','💊','🧠','🧴'];
       const COLORS = ['#e4efe3','#f7e8d2','#e3e9fa','#f7e0e3','#e8e2f7','#e1eff1','#f0edce','#e9e9e5'];
       const WEEKDAYS = ['日','一','二','三','四','五','六'];
@@ -1759,7 +1505,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       function fromKey(key) { const [y,m,d]=key.split('-').map(Number); return new Date(y,m-1,d); }
       function shiftDate(key, offset) { const d=fromKey(key); d.setDate(d.getDate()+offset); return dateKey(d); }
       function weekStart(d) { const result=new Date(d.getFullYear(),d.getMonth(),d.getDate()); result.setDate(result.getDate()-((result.getDay()+6)%7)); return result; }
-      function sameMonth(a,b) { return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth(); }
+      
       function escapeHTML(s) { return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
       function defaultData() {
         const habits = [
@@ -1829,12 +1575,12 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         try { syncDirty(); } catch(e) {}
         try { scheduleTodoPush(); } catch(e) {}
       }
-      function saveSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch(e) {} }
+      
       function isScheduled(habit, key) { return (habit.days||[0,1,2,3,4,5,6]).includes(fromKey(key).getDay()) && key >= (habit.created || '0000-00-00'); }
       function isDone(habit, key) { return !!(data.checks[habit.id] && data.checks[habit.id].includes(key)); }
       function scheduledHabits(key) { return data.habits.filter(h => isScheduled(h,key)); }
-      function doneCount(key) { return scheduledHabits(key).filter(h=>isDone(h,key)).length; }
-      function completionPct(key) { const total=scheduledHabits(key).length; return total ? Math.round(doneCount(key)/total*100) : 0; }
+      
+      
       function habitStreak(habit) {
         let day = todayKey;
         if (!isDone(habit, day)) day = shiftDate(day, -1);
@@ -1858,14 +1604,10 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         }
         return best;
       }
-      function totalCheckins() { return Object.values(data.checks).reduce((sum,arr)=>sum+arr.length,0); }
-      function getSevenKeys() { return Array.from({length:7},(_,i)=>shiftDate(todayKey,i-6)); }
-      function recentRate() {
-        let possible=0,done=0;
-        getSevenKeys().forEach(key=>scheduledHabits(key).forEach(h=>{possible++; if(isDone(h,key)) done++;}));
-        return possible ? Math.round(done/possible*100) : 0;
-      }
-      function longestStreakAll() { return data.habits.reduce((m,h)=>Math.max(m,bestStreak(h)),0); }
+      
+      
+      
+      
       function fmtMonth(d) { return `${d.getFullYear()} 年 ${d.getMonth()+1} 月`; }
       function fmtChineseDate(key, withWeek=true) { const d=fromKey(key); return `${d.getMonth()+1} 月 ${d.getDate()} 日${withWeek ? ` · 星期${'日一二三四五六'[d.getDay()]}` : ''}`; }
       function legacyIconSVG(emoji) {
@@ -2028,7 +1770,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         }
         return { cur, best };
       }
-      const rateLevel = p => p == null ? -1 : p === 0 ? 0 : p <= 33 ? 1 : p <= 66 ? 2 : p < 100 ? 3 : 4;
+      
       function chartHTML(P) {
         const n = P.slots.length, dense = n > 12;
         const bars = P.slots.map(s => {
@@ -2079,14 +1821,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           return `<button type="button" class="hrow" data-hopen="${h.id}" aria-label="${escapeHTML(h.name)}，${r.poss ? `完成 ${r.done}/${r.poss} 天` : '本期没有计划'}，查看详情"><span class="habit-glyph" style="${toneStyle(h)}">${habitIconMarkup(h.emoji || '🌿')}</span><span class="hinfo"><strong>${escapeHTML(h.name)}</strong><small>${r.poss ? `完成 ${r.done} / ${r.poss} 天` : '本期没有计划'}</small></span><span class="hpct">${r.pct == null ? '—' : r.pct + '%'}</span><span class="hgo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span><span class="hbar" style="${toneStyle(h)}"><i style="width:${r.pct || 0}%"></i></span></button>`;
         }).join('');
       }
-      function footnoteText(P, min) {
-        const since = (data.habits.length || totalCheckins()) ? daysBetween2(min, todayKey) + 1 : 0; if(!since) return '';
-        const rows = []; for(let w = 0; w < 7; w++) rows.push({ w, planned: 0, done: 0 });
-        P.elapsed.forEach(k => { const w = (fromKey(k).getDay() + 6) % 7, hs = scheduledHabits(k); rows[w].planned += hs.length; rows[w].done += hs.filter(h => isDone(h, k)).length; });
-        const valid = rows.filter(r => r.planned >= 2).map(r => Object.assign(r, { pct: r.done / r.planned })); let tip = '';
-        if(valid.length >= 3) { const best = valid.reduce((a, b) => b.pct > a.pct ? b : a), worst = valid.reduce((a, b) => b.pct < a.pct ? b : a); if(best.pct !== worst.pct) tip = `本期周${'一二三四五六日'[best.w]}最稳，周${'一二三四五六日'[worst.w]}最容易漏`; }
-        return `已记录 ${since} 天 · 累计打卡 ${totalCheckins()} 次${tip ? ' · ' + tip : ''}`;
-      }
+      
       function renderStats() {
         const P = statPeriod(statMode, statOff), min = statMinKey();
         if(!P.slots.some(s => s.k === statSel)) { const cur = P.slots.find(s => s.keys.includes(todayKey)) || P.slots.filter(s => s.keys[0] <= todayKey).pop() || P.slots[0]; statSel = cur.k; }
@@ -2109,7 +1844,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitStats').innerHTML = habitRowsHTML(P);
         if(hdId) renderHD();
       }
-      const daysBetween2 = (a, b) => Math.round((fromKey(b) - fromKey(a)) / 86400000);
+      
       // ---- 单个习惯详情 ----
       let hdId = null, hdMonth = 0;
       function hdFirstKey(h) { let m = h.created || todayKey; (data.checks[h.id] || []).forEach(k => { if(k < m) m = k; }); return m; }
@@ -2382,14 +2117,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
       function flipRender(mutate, delay, liftId) { const before = snapCards(); mutate(); playFlip(before, delay, liftId); }
       // 打卡 / 取消打卡的整套反馈
-      function playCheckFx(habitId, on, before, rect) {
-        playFlip(before, on ? 300 : 40, habitId);
-        const btn = document.querySelector(`.check-btn[data-ck="${habitId}"]`);
-        if(btn && !REDUCE) { btn.classList.add(on ? 'pop' : 'unpop'); setTimeout(() => btn.classList.remove('pop', 'unpop'), 950); }
-        const wrap = document.querySelector('.progress-ring-wrap'); if(wrap) bounce(wrap, on ? .93 : .97, 700);
-        if(on && rect) burst(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        const t = scheduledHabits(todayKey); if(on && t.length && t.every(h => isDone(h, todayKey))) setTimeout(confetti, 380);
-      }
+      
       // 页面切换：内容逐块弹入
       let enterTimer = 0;
       function enterPage(page) {
@@ -2546,7 +2274,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         $('habitList').classList.remove('sorting');
       }
       function exportData() {
-        const payload={app:'Persist',version:'3.8.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
+        const payload={app:'Persist',version:'3.9.0',exportedAt:new Date().toISOString(),habits:data.habits,checks:data.checks,todos:data.todos||[],lists:data.lists||[],settings};
         const fileName=`Persist-backup-${todayKey}.json`;
         // 原生 App 里 WebView 不支持 blob 下载，交给原生弹出系统的「保存到」选择器；结果通过 __RIHENGNativeEvent 回报
         if(window.RiHengNative && typeof window.RiHengNative.exportBackup==='function') { try { window.RiHengNative.exportBackup(fileName,JSON.stringify(payload,null,2)); return; } catch(e) {} }
@@ -2641,7 +2369,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       document.getElementById('confirmAction').addEventListener('click',()=>{const callback=confirmCallback;if(callback)callback();});
       document.getElementById('confirmBackdrop').addEventListener('click',e=>{if(e.target.id==='confirmBackdrop')closeConfirm();});
       document.addEventListener('keydown',e=>{
-        if(e.key==='Escape'){ if($('habitStats').classList.contains('open')) closeHabitStats(); else if($('pickSheet').classList.contains('open')) closePick(); else if($('todoSheet').classList.contains('open')) closeTodoSheet(); else if($('listSheet').classList.contains('open')) closeListSheet(); else if($('authSheet').classList.contains('open')) closeAuth(); else if($('confirmBackdrop').classList.contains('open')) closeConfirm(); else if(hdId) closeHD(); else closeEditor(false); return; }
+        if(e.key==='Escape'){ if($('habitStats').classList.contains('open')) closeHabitStats(); else if($('pickSheet').classList.contains('open')) closePick(); else if($('todoSheet').classList.contains('open')) closeTodoSheet(); else if($('authSheet').classList.contains('open')) closeAuth(); else if($('confirmBackdrop').classList.contains('open')) closeConfirm(); else if(hdId) closeHD(); else closeEditor(false); return; }
         const t=e.target; if(!t || !t.matches) return;
         if(t.matches('.habit-open') && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); openEditor(t.dataset.edit); return; }
         if(t.matches('.drag-handle') && (e.key==='ArrowUp' || e.key==='ArrowDown')){ e.preventDefault(); moveHabit(t.dataset.drag,e.key==='ArrowUp'?-1:1); }
@@ -2669,7 +2397,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         foot.style.translate = `0 ${-px}px`;
         toast.style.translate = `0 ${-px}px`;
         scroll.style.setProperty('--kb', px + 'px');
-        ['todoSheet','listSheet','authSheet'].forEach(id => { const el = $(id); if(el) { el.style.setProperty('--kb', px + 'px'); el.classList.toggle('kb', px > 0); } });
+        ['todoSheet','authSheet'].forEach(id => { const el = $(id); if(el) { el.style.setProperty('--kb', px + 'px'); el.classList.toggle('kb', px > 0); } });
         clearTimeout(kbTimer);
         if (px > 0) kbTimer = setTimeout(() => { ensureFocusVisible(); sheetFocusVisible(); }, ms + 60);
       }
@@ -2699,15 +2427,14 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
       window.__RIHENGReveal = revealApp;
       // ================= 待办清单 =================
-      const TODO_COLORS = ['#3F6FF0', '#22A06B', '#EE8A2A', '#E8506B', '#8B5CF0', '#16A3B7', '#D1A011', '#667085'];
+      
       const PRIO_NAMES = ['无', '低', '中', '高'], PRIO_COLORS = ['#9AA6BD', '#3F6FF0', '#EE8A2A', '#E8506B'];
-      const REPEAT_OPTS = [['', '不重复'], ['daily', '每天'], ['weekdays', '工作日'], ['weekly', '每周'], ['monthly', '每月']];
+      
       const todos = () => data.todos || (data.todos = []);
       const lists = () => data.lists || (data.lists = []);
       const newId = p => p + '_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
-      let todoView = 'ok', todoSub = 'today', todoList = '*';           // todoList：'*' 全部清单 / '_' 收集箱（没有清单）/ 清单 id
-      let todoEdit = null;                              // 正在编辑的待办：{id|null, subs, prio}
-      let listEdit = null;                              // 正在编辑的清单：{id|null, color}
+      let todoView = 'ok', todoSub = 'today';
+      let todoEdit = null;                              // 正在编辑的待办：{id|null, needDate}
 
       // 逾期：有具体时间的，时间一过（差 1 分钟）就算；没有时间的，要过了那一天（差 1 天）才算
       const hmNow = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
@@ -2736,10 +2463,8 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       const todoCmp = (a, b) => ((a.due || '9999') < (b.due || '9999') ? -1 : (a.due || '9999') > (b.due || '9999') ? 1 : 0) || ((a.time || '99:99') < (b.time || '99:99') ? -1 : (a.time || '99:99') > (b.time || '99:99') ? 1 : 0) || (b.prio - a.prio) || ((a.created > b.created) - (a.created < b.created)) || ((a.u || 0) - (b.u || 0));
       // 三个分组全部由数据实时算出（不新增字段）：待确定 = 未完成且没日期；已确定 = 未完成且有日期（≤今天 → 今天，含逾期；> 今天 → 未来）；已完成 = done
 
-      // ===== 小成：按今天的完成度换表情、换提醒文字和颜色 =====
+      // ===== 状态提示：按今天的完成度换文字和颜色 =====
       const MOODS = { idle: '#66728A', cheer: '#2C62EE', party: '#17A673', worry: '#E8506B' };
-      let moodText = '';
-      // 待办页的小成说待办（今天 / 未来 / 逾期），打卡页的小成说打卡（今天打了几个、连续天数）
       // 文案跟着当前分组（待确定 / 已确定 / 已完成）走；今天全完成、有逾期时会换成对应的话
       function todoMood() {
         let overdue = 0, todayOpen = 0, future = 0, pending = 0, doneToday = 0, doneAll = 0;
@@ -2772,51 +2497,25 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if(todayOpen) return ['idle', '今天 ' + total + ' 件' + fut];
         return ['idle', future ? '今天没有安排 · 未来 ' + future + ' 件' : '今天没有安排，轻松一下'];
       }
-      function habitMood() {
-        const hs = data.habits.filter(h => isScheduled(h, todayKey)), left = hs.filter(h => !isDone(h, todayKey)), hd = hs.length - left.length;
-        if(!hs.length) return ['idle', '今天没有要打卡的习惯'];
-        if(!left.length) return ['party', '今天的习惯全打卡啦！'];
-        const risk = new Date().getHours() >= 18 ? left.map(h => [h, habitStreak(h)]).filter(x => x[1] >= 3).sort((a, b) => b[1] - a[1])[0] : null;
-        if(risk) return ['worry', '「' + risk[0].name + '」已连续 ' + risk[1] + ' 天，别断了'];
-        if(hd > 0) return ['cheer', '已打卡 ' + hd + ' / ' + hs.length + '，还差 ' + left.length + ' 个'];
-        return ['idle', '今天有 ' + hs.length + ' 个习惯要打卡'];
-      }
-      // 小成对操作的反应：完成时蹦一下，撤销时歪头疑惑一下
-      let reactTimer = 0;
-      function mascotReact(kind) {
-        const m = $('mascot'); if(!m || REDUCE) return;
-        m.classList.remove('hop', 'hmm'); void m.offsetWidth; m.classList.add(kind);
-        clearTimeout(reactTimer); reactTimer = setTimeout(() => m.classList.remove('hop', 'hmm'), 1000);
-      }
       function updateMood() {
-        try {
-          const onHabit = activePage === 'today' || activePage === 'calendar';
-          const [mood, text] = onHabit ? habitMood() : todoMood();
-          const m = $('mascot'); if(m.dataset.mood !== mood) { m.dataset.mood = mood; const svg = m.firstElementChild; svg.style.animation = 'none'; void svg.getBoundingClientRect(); svg.style.animation = ''; }
-          moodText = text; document.documentElement.style.setProperty('--mood', MOODS[mood]);
-          $('moodLine').textContent = todoMood()[1]; $('mascotBubble').textContent = text;
-        } catch(e) {}
+        try { const [mood, text] = todoMood(); document.documentElement.style.setProperty('--mood', MOODS[mood]); $('moodLine').textContent = text; } catch(e) {}
       }
-      let bubbleTimer = 0;
-      $('mascot').addEventListener('click', () => { updateMood(); const sv = $('mascot').firstElementChild; sv.style.animation = 'none'; void sv.getBoundingClientRect(); sv.style.animation = ''; const b = $('mascotBubble'); b.classList.add('show'); clearTimeout(bubbleTimer); bubbleTimer = setTimeout(() => b.classList.remove('show'), 2800); });
       function todoBuckets() {
         const open = todos().filter(t => !t.done);
-        const inList = t => todoList === '*' || (todoList === '_' ? !t.list : t.list === todoList);
-        const o = open.filter(inList);
+        const o = open;
         return {
           pending: o.filter(t => !t.due).sort((a, b) => ((b.created > a.created) - (b.created < a.created)) || ((b.u || 0) - (a.u || 0))),
           today: o.filter(t => t.due && t.due <= todayKey).sort(todoCmp),
           future: o.filter(t => t.due && t.due > todayKey).sort(todoCmp),
-          done: todos().filter(t => t.done && inList(t)).sort((a, b) => (b.doneAt || 0) - (a.doneAt || 0))
+          done: todos().filter(t => t.done).sort((a, b) => (b.doneAt || 0) - (a.doneAt || 0))
         };
       }
       let todoSortDir = { future: 'asc', done: 'asc' };
       try { Object.assign(todoSortDir, JSON.parse(localStorage.getItem('riheng.v1.sort') || '{}')); } catch(e) {}
       const todoKey = () => todoView === 'ok' ? todoSub : todoView;
-      const SVG_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>';
+      
       const SVG_REPEAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3l3 3-3 3M4 11V9a3 3 0 0 1 3-3h13M7 21l-3-3 3-3M20 13v2a3 3 0 0 1-3 3H4"/></svg>';
       function todoRowHTML(t) {
-        const l = t.list ? lists().find(x => x.id === t.list) : null, subsDone = t.subs.filter(s => s.done).length;
         const chips = [];
         const skipDate = !t.done && ((todoKey() === 'today' && t.due === todayKey) || (todoKey() === 'future'));   // 分组标题已经说明了日期
         const late = isOverdue(t);
@@ -2824,7 +2523,8 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if(dueLabel) chips.push(`<span class="tm ${late ? 'over' : t.due === todayKey ? 'now' : ''}">${dueLabel}</span>`);
         if(t.done && t.doneAt) { const d = new Date(t.doneAt), z = n => String(n).padStart(2, '0'); chips.push(`<span class="tm">完成于 ${d.getMonth() + 1}/${d.getDate()} ${z(d.getHours())}:${z(d.getMinutes())}</span>`); }
         if(t.repeat) chips.push(`<span class="tm ico">${SVG_REPEAT}</span>`);
-        return `<div class="todo-row ${t.done ? 'done' : ''} ${newRows.has(t.id) ? 'pop-in' : ''} ${lateRows.has(t.id) ? 'late-new' : ''}" data-tid="${t.id}"><div class="todo-main" data-topen="${t.id}" tabindex="0" role="button"><div class="todo-title"><span>${escapeHTML(t.title)}</span></div>${chips.length ? `<div class="todo-meta">${chips.join('')}</div>` : ''}</div></div>`;
+        const tone = t.done ? 'tone-ok' : late ? 'tone-late' : !t.due ? 'tone-pend' : t.due <= todayKey ? 'tone-now' : 'tone-fut';
+        return `<div class="todo-row ${tone} ${t.done ? 'done' : ''} ${newRows.has(t.id) ? 'pop-in' : ''} ${lateRows.has(t.id) ? 'late-new' : ''}" data-tid="${t.id}"><i class="todo-bar" aria-hidden="true"></i><div class="todo-main" data-topen="${t.id}" tabindex="0" role="button"><div class="todo-title"><span>${escapeHTML(t.title)}</span></div>${chips.length ? `<div class="todo-meta">${chips.join('')}</div>` : ''}</div></div>`;
       }
       // 顶部的件数（副标题、三个分组标签、今天 / 未来标签）：完成或撤销时立刻更新，不等列表重画
       function setCount(n, v) {                      // 数字变了就弹一下
@@ -2866,6 +2566,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           cur.forEach(t => { if(t.due !== last) { last = t.due; html += `<div class="todo-group">${dueText(t.due)} · 星期${WK[fromKey(t.due).getDay()]}</div>`; } html += todoRowHTML(t); });
         } else html = cur.map(todoRowHTML).join('');
         $('todoList').innerHTML = html; newRows = new Set(); lateRows = new Set();
+        if(window.__gestHint) window.__gestHint();
       }
       setInterval(() => {                                                // 每 20 秒看一眼：有任务刚好过了时间，就换成红色逾期
         if(document.hidden || $('todoSheet').classList.contains('open') || !(todos().some(isOverdue) || prevLate.size)) return;
@@ -2877,15 +2578,15 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         const key = todoKey();
         if(key === 'future') { openTodoSheet(null, { title, needDate: true }); return true; }   // 未来：必须自己选日期，不静默建一条没日期的已确定任务
         const due = key === 'today' ? todayKey : '';
-        todos().push({ id: newId('t'), title, note: '', due, time: '', prio: 0, list: lists().some(l => l.id === todoList) ? todoList : '', done: false, doneAt: 0, subs: [], repeat: '', created: todayKey, u: Date.now() });
+        todos().push({ id: newId('t'), title, note: '', due, time: '', prio: 0, list: '', done: false, doneAt: 0, subs: [], repeat: '', created: todayKey, u: Date.now() });
         if(key === 'done') { todoView = 'pending'; }
         saveData(); renderTodo(); return true;
       }
       function toggleTodo(id) {
         const t = todos().find(x => x.id === id); if(!t) return;
         const repeated = !t.done && t.repeat;
-        if(repeated) { t.due = nextDue(t); t.subs.forEach(s => { s.done = false; }); }
-        else { t.done = !t.done; t.doneAt = t.done ? Date.now() : 0; if(t.done) t.subs.forEach(s => { s.done = true; }); }
+        if(repeated) t.due = nextDue(t);
+        else { t.done = !t.done; t.doneAt = t.done ? Date.now() : 0; }
         t.u = Date.now(); saveData();
         updateMood(); updateTodoCounts(todoBuckets());                 // 数字马上变，不等动画
         const row = document.querySelector(`.todo-row[data-tid="${id}"]`);
@@ -2893,7 +2594,6 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         row.classList.toggle('done', t.done); row.classList.add('flip');   // 圆圈弹一下、标题划掉
         const rr = row.getBoundingClientRect(), cr = { left: rr.left + 26, top: rr.top + rr.height / 2, width: 0, height: 0 };
         if(t.done && cr) burst(cr.left + cr.width / 2, cr.top + cr.height / 2, 9);     // 打勾的一瞬间：光环 + 小星点
-        mascotReact(t.done ? 'hop' : 'hmm');
         setTimeout(() => { row.style.height = row.offsetHeight + 'px'; void row.offsetHeight; row.classList.add('collapse'); row.style.height = '0px'; }, 170);   // 然后整行平滑收起，下面的行顺势上移
         setTimeout(() => {
           if(!row.isConnected) return;
@@ -2904,11 +2604,9 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
 
       // ---- 待办编辑 ----
-      function renderSubs() {
-        $('tfSubs').innerHTML = todoEdit.subs.map((s, i) => `<div class="tf-sub ${s.done ? 'done' : ''}"><button type="button" class="tf-subcheck" data-subtoggle="${i}" aria-label="勾选子任务">${SVG_CHECK}</button><span>${escapeHTML(s.t)}</span><button type="button" class="tf-subdel" data-subdel="${i}" aria-label="删除子任务">×</button></div>`).join('');
-      }
-      function fillListSelect(sel) { $('tfList').innerHTML = '<option value="">收集箱</option>' + lists().map(l => `<option value="${l.id}" ${l.id === sel ? 'selected' : ''}>${escapeHTML(l.name)}</option>`).join(''); syncWheel('tfList'); }
-      function setPrio(p) { todoEdit.prio = p; document.querySelectorAll('#tfPrio [data-p]').forEach(b => { const on = +b.dataset.p === p; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); }); }
+      
+      
+      
       // ---- 滚轮选择器：以隐藏的 <select> 为数据源，滑动停下后写回它的值 ----
       const WH = 30;
       function syncWheel(selId) {
@@ -2928,8 +2626,8 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         }, { passive: true });
         w.addEventListener('click', e => { const it = e.target.closest('.wheel-i'); if(it) w.scrollTo({ top: Number(it.dataset.i) * WH, behavior: 'smooth' }); });
       });
-      function setMore() {}
-      function _oldSetMore(on) { $('tfMore').hidden = !on; $('tfMoreBtn').setAttribute('aria-expanded', String(on)); if(on) { syncWheel('tfList'); syncWheel('tfRepeat'); } }
+      
+      
       // ---- 日期 / 时间选择：应用内弹窗，和整体风格一致（不用系统选择框）----
       const pad2 = n => String(n).padStart(2, '0');
       function fmtDue(due) { if(!due) return '选择日期'; const d = fromKey(due); return (due === todayKey ? '今天' : due === shiftDate(todayKey, 1) ? '明天' : (d.getMonth() + 1) + ' 月 ' + d.getDate() + ' 日') + ' · 周' + WK[d.getDay()]; }
@@ -2998,27 +2696,26 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       function swAnim() { const l = $('todoList'); l.classList.remove('sw'); void l.offsetWidth; l.classList.add('sw'); }
       function openTodoSheet(id, pre) {
         const t = id ? todos().find(x => x.id === id) : null; if(id && !t) return;
-        todoEdit = { id: id || null, subs: t ? t.subs.map(s => Object.assign({}, s)) : [], prio: t ? t.prio : 0, needDate: !!(pre && pre.needDate) };
+        todoEdit = { id: id || null, needDate: !!(pre && pre.needDate) };
         $('todoSheetTitle').textContent = t ? '编辑待办' : '新待办';
         $('tfTitle').value = t ? t.title : (pre && pre.title) || ''; $('tfNote').value = t ? t.note : '';
         $('tfDue').value = t ? t.due : (todoKey() === 'today' ? todayKey : ''); $('tfTime').value = t ? t.time : '';
-        fillListSelect(t ? t.list : (lists().some(l => l.id === todoList) ? todoList : '')); $('tfRepeat').value = t ? t.repeat : ''; syncWheel('tfRepeat');
-        $('tfDelete').hidden = !t; setPrio(todoEdit.prio); renderSubs(); $('tfSubInput').value = '';
-        renderDT(); $('todoSheet').classList.add('open'); syncWheel('tfList'); syncWheel('tfRepeat'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
+        $('tfRepeat').value = t ? t.repeat : ''; syncWheel('tfRepeat');
+        $('tfDelete').hidden = !t;
+        renderDT(); $('todoSheet').classList.add('open'); syncWheel('tfRepeat'); $('todoSheet').querySelector('.todo-modal').scrollTop = 0;
       }
       function closeTodoSheet() { try { closePick(); } catch(e) {} $('todoSheet').classList.remove('open'); todoEdit = null; if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
-      function addSub() { const v = $('tfSubInput').value.trim().slice(0, 80); if(!v || !todoEdit || todoEdit.subs.length >= 50) return; todoEdit.subs.push({ id: newId('s'), t: v, done: false }); $('tfSubInput').value = ''; renderSubs(); }
+      
       function saveTodoSheet() {
         if(!todoEdit) return;
         const title = $('tfTitle').value.trim().slice(0, 120); if(!title) { shake($('tfTitle')); return; }
-        if($('tfSubInput').value.trim()) addSub();
         let due = $('tfDue').value; if(!validDateKey(due)) due = '';
         if(todoEdit.needDate && !due) { shake($('tfDueBtn')); return; }
         const time = /^\d{2}:\d{2}$/.test($('tfTime').value) ? $('tfTime').value : '', repeat = $('tfRepeat').value;
         if((repeat || time) && !due) due = todayKey;
-        const fields = { title, note: $('tfNote').value.trim().slice(0, 2000), due, time, prio: todoEdit.prio, list: $('tfList').value, repeat, subs: todoEdit.subs, u: Date.now() };
-        if(todoEdit.id) { const t = todos().find(x => x.id === todoEdit.id); if(!t) { closeTodoSheet(); return; } Object.assign(t, fields); if(t.done && !fields.subs.every(s => s.done)) { /* 已完成的保持完成 */ } }
-        else todos().push(Object.assign({ id: newId('t'), done: false, doneAt: 0, created: todayKey }, fields));
+        const fields = { title, note: $('tfNote').value.trim().slice(0, 2000), due, time, repeat, u: Date.now() };
+        if(todoEdit.id) { const t = todos().find(x => x.id === todoEdit.id); if(!t) { closeTodoSheet(); return; } Object.assign(t, fields); }
+        else todos().push(Object.assign({ id: newId('t'), done: false, doneAt: 0, created: todayKey, prio: 0, list: '', subs: [] }, fields));
         const kk = due ? (due <= todayKey ? '已确定 · 今天' : '已确定 · 未来') : '待确定';
         const wasDone = !!(todoEdit.id && (todos().find(x => x.id === todoEdit.id) || {}).done);
         const moved = !wasDone && (!todoEdit.id || (due ? (todoView !== 'ok' || (todoSub === 'today') !== (due <= todayKey)) : todoView !== 'pending'));
@@ -3032,29 +2729,10 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       }
 
       // ---- 清单编辑 ----
-      function openListSheet(id) {
-        const l = id ? lists().find(x => x.id === id) : null;
-        listEdit = { id: id || null, color: l ? l.color : TODO_COLORS[lists().length % TODO_COLORS.length] };
-        $('listSheetTitle').textContent = l ? '编辑清单' : '新建清单'; $('lfName').value = l ? l.name : ''; $('lfDelete').hidden = !l;
-        $('lfColors').innerHTML = TODO_COLORS.map(c => `<button type="button" class="lf-color ${c === listEdit.color ? 'on' : ''}" style="--c:${c}" data-lcolor="${c}" aria-label="颜色 ${c}"></button>`).join('');
-        $('listSheet').classList.add('open'); setTimeout(() => $('lfName').focus(), 160);
-      }
-      function closeListSheet() { $('listSheet').classList.remove('open'); listEdit = null; if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
-      function saveListSheet() {
-        if(!listEdit) return; const name = $('lfName').value.trim().slice(0, 20); if(!name) { showToast('给清单起个名字'); return; }
-        if(lists().some(l => l.name === name && l.id !== listEdit.id)) { showToast('已经有同名的清单了'); return; }
-        if(listEdit.id) { const l = lists().find(x => x.id === listEdit.id); if(l) { l.name = name; l.color = listEdit.color; l.u = Date.now(); } }
-        else { const l = { id: newId('l'), name, color: listEdit.color, u: Date.now() }; lists().push(l); todoList = l.id; }
-        saveData(); closeListSheet(); renderTodo();
-      }
-      function deleteListSheet() {
-        const id = listEdit && listEdit.id, l = id && lists().find(x => x.id === id); if(!l) return;
-        openConfirm('删除这个清单？', `清单「${l.name}」会被删除，里面的待办会移到收集箱，不会丢。`, () => {
-          data.lists = lists().filter(x => x.id !== id); try { markDeleted(id); } catch(e) {}
-          todos().forEach(t => { if(t.list === id) { t.list = ''; t.u = Date.now(); } });
-          if(todoList === id) todoList = '*'; saveData(); closeConfirm(); closeListSheet(); renderTodo();
-        }, '删除');
-      }
+      
+      
+      
+      
 
       // ---- 待办提醒：把「有日期又有时间、还没完成、还没到点」的待办整份交给原生，由原生排闹钟 ----
       let todoPushTimer = 0;
@@ -3112,9 +2790,9 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           const side = x >= 0 ? 'r' : 'l', e = eff(el, side); let u = el.querySelector(':scope > .sw-under');
           if(!e) { u && u.remove(); return; }
           if(!u) { u = document.createElement('div'); u.className = 'sw-under'; u.innerHTML = '<span class="sw-ic"></span><span class="sw-tx"></span>'; el.prepend(u); }
-          u.className = 'sw-under ' + side + (Math.abs(x) >= DONE_AT ? ' hit' : '');
-          u.style.width = Math.abs(x) + 'px'; u.style.background = e.color; u.style.setProperty('--p', Math.min(1, Math.abs(x) / DONE_AT));
-          u.firstChild.textContent = e.icon; u.lastChild.textContent = e.label;
+          const cls = 'sw-under ' + side + (Math.abs(x) >= DONE_AT ? ' hit' : ''); if(u.className !== cls) u.className = cls;
+          u.style.width = Math.abs(x) + 'px'; u.style.setProperty('--p', Math.min(1, Math.abs(x) / DONE_AT));
+          if(u._a !== e.a + e.label) { u._a = e.a + e.label; u.style.background = e.color; u.firstChild.textContent = e.icon; u.lastChild.textContent = e.label; }
         }
         // 彻底收尾：不管怎么松手，都不留任何残余状态
         function finish(el) { if(!el) return; clearTimeout(el._swt); el.classList.remove('swiping', 'sw-back', 'sw-out'); el.style.removeProperty('--dx'); el.querySelectorAll(':scope > .sw-under').forEach(u => u.remove()); }
@@ -3173,10 +2851,10 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
           if(!eff(g.el, dx > 0 ? 'r' : 'l')) { g.x2 = 0; g.el.style.setProperty('--dx', dx * .12 + 'px'); return; }
           const x = dx > 0 ? rub(dx, DONE_AT) : -rub(-dx, DONE_AT);
           const hit = Math.abs(x) >= DONE_AT; if(hit !== !!g.hit) { g.hit = hit; if(hit) buzz(); }
-          g.x2 = x; paint(g.el, x);
+          g.x2 = x; g.px = x; if(!g.raf) g.raf = requestAnimationFrame(() => { if(g) { g.raf = 0; paint(g.el, g.px); } });
         });
         const end = e => {
-          if(!g || (e && e.pointerId !== g.id)) return; clearTimeout(g.lp); const q = g; g = null;
+          if(!g || (e && e.pointerId !== g.id)) return; clearTimeout(g.lp); const q = g; g = null; if(q.raf) cancelAnimationFrame(q.raf);
           if(q.mode !== 1) return;
           swallowUntil = Date.now() + 350;
           const el = q.el, side = q.x2 > 0 ? 'r' : 'l', ef = Math.abs(q.x2) >= DONE_AT && eff(el, side), i = info(el);
@@ -3185,6 +2863,7 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
             el.classList.add('sw-out'); el.style.setProperty('--dx', (side === 'r' ? 1 : -1) * (el.offsetWidth + 24) + 'px'); const u = el.querySelector(':scope > .sw-under'); if(u) u.style.width = el.offsetWidth + 'px';
             el._swt = setTimeout(() => { finish(el); run(i.type, ef.a, i.id); }, 230);
           } else back(el, () => run(i.type, ef.a, i.id));                                  // 原地的动作：边弹回边执行
+          if(!hinted) { hinted = true; try { localStorage.setItem('riheng.v1.hinted', '1'); } catch(err) {} const h = $('gestHint'); if(h) h.hidden = true; }
         };
         document.addEventListener('pointerup', end, true); document.addEventListener('pointercancel', end, true);
         [list, hlist].forEach(l => l.addEventListener('click', e => { if(Date.now() < swallowUntil) { e.stopPropagation(); e.preventDefault(); } }, true));
@@ -3236,6 +2915,14 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         }
         renderGest();
         document.addEventListener('click', e => { const b = e.target.closest('[data-gest]'); if(b) openGest(b.dataset.gest); });
+        // 列表下面的一行小提示：教你怎么滑；真的滑过一次之后就不再显示
+        let hinted = false; try { hinted = localStorage.getItem('riheng.v1.hinted') === '1'; } catch(e) {}
+        window.__gestHint = () => {
+          const h = $('gestHint'); if(!h) return;
+          const has = !!document.querySelector('#todoList .todo-row');
+          h.hidden = hinted || !has;
+          if(!h.hidden) { const r = ACTS.todo[pick('todo', 'r')], l = ACTS.todo[pick('todo', 'l')]; h.textContent = '向右滑 ' + (SHORT[pick('todo', 'r')] || r[5] || r[0]) + '　·　向左滑 ' + (SHORT[pick('todo', 'l')] || l[5] || l[0]) + '　·　长按更多'; }
+        };
       })();
       $('todoQuick').addEventListener('submit', e => { e.preventDefault(); const i = $('todoQuickInput'); if(addQuickTodo(i.value)) i.value = ''; });
       $('todoAddBtn').addEventListener('click', () => openTodoSheet(null));
@@ -3244,25 +2931,13 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
       $('todoSheet').addEventListener('click', e => { if(e.target === $('todoSheet')) closeTodoSheet(); });
       $('todoForm').addEventListener('submit', e => { e.preventDefault(); saveTodoSheet(); });
       $('tfDelete').addEventListener('click', deleteTodoSheet);
-      $('tfPrio').addEventListener('click', e => { const b = e.target.closest('[data-p]'); if(b) setPrio(+b.dataset.p); });
       $('tfDates').addEventListener('click', e => {
         const b = e.target.closest('[data-qd]'); if(!b) return; const k = b.dataset.qd;
         $('tfDue').value = k === 'today' ? todayKey : k === 'tomorrow' ? shiftDate(todayKey, 1) : k === 'week' ? shiftDate(todayKey, 7 - ((fromKey(todayKey).getDay() + 6) % 7)) : '';
         if(k === 'none') { $('tfTime').value = ''; $('tfRepeat').value = ''; }
         renderDT();
       });
-      $('tfSubAdd').addEventListener('click', addSub);
-      $('tfSubInput').addEventListener('keydown', e => { if(e.key === 'Enter') { e.preventDefault(); addSub(); } });
-      $('tfSubs').addEventListener('click', e => {
-        const t = e.target.closest('[data-subtoggle]'), d = e.target.closest('[data-subdel]');
-        if(t && todoEdit) { const s = todoEdit.subs[+t.dataset.subtoggle]; if(s) { s.done = !s.done; renderSubs(); } }
-        if(d && todoEdit) { todoEdit.subs.splice(+d.dataset.subdel, 1); renderSubs(); }
-      });
-      ['tfSubInput', 'tfNote', 'tfTitle'].forEach(id => $(id).addEventListener('focus', () => setTimeout(() => { try { $(id).scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch(e) {} }, 320)));
-      $('listSheet').addEventListener('click', e => { if(e.target === $('listSheet')) closeListSheet(); const c = e.target.closest('[data-lcolor]'); if(c && listEdit) { listEdit.color = c.dataset.lcolor; document.querySelectorAll('#lfColors .lf-color').forEach(x => x.classList.toggle('on', x === c)); } });
-      $('listClose').addEventListener('click', closeListSheet);
-      $('listForm').addEventListener('submit', e => { e.preventDefault(); saveListSheet(); });
-      $('lfDelete').addEventListener('click', deleteListSheet);
+      ['tfNote', 'tfTitle'].forEach(id => $(id).addEventListener('focus', () => setTimeout(() => { try { $(id).scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch(e) {} }, 320)));
       renderTodo(); scheduleTodoPush();
       document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') scheduleTodoPush(); });
 
@@ -3457,7 +3132,6 @@ const LIB_SVG={"star":"<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.1
         if(document.getElementById('authSheet').classList.contains('open')) { closeAuth(); return true; }
         if(document.getElementById('pickSheet').classList.contains('open')) { closePick(); return true; }
         if(document.getElementById('todoSheet').classList.contains('open')) { closeTodoSheet(); return true; }
-        if(document.getElementById('listSheet').classList.contains('open')) { closeListSheet(); return true; }
         if($('habitStats').classList.contains('open')) { closeHabitStats(); return true; }
         if(hdId) { closeHD(); return true; }
         if($('editorPage').classList.contains('open')) { closeEditor(false); return true; }

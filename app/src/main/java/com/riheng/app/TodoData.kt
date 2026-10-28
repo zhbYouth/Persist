@@ -132,17 +132,6 @@ object TodoData {
         }
     }
 
-    fun counts(c: Context): Pair<Int, Int> {
-        val todos = readRoot(c).optJSONArray("todos") ?: JSONArray()
-        var ok = 0; var pending = 0
-        for (i in 0 until todos.length()) {
-            val t = todos.optJSONObject(i) ?: continue
-            if (t.optBoolean("done", false) || t.optString("title").isBlank()) continue
-            if (t.optString("due").isEmpty()) pending++ else ok++
-        }
-        return Pair(ok, pending)
-    }
-
     /** 重复待办完成后的下一个日期：从原日期往后数，直到晚于今天。 */
     private fun nextDue(due: String, repeat: String): String {
         val today = LocalDate.now()

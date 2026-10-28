@@ -392,9 +392,6 @@ class MainActivity : Activity() {
             }
         }
 
-        @JavascriptInterface fun getWidgetData(): String =
-            prefs.getString(HabitWidgetProvider.DATA_KEY, "{\"habits\":[],\"checks\":{}}") ?: "{\"habits\":[],\"checks\":{}}"
-
         @JavascriptInterface fun exportBackup(fileName: String, json: String) {
             mainHandler.post { startExport(fileName, json) }
         }

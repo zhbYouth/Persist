@@ -1,5 +1,6 @@
 package com.riheng.app
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -14,13 +15,15 @@ import java.time.temporal.ChronoUnit
 
 /** 待办小组件里的列表：每行 = 完成圈 + 标题 + 日期/时间。 */
 class TodoWidgetService : RemoteViewsService() {
-    override fun onGetViewFactory(intent: Intent): RemoteViewsFactory = Factory(applicationContext)
+    override fun onGetViewFactory(intent: Intent): RemoteViewsFactory =
+        Factory(applicationContext, intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0))
 
-    private class Factory(private val c: Context) : RemoteViewsFactory {
+    private class Factory(private val c: Context, private val widgetId: Int) : RemoteViewsFactory {
+        private var compact = false
         private var rows: List<TodoData.Item> = emptyList()
         private var tab = TodoData.TAB_OK
 
-        private fun load() { tab = TodoData.getTab(c); rows = TodoData.items(c, tab) }
+        private fun load() { tab = TodoData.getTab(c); rows = TodoData.items(c, tab); compact = TodoWidgetProvider.isCompact(c, widgetId) }
 
         override fun onCreate() = load()
         override fun onDataSetChanged() = load()
@@ -33,7 +36,7 @@ class TodoWidgetService : RemoteViewsService() {
 
         /** 第一行：今天 / 明天 / M月d日 · N天后 / 逾期N天；有提醒时间的话第二行显示时间。 */
         private fun meta(t: TodoData.Item): String {
-            if (t.due.isEmpty()) return ""
+            if (t.done || t.due.isEmpty()) return ""                // 已经完成的不再提示逾期、日期
             val today = LocalDate.now()
             val d = try { LocalDate.parse(t.due) } catch (e: Exception) { return t.time }
             val days = ChronoUnit.DAYS.between(today, d)
@@ -68,7 +71,8 @@ class TodoWidgetService : RemoteViewsService() {
                 v.setTextViewText(R.id.rowName, s)
             } else v.setTextViewText(R.id.rowName, t.title)
             // 刚完成 / 刚撤销：整行短暂高亮，并换一句小提示
-            val m = when (t.flash) { "done" -> "完成啦 ✨"; "undo" -> "已恢复 ↩"; else -> meta(t) }
+            var m = when (t.flash) { "done" -> "完成啦 ✨"; "undo" -> "已恢复 ↩"; else -> meta(t) }
+            if (compact && t.flash.isEmpty() && !m.startsWith("逾期")) m = ""      // 小尺寸：地方有限，只保留逾期提醒
             v.setTextViewText(R.id.rowMeta, m)
             v.setViewVisibility(R.id.rowMeta, if (m.isEmpty()) View.GONE else View.VISIBLE)
             v.setTextColor(R.id.rowMeta, when {

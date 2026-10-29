@@ -9,7 +9,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
+import android.os.Bundle
 import android.os.Looper
+import android.view.View
 import android.widget.RemoteViews
 
 /** 待办小组件：已确定 / 待确定两个分组，可上下滑动，点圈完成，＋ 弹出快速添加小窗。 */
@@ -46,6 +48,24 @@ class TodoWidgetProvider : AppWidgetProvider() {
             })
         }
 
+        /** 小尺寸（约 2 格宽）：只放当前分组的标签 + ＋，隐藏状态行和 ↗，列表照常滚动。 */
+        fun isCompact(c: Context, id: Int): Boolean {
+            val w = AppWidgetManager.getInstance(c).getAppWidgetOptions(id).getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 0)
+            return w in 1..199
+        }
+
+        private fun applyLayout(c: Context, v: RemoteViews, compact: Boolean) {
+            val tab = TodoData.getTab(c)
+            v.setViewVisibility(R.id.todoStatusRow, if (compact) View.GONE else View.VISIBLE)
+            v.setViewVisibility(R.id.todoOpen, if (compact) View.GONE else View.VISIBLE)
+            v.setViewVisibility(R.id.todoTabOk, if (compact && tab != TodoData.TAB_OK) View.GONE else View.VISIBLE)
+            v.setViewVisibility(R.id.todoTabPending, if (compact && tab != TodoData.TAB_PENDING) View.GONE else View.VISIBLE)
+            // 正常尺寸：点哪个切到哪个；小尺寸只剩当前这个，点它切到另一个
+            v.setOnClickPendingIntent(R.id.todoTabOk, tabIntent(c, if (compact) TodoData.TAB_PENDING else TodoData.TAB_OK))
+            v.setOnClickPendingIntent(R.id.todoTabPending, tabIntent(c, if (compact) TodoData.TAB_OK else TodoData.TAB_PENDING))
+            if (compact) { v.setTextViewText(R.id.todoTabOk, "已确定 ⇄"); v.setTextViewText(R.id.todoTabPending, "待确定 ⇄") }
+        }
+
         private fun applyTabs(c: Context, v: RemoteViews) {
             applyStatus(c, v)
             val tab = TodoData.getTab(c)
@@ -67,8 +87,7 @@ class TodoWidgetProvider : AppWidgetProvider() {
         private fun buildViews(c: Context, widgetId: Int): RemoteViews {
             val v = RemoteViews(c.packageName, R.layout.widget_todo_root)
             applyTabs(c, v)
-            v.setOnClickPendingIntent(R.id.todoTabOk, tabIntent(c, TodoData.TAB_OK))
-            v.setOnClickPendingIntent(R.id.todoTabPending, tabIntent(c, TodoData.TAB_PENDING))
+            applyLayout(c, v, isCompact(c, widgetId))
             // ＋：进入应用里的添加面板（默认放进当前所在分组，与应用内完全一致）；↗：打开待办页
             val addView = if (TodoData.getTab(c) == TodoData.TAB_PENDING) "add:pending" else "add:today"
             val add = Intent(c, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -111,15 +130,22 @@ class TodoWidgetProvider : AppWidgetProvider() {
             val m = AppWidgetManager.getInstance(c)
             val all = ids(c)
             if (all.isEmpty()) return
-            val partial = RemoteViews(c.packageName, R.layout.widget_todo_root)
-            if (tabs) applyTabs(c, partial) else applyStatus(c, partial)
-            for (id in all) m.partiallyUpdateAppWidget(id, partial)
+            for (id in all) {
+                val partial = RemoteViews(c.packageName, R.layout.widget_todo_root)
+                if (tabs) { applyTabs(c, partial); applyLayout(c, partial, isCompact(c, id)) } else applyStatus(c, partial)
+                m.partiallyUpdateAppWidget(id, partial)
+            }
             m.notifyAppWidgetViewDataChanged(all, R.id.todoList)
         }
     }
 
     override fun onUpdate(context: Context, manager: AppWidgetManager, appWidgetIds: IntArray) {
         for (id in appWidgetIds) manager.updateAppWidget(id, buildViews(context, id))
+    }
+
+    override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle?) {
+        manager.updateAppWidget(appWidgetId, buildViews(context, appWidgetId))
+        manager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.todoList)
     }
 
     override fun onReceive(context: Context, intent: Intent) {

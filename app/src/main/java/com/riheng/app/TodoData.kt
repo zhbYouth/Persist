@@ -26,8 +26,7 @@ object TodoData {
         val done: Boolean, val flash: String
     )
 
-    enum class Mood { IDLE, CHEER, PARTY, WORRY }
-    class Status(val mood: Mood, val text: String, val colorRes: Int)
+    class Status(val text: String, val colorRes: Int)
 
     private fun setFlash(c: Context, id: String, kind: String) {
         prefs(c).edit().putString(FLASH_KEY, "$id|$kind|${System.currentTimeMillis()}").apply()
@@ -116,19 +115,19 @@ object TodoData {
         val fut = if (future > 0) " · 未来 $future 件" else ""
         val clear = overdue + todayOpen + future + pending == 0 && doneToday > 0
         if (getTab(c) == TAB_PENDING) return when {
-            clear -> Status(Mood.PARTY, "所有任务都完成啦！", R.color.widget_good)
-            pending == 0 -> Status(Mood.CHEER, "脑子里很清爽，没有悬着的事", R.color.widget_accent)
-            pending >= 8 -> Status(Mood.IDLE, "悬着的事有 $pending 件，挑一件先定下来", R.color.widget_muted)
-            else -> Status(Mood.IDLE, "有 $pending 件事还悬着，选一件定个日期吧", R.color.widget_muted)
+            clear -> Status("所有任务都完成啦！", R.color.widget_good)
+            pending == 0 -> Status("脑子里很清爽，没有悬着的事", R.color.widget_accent)
+            pending >= 8 -> Status("悬着的事有 $pending 件，挑一件先定下来", R.color.widget_muted)
+            else -> Status("有 $pending 件事还悬着，选一件定个日期吧", R.color.widget_muted)
         }
         return when {
-            overdue > 0 -> Status(Mood.WORRY, "逾期 $overdue 件 · 今天 $total 件$fut", R.color.widget_warn)
-            clear -> Status(Mood.PARTY, "所有任务都完成啦！", R.color.widget_good)
-            todayOpen == 0 && doneToday > 0 -> Status(Mood.PARTY, "今天的都完成啦$fut", R.color.widget_good)
-            doneToday > 0 -> Status(Mood.CHEER, "今天 $total 件，已完成 $doneToday$fut", R.color.widget_accent)
-            todayOpen > 0 -> Status(Mood.IDLE, "今天 $total 件$fut", R.color.widget_muted)
-            future > 0 -> Status(Mood.IDLE, "今天没有安排 · 未来 $future 件", R.color.widget_muted)
-            else -> Status(Mood.IDLE, "今天没有安排，轻松一下", R.color.widget_muted)
+            overdue > 0 -> Status("逾期 $overdue 件 · 今天 $total 件$fut", R.color.widget_warn)
+            clear -> Status("所有任务都完成啦！", R.color.widget_good)
+            todayOpen == 0 && doneToday > 0 -> Status("今天的都完成啦$fut", R.color.widget_good)
+            doneToday > 0 -> Status("今天 $total 件，已完成 $doneToday$fut", R.color.widget_accent)
+            todayOpen > 0 -> Status("今天 $total 件$fut", R.color.widget_muted)
+            future > 0 -> Status("今天没有安排 · 未来 $future 件", R.color.widget_muted)
+            else -> Status("今天没有安排，轻松一下", R.color.widget_muted)
         }
     }
 

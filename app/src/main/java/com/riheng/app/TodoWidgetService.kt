@@ -66,6 +66,7 @@ class TodoWidgetService : RemoteViewsService() {
             }
             val t = rows[position]
             val v = RemoteViews(c.packageName, if (t.done) R.layout.widget_todo_row_done else R.layout.widget_todo_row)
+            v.setViewVisibility(R.id.rowCheckArea, View.VISIBLE)      // 行会被回收复用：上一次若是「空状态」那行（圆圈被隐藏），这里必须明确显示回来
             if (t.done) {
                 val s = SpannableString(t.title); s.setSpan(StrikethroughSpan(), 0, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 v.setTextViewText(R.id.rowName, s)

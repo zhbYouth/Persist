@@ -40,12 +40,6 @@ class TodoWidgetProvider : AppWidgetProvider() {
             val st = TodoData.status(c)
             v.setTextViewText(R.id.todoStatus, st.text)
             v.setTextColor(R.id.todoStatus, c.getColor(st.colorRes))
-            v.setImageViewResource(R.id.todoMascot, when (st.mood) {
-                TodoData.Mood.PARTY -> R.drawable.mascot_party
-                TodoData.Mood.CHEER -> R.drawable.mascot_cheer
-                TodoData.Mood.WORRY -> R.drawable.mascot_worry
-                else -> R.drawable.mascot_idle
-            })
         }
 
         /** 小尺寸（约 2 格宽）：只放当前分组的标签 + ＋，隐藏状态行和 ↗，列表照常滚动。 */
